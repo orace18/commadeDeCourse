@@ -7,5 +7,4 @@ class HomeController extends GetxController{
     tabIndex(value);
   }
   void navigateBack() => Get.back();
-
 }

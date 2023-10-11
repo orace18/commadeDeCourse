@@ -6,4 +6,8 @@ const en_US = {
   'activities': 'Activities',
   'customers': 'Customers',
   'profil': 'Profil',
+  'wallet': 'Wallet',
+  'statistics':'Statistics',
+  'list': 'List',
+  'add': 'Add',
 };
