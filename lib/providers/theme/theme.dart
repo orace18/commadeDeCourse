@@ -12,7 +12,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      color: Colors.orange[800],
+      color: otripOrange,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
@@ -28,7 +28,7 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: Colors.white54,
     ),
-    fontFamily: GoogleFonts.cabin().fontFamily,
+    fontFamily: GoogleFonts.roboto().fontFamily,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: Colors.orange[800],
@@ -58,7 +58,7 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: Colors.grey[400],
     ),
-    fontFamily: GoogleFonts.pacifico().fontFamily,
+    fontFamily: GoogleFonts.roboto().fontFamily,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.grey[800],
       selectedItemColor: Colors.orange[800],
