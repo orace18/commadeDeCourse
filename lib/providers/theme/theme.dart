@@ -11,19 +11,30 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
+    primarySwatch: otripMaterial,
     appBarTheme: AppBarTheme(
       color: otripOrange,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
     ),
-    colorScheme: ColorScheme.light(
-      primary: Colors.white,
-      onPrimary: Colors.white,
-      secondary: Colors.red,
+    textTheme: TextTheme(
+      titleLarge: TextStyle(
+        fontWeight: FontWeight.bold
+      )
     ),
     cardTheme: CardTheme(
-      color: Colors.orange[800],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14.0)
+      ),
+      color: otripMaterial[100],
+      elevation: 12.0,
+    ),
+    buttonTheme: ButtonThemeData(
+      padding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14.0),
+      )
     ),
     iconTheme: IconThemeData(
       color: Colors.white54,
@@ -66,4 +77,27 @@ class AppTheme {
       showUnselectedLabels: true,
     ),
   );
+
+  static const MaterialColor otripMaterial = MaterialColor(_otripMaterialPrimaryValue, <int, Color>{
+    50: Color(0xFFFEE7E0),
+    100: Color(0xFFFDC3B3),
+    200: Color(0xFFFC9B80),
+    300: Color(0xFFFA724D),
+    400: Color(0xFFF95426),
+    500: Color(_otripMaterialPrimaryValue),
+    600: Color(0xFFF73000),
+    700: Color(0xFFF62900),
+    800: Color(0xFFF52200),
+    900: Color(0xFFF31600),
+  });
+  static const int _otripMaterialPrimaryValue = 0xFFF83600;
+
+  static const MaterialColor otripMaterialAccent = MaterialColor(_otripMaterialAccentValue, <int, Color>{
+    100: Color(0xFFFFFFFF),
+    200: Color(_otripMaterialAccentValue),
+    400: Color(0xFFFFB7B3),
+    700: Color(0xFFFF9E9A),
+  });
+
+  static const int _otripMaterialAccentValue = 0xFFFFE7E6;
 }
