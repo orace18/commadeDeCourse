@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'widgets/bottom_tabs_navigator.dart';
+import 'widgets/tab_page_switcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,16 +14,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Text("welcome".tr, style: Theme.of(context).textTheme.headline6,)
-          ],
-        ),
-      ),
+      extendBody: true,
+      body: TabPageSwitcher(),
+      bottomNavigationBar: BottomTabsNavigator(),
     );
   }
 }
