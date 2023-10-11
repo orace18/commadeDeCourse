@@ -13,5 +13,4 @@ class HomeController extends GetxController{
     currentIndex.value = index;
     Get.toNamed(pages[index], id: 1);
   }
-
 }

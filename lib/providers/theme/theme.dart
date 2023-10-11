@@ -21,19 +21,37 @@ class AppTheme {
     textTheme: TextTheme(
       titleLarge: TextStyle(
         fontWeight: FontWeight.bold
+      ),
+      titleMedium: TextStyle(
+        color: Colors.black
       )
     ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.0)
       ),
-      color: otripMaterial[100],
+      color: otripMaterial[50],
       elevation: 12.0,
     ),
     buttonTheme: ButtonThemeData(
       padding: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.0),
+      )
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all(
+            EdgeInsets.all(12)
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12)
+          ),
+        ),
+        iconColor: MaterialStateProperty.all(
+            Colors.blueGrey
+        ),
       )
     ),
     iconTheme: IconThemeData(

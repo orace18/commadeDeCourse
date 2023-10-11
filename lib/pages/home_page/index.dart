@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../constants.dart';
 import '../../providers/theme/theme.dart';
@@ -16,13 +17,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        
       ),
       appBar: AppBar(
         title: Text(appName, style: TextStyle(fontWeight: FontWeight.bold),),
         actions: [
-
-        ],
+          badges.Badge(
+            badgeContent: Text("1", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+            position: badges.BadgePosition.topEnd(top: 5, end: 5),
+            child: IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {},
+            ),
+          ),
+        ]
       ),
       body: Padding(
         padding: EdgeInsets.all(12.0),
@@ -59,41 +66,32 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: OutlinedButton.icon(
-                    onPressed: (){},
-                    icon: Icon(Icons.people,),
-                    label: Text("list".tr,style: TextStyle(color: Colors.black),),
-                    style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.all(12),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                    )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: OutlinedButton.icon(
+                      onPressed: (){},
+                      icon: Icon(Icons.people),
+                      label: Text("list".tr, style: Theme.of(context).textTheme.titleSmall,)
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Expanded(
-                  flex: 5,
-                  child: OutlinedButton.icon(
-                    onPressed: (){},
-                    icon: Icon(Icons.add_circle_outlined,),
-                    label: Text("add".tr,style: TextStyle(color: Colors.black),),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.all(12),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)
-                        ),
-                      )
+                  SizedBox(
+                    width: 10,
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 5,
+                    child: OutlinedButton.icon(
+                      onPressed: (){},
+                      icon: Icon(Icons.add_circle_outlined,),
+                      label: Text("add".tr, style: Theme.of(context).textTheme.titleSmall,)
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               height: 12,
