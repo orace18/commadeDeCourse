@@ -1,5 +1,5 @@
 const fr_FR = {
-  'welcome': 'Bienvenu dans SwiftStarter',
+  'welcome': 'Ravi de vous retrouver',
   'english': 'English',
   'french': 'Français',
   'home': 'Accueil',
@@ -10,4 +10,10 @@ const fr_FR = {
   'statistics':'Statistiques',
   'list': 'Liste',
   'add': 'Ajouter',
+  'skip': 'Passer',
+  'done': 'Terminé',
+  'next': 'Suivant',
+  'phone_request': 'Entrer votre numero de téléphone pour continuer',
+  'continue':'CONTINUER',
+
 };

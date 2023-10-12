@@ -8,7 +8,9 @@ class CustomersPage extends GetWidget<CustomersController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GetBuilder<CustomersController>(
-          builder: (_) => Placeholder(),
+          builder: (_) => Center(
+            child: Text("customers".tr),
+          ),
         ));
   }
 }

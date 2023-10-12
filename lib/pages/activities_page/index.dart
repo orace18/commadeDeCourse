@@ -8,7 +8,9 @@ class ActivitiesPage extends GetWidget<ActivitiesController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GetBuilder<ActivitiesController>(
-          builder: (_) => Placeholder(),
+          builder: (_) => Center(
+            child: Text("activities".tr),
+          ),
         ));
   }
 }

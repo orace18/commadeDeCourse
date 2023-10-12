@@ -44,6 +44,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   sliding_clipped_nav_bar: ^3.1.0+4
+  introduction_screen: ^3.1.12
 
 dev_dependencies:
   flutter_test:

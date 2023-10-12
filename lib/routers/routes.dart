@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
+import 'package:otrip/pages/onboarding_page/index.dart';
 import '../pages/login_page/controllers/login_binding.dart';
 import '../pages/login_page/index.dart';
 import '../pages/otp_page/index.dart';
@@ -70,6 +72,11 @@ class AppRouter {
       name: '/profile',
       page: () => ProfilePage(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: '/onboarding',
+      page: () => OnboardingPage(),
+      binding: OnboardingBinding(),
     ),
 
   ];

@@ -1,5 +1,5 @@
 const en_US = {
-  'welcome': 'Welcome to SwiftStarter',
+  'welcome': 'Welcome back',
   'english': 'English',
   'french': 'Français',
   'home': 'Home',
@@ -10,4 +10,8 @@ const en_US = {
   'statistics':'Statistics',
   'list': 'List',
   'add': 'Add',
+  'skip': 'Skip',
+  'done': 'Done',
+  'continue':'CONTINUE',
+
 };
