@@ -20,15 +20,14 @@ class AppTheme {
     ),
     textTheme: TextTheme(
         titleLarge: TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold
         ),
         titleMedium: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
+
+
         ),
         titleSmall: TextStyle(
-            color: Colors.white
+
         )
     ),
     cardTheme: CardTheme(

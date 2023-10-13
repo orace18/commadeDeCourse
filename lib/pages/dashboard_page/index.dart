@@ -54,7 +54,7 @@ class DashboardPage extends GetWidget<DashboardController> {
                         child: OutlinedButton.icon(
                             onPressed: (){},
                             icon: Icon(Icons.people),
-                            label: Text("list".tr, style: Theme.of(context).textTheme.titleSmall,)
+                            label: Text("list".tr, style: TextStyle(color: Colors.black, fontSize: 14),)
                         ),
                       ),
                       SizedBox(
@@ -65,7 +65,7 @@ class DashboardPage extends GetWidget<DashboardController> {
                         child: OutlinedButton.icon(
                             onPressed: (){},
                             icon: Icon(Icons.add_circle_outlined,),
-                            label: Text("add".tr, style: Theme.of(context).textTheme.titleSmall,)
+                            label: Text("add".tr, style: TextStyle(color: Colors.black, fontSize: 14),)
                         ),
                       ),
                     ],

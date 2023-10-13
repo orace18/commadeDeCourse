@@ -15,5 +15,16 @@ const fr_FR = {
   'next': 'Suivant',
   'phone_request': 'Entrer votre numero de téléphone pour continuer',
   'continue':'CONTINUER',
+  'register_text' : 'Inscrivez vous pour continuer',
+  'register_info' : 'Entrez vos informations. Vous recevrez un code d\'authentification de votre compte sur le numéro de téléphone',
+  'firstname':'Prénom',
+  'lastname':'Nom',
+  'phone_number':'Numéro de téléphone',
+  'you_accept':'En continuant vous acceptez les ',
+  'terms':'Termes et Conditions d\'utilisation de Otrip',
+  'field_required':'Le champ ne peut pas être vide',
+  'string_too_short':'Le nom est trop court',
+  'string_too_long':'Le nom est trop long',
+  '':'',
 
 };

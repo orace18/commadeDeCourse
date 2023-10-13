@@ -13,3 +13,9 @@ const infoColor = Colors.indigo;
 const otripOrange = Color(0xfff83600);
 const otripYellow = Color(0xfffacc22);
 
+// Double values
+const defaultPadding = 12.0;
+
+// Widgets
+const defaultSizedBox = SizedBox(height: 10, width: 10,);
+

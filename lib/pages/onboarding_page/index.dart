@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:otrip/providers/theme/theme.dart';
 import 'controllers/onboarding_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class OnboardingPage extends GetWidget<OnboardingController> {
   List pageInfos = [
@@ -92,7 +93,7 @@ class OnboardingPage extends GetWidget<OnboardingController> {
       body: item['body'],
       image: Padding(
         padding: const EdgeInsets.only(
-            top: 50.0, left: 15.0, right: 15.0, bottom: 15.0),
+            top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
         child: Image.network(
           item['img'],
         ),

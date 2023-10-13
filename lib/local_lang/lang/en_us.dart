@@ -13,5 +13,10 @@ const en_US = {
   'skip': 'Skip',
   'done': 'Done',
   'continue':'CONTINUE',
+  'register_text':'',
+  'register_info':'',
+  'firtname':'',
+  'lastname':'',
+  'phone_number':'Phone number'
 
 };

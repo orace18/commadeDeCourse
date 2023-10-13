@@ -45,6 +45,10 @@ dependencies:
   hive_flutter: ^1.1.0
   sliding_clipped_nav_bar: ^3.1.0+4
   introduction_screen: ^3.1.12
+  cached_network_image: ^3.3.0
+  flutter_form_builder: ^9.1.1
+  form_builder_phone_field: ^2.0.1
+  form_builder_validators: ^9.1.0
 
 dev_dependencies:
   flutter_test:
