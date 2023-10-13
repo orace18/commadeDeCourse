@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
-        initialRoute: '/splash',
+        initialRoute: '/onboarding',
         getPages: AppRouter.routes
     );
   }

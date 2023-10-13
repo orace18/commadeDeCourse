@@ -1,5 +1,6 @@
 const en_US = {
-  'welcome': 'Welcome back',
+  'welcome': 'Welcome',
+  'welcome_back': 'Welcome back',
   'english': 'English',
   'french': 'Français',
   'home': 'Home',

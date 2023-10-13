@@ -38,9 +38,11 @@ class LoginPage extends GetWidget<LoginController> {
                 SizedBox(
                   height: Get.height,
                   width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: Get.height*0.55, left: 20, right: 20),
-                    child: LoginForm(),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: Get.height*0.55, left: 20, right: 20),
+                      child: LoginForm(),
+                    ),
                   ),
                 ),
                 Container(

@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
               position: badges.BadgePosition.topEnd(top: 5, end: 5),
               child: IconButton(
                 icon: Icon(Icons.notifications),
-                onPressed: () => Get.toNamed('/login'),
+                onPressed: () => Get.toNamed('/connexion'),
               ),
             ),
           ]

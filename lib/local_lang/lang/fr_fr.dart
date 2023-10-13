@@ -1,5 +1,6 @@
 const fr_FR = {
-  'welcome': 'Ravi de vous retrouver',
+  'welcome_back': 'Ravi de vous retrouver',
+  'welcome': 'Bienvenue',
   'english': 'English',
   'french': 'Français',
   'home': 'Accueil',
@@ -25,6 +26,9 @@ const fr_FR = {
   'field_required':'Le champ ne peut pas être vide',
   'string_too_short':'Le nom est trop court',
   'string_too_long':'Le nom est trop long',
+  'ou':'OU',
+  'register':'S\'inscrire',
+  'login':'Se connecter',
   '':'',
 
 };

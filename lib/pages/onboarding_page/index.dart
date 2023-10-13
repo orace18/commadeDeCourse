@@ -44,7 +44,7 @@ class OnboardingPage extends GetWidget<OnboardingController> {
                 spacing: EdgeInsets.only(left:5, right: 5, bottom:30)
               ),
               onDone: () {
-                Get.offNamed('/login');
+                Get.toNamed('/connexion');
               },
               onSkip: () {
                 Get.off;
