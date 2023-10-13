@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       body: TabPageSwitcher(),
       bottomNavigationBar: BottomTabsNavigator(),
       drawer: Drawer(
-
+        // A faire Ariel
       ),
 
 
