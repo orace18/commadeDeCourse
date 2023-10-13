@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:otrip/pages/connexion_page/controllers/connexion_binding.dart';
+import 'package:otrip/pages/connexion_page/index.dart';
 import '../pages/login_page/controllers/login_binding.dart';
 import '../pages/login_page/index.dart';
 import '../pages/otp_page/index.dart';
@@ -31,6 +33,11 @@ class AppRouter {
       binding: SplashBinding(),
     ),
     GetPage(
+      name: '/connexion',
+      page: () => ConnexionPage(),
+      binding: ConnexionBinding(),
+    ),
+    GetPage(
       name: '/login',
       page: () => LoginPage(),
       binding: LoginBinding(),
@@ -50,7 +57,6 @@ class AppRouter {
       page: () => SplashPage(),
       binding: SplashBinding(),
     ),
-    
     GetPage(
       name: '/dashboard',
       page: () => DashboardPage(),
@@ -71,6 +77,5 @@ class AppRouter {
       page: () => ProfilePage(),
       binding: ProfileBinding(),
     ),
-
   ];
 }
