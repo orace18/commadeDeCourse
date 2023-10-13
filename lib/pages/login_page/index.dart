@@ -14,7 +14,7 @@ class LoginPage extends GetWidget<LoginController> {
               children: [
                 Container(
                   height: Get.height,
-                  width: Get.width,
+                  width: Get.size.width,
                   child: Padding(
                     padding: EdgeInsets.only(top: Get.height*0.55, left: 40, right: 40),
                     child: Column(
