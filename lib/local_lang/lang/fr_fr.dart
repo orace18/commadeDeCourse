@@ -26,7 +26,7 @@ const fr_FR = {
   'field_required':'Le champ ne peut pas être vide',
   'string_too_short':'Le nom est trop court',
   'string_too_long':'Le nom est trop long',
-  'ou':'OU',
+  'or':'OU',
   'register':'S\'inscrire',
   'login':'Se connecter',
   'settings':'Parametres',

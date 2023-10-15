@@ -21,78 +21,94 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
-        //on swiping left
+        //scroll vers lq gquche du co;posqnt
         if (details.delta.dx < -6) {
           Provider.of<menu.MenuController>(context, listen: false).toggle();
         }
       },
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: AppTheme.otripMaterial[200]
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.only(top:50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Container(
-                        height: 100.0,
-                        width: 100.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            image:
-                            DecorationImage(image: NetworkImage(imageUrl))),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Text(
-                        'name',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Sofia",
-                          fontSize: 20,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.otripMaterial
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                color: AppTheme.otripMaterial[400]
+            ),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width*0.8
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Container(
+                            height: 150.0,
+                            width: 150.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+
+                                image:
+                                DecorationImage(image: NetworkImage(imageUrl)),
+                              gradient: RadialGradient(
+                                colors: [Colors.blue, Colors.green], // Couleurs du dégradé
+                                center: Alignment.center,
+                                radius: 0.8,
+                              )
+                            ),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const Text(
+                            'name',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "Sofia",
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        _listText("role".tr, Icons.person),
+
+                        _listText("wallet".tr, Icons.wallet),
+
+                        _listText("assistance".tr, Icons.assignment_late_sharp),
+
+                        _listText("settings".tr, Icons.settings),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-
-            Flexible(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    _listText("role".tr, Icons.person),
-
-                    _listText("wallet".tr, Icons.wallet),
-
-                    _listText("assistance".tr, Icons.assignment_late_sharp),
-
-                    _listText("settings".tr, Icons.settings),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

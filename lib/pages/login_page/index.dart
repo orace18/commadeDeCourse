@@ -35,40 +35,51 @@ class LoginPage extends GetWidget<LoginController> {
             top: false,
             child: Stack(
               children: [
-                SizedBox(
-                  height: Get.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: Get.height*0.55, left: 20, right: 20),
-                      child: LoginForm(),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: Get.width,
-                    height: Get.height/2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                          bottom: Radius.elliptical(
-                              Get.width, 100.0)),
-                      color: AppTheme.otripMaterial,
-                    ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("welcome".tr, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(
-                          height: 10,
+                Column(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                              bottom: Radius.elliptical(
+                                  Get.width, 100.0)),
+                          color: AppTheme.otripMaterial,
                         ),
-                        Text("phone_request".tr, style: TextStyle(color: Colors.white, fontSize: 14),)
-                      ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 50),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text("welcome".tr, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("phone_request".tr, style: TextStyle(color: Colors.white, fontSize: 14),)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                    Expanded(
+                      flex: 6,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                            child: LoginForm(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ]
             )
           ),

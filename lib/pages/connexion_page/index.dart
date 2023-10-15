@@ -32,83 +32,93 @@ class ConnexionPage extends GetWidget<ConnexionController> {
               top: false,
               child: Stack(
                   children: [
-                    SizedBox(
-                      height: Get.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: Get.height*0.5, left: 20, right: 20, bottom: 40),
-                        child: Column(
-                          children: [
-                            Text(
-                              'welcome'.tr,
-                              style: Theme.of(context).textTheme.titleLarge,
+                    Column(
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: Container(
+                            width: Get.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.elliptical(
+                                      Get.width, 100.0)),
+                              color: AppTheme.otripMaterial[200],
                             ),
-                            SizedBox(height: 50,),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ElevatedButton(
-                                    onPressed: (){ Get.toNamed('/register'); },
-                                    child: Text('register'.tr, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: const Size.fromHeight(50),
-                                      elevation: 0,
-                                      backgroundColor: AppTheme.otripMaterial,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0)
-                                      ),
-                                    )
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Divider(
-                                        height: 2,
-                                        color: Colors.grey,
-                                      ),
-                                      Container(color: Colors.white,child: Text('or'.tr, style: Theme.of(context).textTheme.titleMedium,))
-                                    ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 40),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'welcome'.tr,
+                                    style: Theme.of(context).textTheme.titleLarge,
                                   ),
-                                ),
-                                OutlinedButton(
-                                    child: Text('login'.tr, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),),
-                                    style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                  SizedBox(height: 50,),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: (){ Get.toNamed('/register'); },
+                                          child: Text('register'.tr, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
+                                          style: ElevatedButton.styleFrom(
+                                            minimumSize: const Size.fromHeight(50),
+                                            elevation: 0,
+                                            backgroundColor: AppTheme.otripMaterial,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0)
+                                            ),
+                                          )
                                       ),
-                                      side: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey
-                                      )
-                                    ),
-                                    onPressed: () { Get.toNamed('/login'); },
-                                ),
-                              ],
-                            )
-                          ],
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 20),
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Divider(
+                                              height: 2,
+                                              color: Colors.grey,
+                                            ),
+                                            Container(color: Colors.white,child: Text('or'.tr, style: Theme.of(context).textTheme.titleMedium,))
+                                          ],
+                                        ),
+                                      ),
+                                      OutlinedButton(
+                                        child: Text('login'.tr, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),),
+                                        style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                            ),
+                                            side: BorderSide(
+                                                width: 1.0,
+                                                color: Colors.grey
+                                            )
+                                        ),
+                                        onPressed: () { Get.toNamed('/login'); },
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    Container(
-                      width: Get.width,
-                      height: Get.height/2.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                            bottom: Radius.elliptical(
-                                Get.width, 100.0)),
-                        color: AppTheme.otripMaterial[200],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [],
-                        ),
-                      ),
-                    ),
+
+
                   ]
               )
           ),
