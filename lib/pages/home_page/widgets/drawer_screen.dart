@@ -58,11 +58,9 @@ class MenuScreen extends StatelessWidget {
                             height: 100.0,
                             width: 100.0,
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
                                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
                                 image:
-                                DecorationImage(image: NetworkImage(imageUrl)),
-                            ),
+                                DecorationImage(image: NetworkImage(imageUrl))),
                           ),
                         ),
                         Padding(
