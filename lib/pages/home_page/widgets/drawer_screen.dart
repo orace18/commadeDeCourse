@@ -55,18 +55,13 @@ class MenuScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 15),
                           child: Container(
-                            height: 150.0,
-                            width: 150.0,
+                            height: 100.0,
+                            width: 100.0,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                                 image:
                                 DecorationImage(image: NetworkImage(imageUrl)),
-                              gradient: RadialGradient(
-                                colors: [Colors.blue, Colors.green], // Couleurs du dégradé
-                                center: Alignment.center,
-                                radius: 0.8,
-                              )
                             ),
                           ),
                         ),
