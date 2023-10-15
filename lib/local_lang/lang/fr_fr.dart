@@ -29,6 +29,9 @@ const fr_FR = {
   'ou':'OU',
   'register':'S\'inscrire',
   'login':'Se connecter',
+  'settings':'Parametres',
+  'assistance':'Assistance',
+  'role':'Role',
   '':'',
 
 };

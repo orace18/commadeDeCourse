@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/pages/home_page/widgets/drawer_screen.dart';
+import 'package:otrip/pages/home_page/widgets/screen_home_page.dart';
 import '../../constants.dart';
 import 'widgets/bottom_tabs_navigator.dart';
 import 'widgets/tab_page_switcher.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
+import 'controllers/menu_controller.dart' as menu;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,51 +16,47 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
+
+  menu.MenuController? menuController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    menuController = menu.MenuController(
+      vsync: this,
+    )..addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    menuController!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-          title: Text(appName, style: TextStyle(fontWeight: FontWeight.bold),),
-          actions: [
-            badges.Badge(
-              badgeContent: Text("1", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-              position: badges.BadgePosition.topEnd(top: 5, end: 5),
-              child: IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () => Get.toNamed('/connexion'),
+    return ChangeNotifierProvider(
+      create: (context) => menuController,
+      child: ScreenHomePage(
+        menuScreen: MenuScreen(),
+        contentScreen: Layout(
+            contentBuilder: (cc) => Container(
+              color: Colors.grey[200],
+              child: Container(
+                color: Colors.grey[200],
               ),
-            ),
-          ]
+            )),
       ),
-      body: TabPageSwitcher(),
-      bottomNavigationBar: BottomTabsNavigator(),
-      drawer: Drawer(
-        // A faire Ariel
-      ),
-
-
-      // bottomNavigationBar: Obx(() => BottomNavigationBar(
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'home'
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.insert_chart_rounded),
-      //         label: 'my business'
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.people),
-      //         label: 'customers'
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.person),
-      //         label: 'profile'
-      //     ),
-      //   ],
-      // )),
     );
   }
+}
+
+class Layout {
+  final WidgetBuilder? contentBuilder;
+
+  Layout({
+    this.contentBuilder,
+  });
 }
