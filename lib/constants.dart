@@ -15,7 +15,9 @@ const otripYellow = Color(0xfffacc22);
 
 // Double values
 const defaultPadding = 12.0;
+const circleAvatarRaduis = 75.0;
 
 // Widgets
 const defaultSizedBox = SizedBox(height: 10, width: 10,);
+const default2xSizedBox = SizedBox(height: 20, width: 20,);
 

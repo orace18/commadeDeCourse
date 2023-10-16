@@ -1,0 +1,270 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_phone_field/form_builder_phone_field.dart';
+import 'package:get/get.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+
+import '../../../constants.dart';
+import '../../../providers/theme/theme.dart';
+import '../controllers/profile_edit_info_controller.dart';
+
+class EditInfoForm extends GetWidget<ProfileEditInfoController> {
+  const EditInfoForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FormBuilder(
+        key: controller.formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'fullname',
+                initialValue: "John Doe Deneiro",
+                enabled: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
+                  hintText: 'fullname'.tr,
+                  icon: Icon(Icons.person)
+                ),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                    errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                    4,
+                      errorText: 'string_too_short'.tr
+                  ),
+                  FormBuilderValidators.maxLength(
+                      50,
+                      errorText: 'string_too_long'.tr
+                  ),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderPhoneField(
+                enabled: false,
+                name: 'phone_number',
+                initialValue: "22960000000",
+                inputFormatters: [
+
+                ],
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'phone_number'.tr,
+                  icon: Icon(
+                    Icons.phone
+                  )
+                ),
+                priorityListByIsoCode: ['BJ'],
+                defaultSelectedCountryIsoCode: 'BJ',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
+            Divider(
+              thickness: 1,
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderRadioGroup(
+                name: 'sex',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'sex'.tr,
+                  icon: Icon(
+                    Icons.male
+                  )
+                ),
+                options: [
+                  FormBuilderFieldOption(value: "M", child: Text("male".tr),),
+                  FormBuilderFieldOption(value: "F", child: Text("female".tr),),
+                ],
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderDateTimePicker(
+                name: 'birthday',
+                inputType: InputType.date,
+                //format: DateFormat('dd/MM/yyyy'),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'birthday'.tr,
+                  icon: Icon(Icons.calendar_month)
+                ),
+              ),
+            ),
+            defaultSizedBox,
+            Divider(
+              thickness: 1,
+            ),
+            defaultSizedBox,
+            Text("edit_profile_add_doc".tr, style: TextStyle(color: Colors.grey), textAlign: TextAlign.left  ,),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderDropdown(
+                name: 'document_type',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    hintText: 'document_type'.tr,
+                    icon: Icon(Icons.inventory_outlined)
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: "Passport",
+                    child: Text("Passport"),
+                  ),
+                  DropdownMenuItem(
+                    value: "National ID",
+                    child: Text("national_id".tr),
+                  )
+                ],
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'document_number',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    hintText: 'document_number'.tr,
+                    icon: Icon(Icons.inventory_outlined)
+                ),
+              ),
+            ),
+            defaultSizedBox,
+
+            GestureDetector(
+              onTap: ()async{
+                FilePickerResult? result = await FilePicker
+                    .platform
+                    .pickFiles(
+                  type: FileType.image,
+                );
+                if (result != null &&
+                    (result.files.first.extension ==
+                        "jpg" ||
+                        result.files.first.extension ==
+                            "jpeg" ||
+                        result.files.first.extension ==
+                            "png" ||
+                        result.files.first.extension ==
+                            "gif") &&
+                    result.files.first.size <=
+                        4194304) {
+                  controller.imagePath.value =
+                  result.files.single.path!;
+                } else {
+                  Get.snackbar("Error",
+                      "Veillez selectionner une image de moins de 4Mo", snackPosition: SnackPosition.BOTTOM);
+                }
+              },
+              child: Padding(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 150,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        color: Colors.grey.shade300.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(10)),
+                    child:  controller.imagePath.value ==""? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.file_download_sharp,
+                          color: otripOrange,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'select_file'.tr,
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.grey.shade400),
+                        ),
+                      ],
+                    ): Obx(() {
+                      return Image.file(
+                      File(controller.imagePath.value),
+                    );}),
+                  )),
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
+              child: ElevatedButton(
+                child: Text('continue'.tr, style: TextStyle(color: /*controller.isButtonEnabled.value ? Colors.white :*/ Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                  elevation: 0,
+                  backgroundColor: AppTheme.otripMaterial ,//: Colors.grey[300],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)
+                  ),
+                ), onPressed: () {  },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Fonction pour register
+  void registerRequest(){
+    print("logging");
+  }
+}
