@@ -5,6 +5,20 @@ import 'package:otrip/pages/onboarding_page/index.dart';
 
 import 'package:otrip/pages/connexion_page/controllers/connexion_binding.dart';
 import 'package:otrip/pages/connexion_page/index.dart';
+import 'package:otrip/pages/profile_edit_company_page/controllers/profile_edit_company_binding.dart';
+import 'package:otrip/pages/profile_edit_company_page/index.dart';
+import 'package:otrip/pages/profile_edit_contact_address_page/controllers/profile_edit_contact_address_binding.dart';
+import 'package:otrip/pages/profile_edit_contact_address_page/index.dart';
+import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_info_binding.dart';
+import 'package:otrip/pages/profile_edit_info_page/index.dart';
+import 'package:otrip/pages/profile_edit_seats_page/controllers/profile_edit_seats_binding.dart';
+import 'package:otrip/pages/profile_edit_seats_page/index.dart';
+import 'package:otrip/pages/role_page/controllers/role_binding.dart';
+import 'package:otrip/pages/role_page/index.dart';
+import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
+import 'package:otrip/pages/settings_page/index.dart';
+import 'package:otrip/pages/support_page/controllers/support_binding.dart';
+import 'package:otrip/pages/support_page/index.dart';
 
 import '../pages/login_page/controllers/login_binding.dart';
 import '../pages/login_page/index.dart';
@@ -88,6 +102,42 @@ class AppRouter {
       page: () => OnboardingPage(),
       binding: OnboardingBinding(),
     ),
+    GetPage(
+      name: '/settings',
+      page: () => SettingsPage(),
+      binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: '/support',
+      page: () => SupportPage(),
+      binding: SupportBinding(),
+    ),
+    GetPage(
+      name: '/role',
+      page: () => RolePage(),
+      binding: RoleBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_company',
+      page: () => ProfileEditCompanyPage(),
+      binding: ProfileEditCompanyBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_contact_address',
+      page: () => ProfileEditContactAddressPage(),
+      binding: ProfileEditContactAddressBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_info',
+      page: () => ProfileEditInfoPage(),
+      binding: ProfileEditInfoBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_seat',
+      page: () => ProfileEditSeatsPage(),
+      binding: ProfileEditSeatsBinding(),
+    ),
+
 
   ];
 }
