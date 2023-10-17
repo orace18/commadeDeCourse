@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         translations: Translator(),
         locale: Get.deviceLocale,
         debugShowCheckedModeBanner: false,
-        title: 'Swift Starter',
+        title: 'Otrip',
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,

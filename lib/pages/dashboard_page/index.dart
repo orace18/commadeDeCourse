@@ -63,7 +63,7 @@ class DashboardPage extends GetWidget<DashboardController> {
                       Expanded(
                         flex: 5,
                         child: OutlinedButton.icon(
-                            onPressed: (){},
+                            onPressed: (){ Get.toNamed('/map');},
                             icon: Icon(Icons.add_circle_outlined,),
                             label: Text("add".tr, style: TextStyle(color: Colors.black, fontSize: 14),)
                         ),
@@ -88,4 +88,5 @@ class DashboardPage extends GetWidget<DashboardController> {
           ),
         ));
   }
+
 }

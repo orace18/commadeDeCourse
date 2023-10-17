@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:otrip/pages/map_page/controllers/map_binding.dart';
+import 'package:otrip/pages/map_page/index.dart';
 
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
 import 'package:otrip/pages/onboarding_page/index.dart';
@@ -137,7 +139,11 @@ class AppRouter {
       page: () => ProfileEditSeatsPage(),
       binding: ProfileEditSeatsBinding(),
     ),
-
+    GetPage(
+      name: '/map',
+      page: () => MapPage(),
+      binding: MapBinding(),
+    ),
 
   ];
 }
