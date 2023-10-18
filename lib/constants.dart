@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 // Texts
 const appName = "Otrip";
+const google_api_key = "AIzaSyD-8-htTPIegLQx40M2tseJ6yhf4wL1mHo";
 
 //General Color
 const warningColor = Colors.orange;

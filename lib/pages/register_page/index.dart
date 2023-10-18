@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/register_page/forms/register_form.dart';
 import '../../providers/theme/theme.dart';
+import '../profile_page/widgets/clipper.dart';
 import 'controllers/register_controller.dart';
 
 class RegisterPage extends GetWidget<RegisterController> {
@@ -38,29 +39,27 @@ class RegisterPage extends GetWidget<RegisterController> {
                     Column(
                       children: [
                         Expanded(
-                          flex: 4,
-                          child: Container(
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.elliptical(
-                                      Get.width, 100.0)),
+                          flex: 5,
+                          child: ClipPath(
+                            clipper: DrawClip(),
+                            child: Container(
                               color: AppTheme.otripMaterial,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(defaultPadding),
+                              width: Get.width,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom:50.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text("register_text".tr, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text("register_info".tr, style: TextStyle(color: Colors.white, fontSize: 14),),
-                                  ],
+                                padding: const EdgeInsets.all(defaultPadding),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom:75.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text("register_text".tr, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text("register_info".tr, style: TextStyle(color: Colors.white, fontSize: 14),),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
