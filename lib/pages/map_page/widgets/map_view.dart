@@ -50,25 +50,30 @@ class _MapViewState extends State<MapView> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       ),
     );
-    _addMarker(LatLng(6.375373, 2.357766), "place");
+    _addMarker(LatLng(6.375373, 2.357766), "place1");
+    _addMarker(LatLng(6.372538, 2.363626), "place2");
+    _addMarker(LatLng(6.371736, 2.363729), "place3");
     super.initState();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    setState(() async {
-      _initialPosition = await getCurrentLocation();
-      _mapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
-            zoom: 16.0,
-          ),
-        ),
-      );
+    setState(() {
+      _getLocation();
     });
   }
 
+  _getLocation() async {
+    _initialPosition = await getCurrentLocation();
+    _mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+          zoom: 16.0,
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -121,10 +126,12 @@ class _MapViewState extends State<MapView> {
         position: position,
         infoWindow: InfoWindow(title: title),
         onTap: (){
-          setState(() async {
+          setState(() {
+            var nearest = findClosestLocation(_markers.toList());
             var distance = calculateDistance(_initialPosition, position.latitude, position.longitude).toString();
             _destination = position;
             Get.snackbar('Hi', distance);
+            Get.snackbar('The nearest is', nearest.markerId.value);
             _getPolyline();
             // setPolylines(_destination);
             print("ze");
@@ -202,16 +209,19 @@ class _MapViewState extends State<MapView> {
     return distanceInMeters;
   }
 
-  double findClosestLocation(positions.Position userPosition, List<LatLng> locations) {
+  Marker findClosestLocation( List<Marker> locations) {
+    late Marker closest;
+    positions.Position userPosition = _initialPosition;
     double minDistance = double.infinity;
 
-    for (LatLng location in locations) {
-      double distance = calculateDistance(userPosition, location.latitude, location.longitude);
-      if (distance < minDistance) {
+    for (Marker location in locations) {
+      double distance = calculateDistance(userPosition, location.position.latitude, location.position.longitude);
+      if (distance < minDistance && location.markerId.value != "user_location") {
         minDistance = distance;
+        closest = location;
       }
     }
-    return minDistance;
+    return closest;
   }
 
 
