@@ -28,6 +28,12 @@ class _MapViewState extends State<MapView> {
   Set<Marker> _markers = Set<Marker>();
   Set<Polyline> _polylines = Set<Polyline>();
 
+  Map<MarkerId, Marker> markers = {};
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  String googleAPiKey = google_api_key;
+
   @override
   void initState() {
     // getCurrentLocation().then((position) {
@@ -44,7 +50,7 @@ class _MapViewState extends State<MapView> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       ),
     );
-    _addMarker(LatLng(6.437155, 2.312605), "12-12");
+    _addMarker(LatLng(6.375373, 2.357766), "place");
     super.initState();
   }
 
@@ -108,15 +114,19 @@ class _MapViewState extends State<MapView> {
   }
 
   void _addMarker(LatLng position, String markerId) {
+    var title = "place";
     _markers.add(
       Marker(
         markerId: MarkerId(markerId),
         position: position,
-        infoWindow: InfoWindow(title: markerId),
+        infoWindow: InfoWindow(title: title),
         onTap: (){
-          setState(() {
+          setState(() async {
+            var distance = calculateDistance(_initialPosition, position.latitude, position.longitude).toString();
             _destination = position;
+            Get.snackbar('Hi', distance);
             _getPolyline();
+            // setPolylines(_destination);
             print("ze");
           });
         }
@@ -124,67 +134,63 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  void _getPolyline() async {
-    List<LatLng> coordinates = await getRouteCoordinates(
-        LatLng(_initialPosition.latitude, _initialPosition.longitude),
-        _destination);
 
-    setState(() {
-      _polylines.clear();
-      _polylines.add(Polyline(
-        polylineId: PolylineId('route'),
-        color: Colors.orange,
-        points: coordinates,
-        width: 10,
-      ));
-    });
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id, color: Colors.red, points: polylineCoordinates);
+    polylines[id] = polyline;
+    setState(() {});
   }
 
-  // Future<List<LatLng>> getRouteCoordinates(double startLat, double startLng, double endLat, double endLng) async {
-  //   final apiKey = google_api_key;
-  //   final apiUrl =
-  //       'https://maps.googleapis.com/maps/api/directions/json?origin=$startLat,$startLng&destination=$endLat,$endLng&key=$apiKey';
+  _getPolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey,
+        PointLatLng(_initialPosition.latitude, _initialPosition.longitude),
+        PointLatLng(_destination.latitude, _destination.longitude),
+        travelMode: TravelMode.driving,
+        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    _addPolyLine();
+  }
+
+  // Future<List<PointLatLng>> _createPolylines(LatLng start, LatLng destination) async {
+  //   PolylinePoints polylinePoints = PolylinePoints();
+  //   List<PointLatLng> results = [];
   //
-  //   final response = await http.get(Uri.parse(apiUrl));
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> data = json.decode(response.body);
-  //     final List<LatLng> coordinates = [];
-  //     if (data['status'] == 'OK') {
-  //       final routes = data['routes'][0]['overview_polyline']['points'];
-  //       coordinates.addAll(_decodePoly(routes));
-  //     }
-  //     return coordinates;
-  //   } else {
-  //     throw Exception('Failed to load route');
+  //   PolylineResult response = await polylinePoints.getRouteBetweenCoordinates(
+  //     google_api_key,
+  //     PointLatLng(start.latitude, start.longitude),
+  //     PointLatLng(destination.latitude, destination.longitude),
+  //   );
+  //
+  //   if (response.points.isNotEmpty) {
+  //     response.points.forEach((PointLatLng point) {
+  //       results.add(point);
+  //     });
+  //   }
+  //
+  //   return results;
+  // }
+  //
+  // void setPolylines(LatLng destinationPosition) async {
+  //   List<PointLatLng> result = await _createPolylines(LatLng(_initialPosition.latitude,_initialPosition.longitude), destinationPosition);
+  //   if (result.isNotEmpty) {
+  //     result.forEach((PointLatLng point) {
+  //       Polyline polyline = Polyline(
+  //         polylineId: PolylineId('poly'),
+  //         color: Colors.blue,
+  //         width: 3,
+  //         points: <LatLng>[LatLng(point.latitude, point.longitude)],
+  //       );
+  //       _polylines.add(polyline);
+  //     });
   //   }
   // }
-
-  Future<List<LatLng>> getRouteCoordinates(LatLng start, LatLng destination) async {
-    final apiKey = 'google_api_key'; // Remplacez par votre propre clé API Google Directions
-
-    final String origin = '${start.latitude},${start.longitude}';
-    final String destinationStr = '${destination.latitude},${destination.longitude}';
-    final String apiUrl =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destinationStr&key=$apiKey';
-
-    final response = await http.get(Uri.parse(apiUrl));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      if (data['status'] == 'OK') {
-        final List<LatLng> coordinates = [];
-        final List<dynamic> steps = data['routes'][0]['legs'][0]['steps'];
-        steps.forEach((step) {
-          final String encodedPolyline = step['polyline']['points'];
-          coordinates.addAll(_decodePoly(encodedPolyline));
-        });
-        return coordinates;
-      } else {
-        throw Exception('Failed to load route');
-      }
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
 
   double calculateDistance(positions.Position userPosition, double targetLatitude, double targetLongitude) {
     double distanceInMeters = Geolocator.distanceBetween(
@@ -205,81 +211,9 @@ class _MapViewState extends State<MapView> {
         minDistance = distance;
       }
     }
-
     return minDistance;
   }
 
-  // List<LatLng> _decodePoly(String poly) {
-  //   final List<LatLng> decoded = [];
-  //   int index = 0;
-  //   int len = poly.length;
-  //   int lat = 0, lng = 0;
-  //
-  //   while (index < len) {
-  //     int shift = 0, result = 0;
-  //
-  //     // Décode la latitude
-  //     while (true) {
-  //       int byte = poly.codeUnitAt(index++) - 63;
-  //       result |= (byte & 0x1F) << shift;
-  //       shift += 5;
-  //       if (byte < 0x20) break;
-  //     }
-  //
-  //     // Décoder la latitude si c'est négatif
-  //     lat += (result & 1) == 1 ? ~(result >> 1) : (result >> 1);
-  //
-  //     shift = 0;
-  //     result = 0;
-  //
-  //     // Décode la longitude
-  //     while (true) {
-  //       int byte = poly.codeUnitAt(index++) - 63;
-  //       result |= (byte & 0x1F) << shift;
-  //       shift += 5;
-  //       if (byte < 0x20) break;
-  //     }
-  //
-  //     // Décoder la longitude si c'est négatif
-  //     lng += (result & 1) == 1 ? ~(result >> 1) : (result >> 1);
-  //
-  //     decoded.add(LatLng(lat / 1E5, lng / 1E5));
-  //   }
-  //
-  //   return decoded;
-  // }
-
-  List<LatLng> _decodePoly(String encoded) {
-    List<LatLng> poly = [];
-    int index = 0, len = encoded.length;
-    int lat = 0, lng = 0;
-
-    while (index < len) {
-      int b, shift = 0, result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1F) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1F) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-      lng += dlng;
-
-      double latitude = lat / 1e5;
-      double longitude = lng / 1e5;
-      poly.add(LatLng(latitude, longitude));
-    }
-    return poly;
-  }
 
 }
 
