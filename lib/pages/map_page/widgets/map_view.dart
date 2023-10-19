@@ -28,10 +28,6 @@ class _MapViewState extends State<MapView> {
   Set<Marker> _markers = Set<Marker>();
   Set<Polyline> _polylines = Set<Polyline>();
 
-  Map<MarkerId, Marker> markers = {};
-  Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = google_api_key;
 
   @override
@@ -42,14 +38,6 @@ class _MapViewState extends State<MapView> {
     //     _initialPosition = position;
     //   });
     // });
-    _markers.add(
-      Marker(
-        markerId: MarkerId('user_location'),
-        position: LatLng(6.371366, 2.3629711),
-        infoWindow: InfoWindow(title: 'Position actuelle'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      ),
-    );
     _addMarker(LatLng(6.375373, 2.357766), "place1");
     _addMarker(LatLng(6.372538, 2.363626), "place2");
     _addMarker(LatLng(6.371736, 2.363729), "place3");
@@ -58,6 +46,7 @@ class _MapViewState extends State<MapView> {
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+
     setState(() {
       _getLocation();
     });
@@ -71,6 +60,14 @@ class _MapViewState extends State<MapView> {
           target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
           zoom: 16.0,
         ),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: MarkerId('user_location'),
+        position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+        infoWindow: InfoWindow(title: 'Position actuelle'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       ),
     );
   }
@@ -130,10 +127,10 @@ class _MapViewState extends State<MapView> {
             var nearest = findClosestLocation(_markers.toList());
             var distance = calculateDistance(_initialPosition, position.latitude, position.longitude).toString();
             _destination = position;
-            Get.snackbar('Hi', distance);
-            Get.snackbar('The nearest is', nearest.markerId.value);
-            _getPolyline();
-            // setPolylines(_destination);
+            // Get.snackbar('Hi', distance);
+            // Get.snackbar('The nearest is', nearest.markerId.value);
+
+            _getPolyline(_destination);
             print("ze");
           });
         }
@@ -141,63 +138,79 @@ class _MapViewState extends State<MapView> {
     );
   }
 
+  Future<void> _getPolyline(LatLng destination) async {
+    // Obtenez les coordonnées du chemin entre _currentPosition et la destination
+    List<LatLng> coordinates = await getRouteCoordinates(destination);
 
-  _addPolyLine() {
-    PolylineId id = PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
-    polylines[id] = polyline;
-    setState(() {});
+    // Affichez le chemin sur la carte avec une Polyline
+    setState(() {
+      _polylines.add(Polyline(
+        polylineId: PolylineId('route'),
+        color: Colors.red,
+        width: 3,
+        points: coordinates,
+      ));
+    });
   }
 
-  _getPolyline() async {
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleAPiKey,
-        PointLatLng(_initialPosition.latitude, _initialPosition.longitude),
-        PointLatLng(_destination.latitude, _destination.longitude),
-        travelMode: TravelMode.driving,
-        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+  Future<List<LatLng>> getRouteCoordinates(LatLng destination) async {
+    final apiKey = googleAPiKey; // Remplacez par votre propre clé API Google Directions
+
+    final String origin = '${_initialPosition.latitude},${_initialPosition.longitude}';
+    final String destinationStr = '${destination.latitude},${destination.longitude}';
+    final String apiUrl =
+        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destinationStr&key=$apiKey';
+
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data['status'] == 'OK') {
+        final List<LatLng> coordinates = [];
+        final List<dynamic> steps = data['routes'][0]['legs'][0]['steps'];
+        steps.forEach((step) {
+          final String encodedPolyline = step['polyline']['points'];
+          coordinates.addAll(_decodePoly(encodedPolyline));
+        });
+        return coordinates;
+      } else {
+        throw Exception('Failed to load route');
+      }
+    } else {
+      throw Exception('Failed to load data');
     }
-    _addPolyLine();
   }
 
-  // Future<List<PointLatLng>> _createPolylines(LatLng start, LatLng destination) async {
-  //   PolylinePoints polylinePoints = PolylinePoints();
-  //   List<PointLatLng> results = [];
-  //
-  //   PolylineResult response = await polylinePoints.getRouteBetweenCoordinates(
-  //     google_api_key,
-  //     PointLatLng(start.latitude, start.longitude),
-  //     PointLatLng(destination.latitude, destination.longitude),
-  //   );
-  //
-  //   if (response.points.isNotEmpty) {
-  //     response.points.forEach((PointLatLng point) {
-  //       results.add(point);
-  //     });
-  //   }
-  //
-  //   return results;
-  // }
-  //
-  // void setPolylines(LatLng destinationPosition) async {
-  //   List<PointLatLng> result = await _createPolylines(LatLng(_initialPosition.latitude,_initialPosition.longitude), destinationPosition);
-  //   if (result.isNotEmpty) {
-  //     result.forEach((PointLatLng point) {
-  //       Polyline polyline = Polyline(
-  //         polylineId: PolylineId('poly'),
-  //         color: Colors.blue,
-  //         width: 3,
-  //         points: <LatLng>[LatLng(point.latitude, point.longitude)],
-  //       );
-  //       _polylines.add(polyline);
-  //     });
-  //   }
-  // }
+  List<LatLng> _decodePoly(String encoded) {
+    List<LatLng> poly = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lng += dlng;
+
+      double latitude = lat / 1e5;
+      double longitude = lng / 1e5;
+      poly.add(LatLng(latitude, longitude));
+    }
+    return poly;
+  }
 
   double calculateDistance(positions.Position userPosition, double targetLatitude, double targetLongitude) {
     double distanceInMeters = Geolocator.distanceBetween(
