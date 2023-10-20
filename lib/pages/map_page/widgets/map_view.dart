@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart' as positions;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
+import 'dart:ui' as ui;
 import '../../../constants.dart';
 
 class MapView extends StatefulWidget {
@@ -29,30 +32,28 @@ class _MapViewState extends State<MapView> {
   Set<Polyline> _polylines = Set<Polyline>();
 
   String googleAPiKey = google_api_key;
+  late Marker mainMarker;
+
+  BitmapDescriptor bikeIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor taxiIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor userIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor clientIcon = BitmapDescriptor.defaultMarker;
 
   @override
   void initState() {
-    // getCurrentLocation().then((position) {
-    //   print(position);
-    //   setState(() {
-    //     _initialPosition = position;
-    //   });
-    // });
-    _addMarker(LatLng(6.375373, 2.357766), "place1");
-    _addMarker(LatLng(6.372538, 2.363626), "place2");
-    _addMarker(LatLng(6.371736, 2.363729), "place3");
+    setMarkerIcons();
     super.initState();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-
     setState(() {
       _getLocation();
     });
   }
 
   _getLocation() async {
+    var customIcon = userIcon;
     _initialPosition = await getCurrentLocation();
     _mapController.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -62,14 +63,13 @@ class _MapViewState extends State<MapView> {
         ),
       ),
     );
-    _markers.add(
-      Marker(
-        markerId: MarkerId('user_location'),
-        position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
-        infoWindow: InfoWindow(title: 'Position actuelle'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      ),
+    mainMarker = Marker(
+      markerId: MarkerId('user_location'),
+      position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+      infoWindow: InfoWindow(title: 'Position actuelle'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
+    _markers.add(mainMarker);
   }
   @override
   Widget build(BuildContext context) {
@@ -108,30 +108,69 @@ class _MapViewState extends State<MapView> {
     // }
     LocationPermission permission;
     permission = await Geolocator.requestPermission();
-
     positions.Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
+
+    Geolocator.getPositionStream().listen((position) {
+      setState(() {
+        _initialPosition = position;
+        _updateUserMarker();
+      });
+    });
     return position;
   }
 
-  void _addMarker(LatLng position, String markerId) {
+  void _updateUserMarker() {
+    if (_initialPosition != null) {
+      final LatLng userPosition = LatLng(_initialPosition.latitude, _initialPosition.longitude);
+
+      if (mainMarker == null) {
+        mainMarker = Marker(
+          markerId: MarkerId('user_marker'),
+          position: userPosition,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        );
+      } else {
+        mainMarker = mainMarker.copyWith(positionParam: userPosition);
+      }
+
+      // Mettez à jour le marqueur sur la carte
+      setState(() {});
+    }
+  }
+  // void _updateUserMarker() {
+  //   if (_initialPosition != null) {
+  //     if (mainMarker == null) {
+  //       mainMarker = Marker(
+  //         markerId: MarkerId('user_marker'),
+  //         position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+  //         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+  //       );
+  //     } else {
+  //       mainMarker = mainMarker.copyWith(positionParam: LatLng(_initialPosition.latitude, _initialPosition.longitude));
+  //     }
+  //     _mapController. removeMarker(_userMarker);
+  //     _userMarker = _userMarker.copyWith(positionParam: userPosition);
+  //
+  //     // Ajoutez le marqueur mis à jour à la carte
+  //     mapController.addMarker(_userMarker);
+  //   }
+  // }
+
+  Future<void> _addMarker(LatLng position, String markerId) async {
+    var customIcon = bikeIcon;
     var title = "place";
     _markers.add(
       Marker(
         markerId: MarkerId(markerId),
         position: position,
         infoWindow: InfoWindow(title: title),
+        icon: customIcon,
         onTap: (){
           setState(() {
-            var nearest = findClosestLocation(_markers.toList());
-            var distance = calculateDistance(_initialPosition, position.latitude, position.longitude).toString();
             _destination = position;
-            // Get.snackbar('Hi', distance);
-            // Get.snackbar('The nearest is', nearest.markerId.value);
-
             _getPolyline(_destination);
-            print("ze");
           });
         }
       ),
@@ -237,6 +276,55 @@ class _MapViewState extends State<MapView> {
     return closest;
   }
 
+  void setMarkerIcons(){
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/client.png")
+        .then(
+          (icon) {
+        clientIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/bike.png")
+        .then(
+          (icon) {
+        bikeIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/taxi.png")
+        .then(
+          (icon) {
+        taxiIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/user.png")
+        .then(
+          (icon) {
+        userIcon = icon;
+      },
+    );
+
+    _addMarker(LatLng(6.375373, 2.357766), "place1");
+    _addMarker(LatLng(6.372538, 2.363626), "place2");
+    _addMarker(LatLng(6.371736, 2.363729), "place3");
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+
+    ByteData data = await rootBundle.load(path);
+
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+
+    ui.FrameInfo fi = await codec.getNextFrame();
+
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+
+  }
 
 }
 
