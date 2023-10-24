@@ -128,22 +128,22 @@ class RegisterForm extends GetWidget<RegisterController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
-              child: ElevatedButton(
-                onPressed: (){
-                  if (controller.isButtonEnabled.value){
-                    registerRequest();
-                  }
-                },
-                child: Text('continue'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  elevation: 0,
-                  backgroundColor: controller.isButtonEnabled.value ? AppTheme.otripMaterial : Colors.grey[300],
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                  ),
-                )
-              ),
+              child: Obx(() =>ElevatedButton(
+                  onPressed: (){
+                    if (controller.isButtonEnabled.value){
+                      registerRequest();
+                    }
+                  },
+                  child: Text('continue'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    elevation: 0,
+                    backgroundColor: controller.isButtonEnabled.value ? AppTheme.otripMaterial : Colors.grey[300],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                  )
+              )),
             )
           ],
         ),

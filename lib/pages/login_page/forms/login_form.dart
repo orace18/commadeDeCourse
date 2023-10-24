@@ -14,14 +14,18 @@ class LoginForm extends GetWidget<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: controller.formKey,
-      child: Obx(() {
-        return Column(
+      child: FormBuilder(
+        key: controller.formKey,
+        child: Column(
           children: [
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderPhoneField(
                 name: 'phone_number',
+                onChanged: (value) {
+                  controller.updateButtonEnabled(controller.formKey.currentState?.validate() ?? false);
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   border: OutlineInputBorder(
@@ -33,6 +37,7 @@ class LoginForm extends GetWidget<LoginController> {
                 defaultSelectedCountryIsoCode: 'BJ',
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
+                  FormBuilderValidators.numeric(),
                 ]),
               ),
             ),
@@ -41,7 +46,7 @@ class LoginForm extends GetWidget<LoginController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
-              child: ElevatedButton(
+              child: Obx(()=> ElevatedButton(
                   onPressed: (){
                     if (controller.isButtonEnabled.value){
                       loginRequest();
@@ -58,11 +63,11 @@ class LoginForm extends GetWidget<LoginController> {
                         borderRadius: BorderRadius.circular(10.0)
                     ),
                   )
-              ),
+              )),
             )
           ],
-        );
-      }),
+        ),
+      ),
     );
   }
 

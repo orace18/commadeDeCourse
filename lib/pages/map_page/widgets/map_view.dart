@@ -55,6 +55,13 @@ class _MapViewState extends State<MapView> {
   _getLocation() async {
     var customIcon = userIcon;
     _initialPosition = await getCurrentLocation();
+    mainMarker = Marker(
+      markerId: MarkerId('user_location'),
+      position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+      infoWindow: InfoWindow(title: 'Position actuelle'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    );
+    _markers.add(mainMarker);
     _mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -63,13 +70,7 @@ class _MapViewState extends State<MapView> {
         ),
       ),
     );
-    mainMarker = Marker(
-      markerId: MarkerId('user_location'),
-      position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
-      infoWindow: InfoWindow(title: 'Position actuelle'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    );
-    _markers.add(mainMarker);
+
   }
   @override
   Widget build(BuildContext context) {
@@ -135,28 +136,9 @@ class _MapViewState extends State<MapView> {
         mainMarker = mainMarker.copyWith(positionParam: userPosition);
       }
 
-      // Mettez à jour le marqueur sur la carte
       setState(() {});
     }
   }
-  // void _updateUserMarker() {
-  //   if (_initialPosition != null) {
-  //     if (mainMarker == null) {
-  //       mainMarker = Marker(
-  //         markerId: MarkerId('user_marker'),
-  //         position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
-  //         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-  //       );
-  //     } else {
-  //       mainMarker = mainMarker.copyWith(positionParam: LatLng(_initialPosition.latitude, _initialPosition.longitude));
-  //     }
-  //     _mapController. removeMarker(_userMarker);
-  //     _userMarker = _userMarker.copyWith(positionParam: userPosition);
-  //
-  //     // Ajoutez le marqueur mis à jour à la carte
-  //     mapController.addMarker(_userMarker);
-  //   }
-  // }
 
   Future<void> _addMarker(LatLng position, String markerId) async {
     var customIcon = bikeIcon;
@@ -309,7 +291,11 @@ class _MapViewState extends State<MapView> {
       },
     );
 
-    _addMarker(LatLng(6.375373, 2.357766), "place1");
+    setState(() {
+
+    });
+
+    // _addMarker(LatLng(6.375373, 2.357766), "place1");
     _addMarker(LatLng(6.372538, 2.363626), "place2");
     _addMarker(LatLng(6.371736, 2.363729), "place3");
   }
