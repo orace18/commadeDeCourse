@@ -20,11 +20,7 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('recharge_ways'.tr),
-                SizedBox(
-                  height: 100,
-                ),
                 Text('recharge_amount'.tr),
-                RechargeForm()
               ],
             ),
           ),

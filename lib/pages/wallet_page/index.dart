@@ -43,11 +43,30 @@ class WalletPage extends GetWidget<WalletController> {
                 defaultSizedBox,
                 Text('wallet_history'.tr),
                 defaultSizedBox,
-                Column(
-                  children: [
-                    RechargeTile(amount: 1000, currency: "XOF"),
-                    ExpenseTile(amount: 500, currency: "XOF"),
-                  ],
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                        RechargeTile(amount: 1000, currency: "XOF"),
+                        ExpenseTile(amount: 500, currency: "XOF"),
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),

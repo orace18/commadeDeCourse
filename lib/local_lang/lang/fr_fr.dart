@@ -55,8 +55,9 @@ const fr_FR = {
   'delivery':'Livraison',
   'balance':'Solde',
   'recharge_ways':'Moyens de recharge',
-  'recharge_amounts':'Montant à recharger',
+  'recharge_amount':'Montant à recharger',
   'enter_amount':'Entrer un montant',
+  'credit_card' : 'Carte de credit',
   '':'',
 
 };
