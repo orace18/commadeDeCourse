@@ -48,6 +48,15 @@ const fr_FR = {
   'document_number':'Numero de document',
   'document_type':'Type de document',
   'select_file':'Selectionner un fichier',
+  'recharge':'Recharger',
+  'wallet_history':'Historique des transactions',
+  'deposit':'Recharge',
+  'ride':'Course',
+  'delivery':'Livraison',
+  'balance':'Solde',
+  'recharge_ways':'Moyens de recharge',
+  'recharge_amounts':'Montant à recharger',
+  'enter_amount':'Entrer un montant',
   '':'',
 
 };

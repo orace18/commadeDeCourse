@@ -14,22 +14,27 @@ class DashboardPage extends GetWidget<DashboardController> {
             child: Column(
               children: [
                 // Text("welcome".tr, style: Theme.of(context).textTheme.headline6,),
-                Card(
-                  elevation: 12.0,
-                  child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.monetization_on),
-                            SizedBox(width: 10,),
-                            Text("wallet".tr)
-                          ],
-                        ),
-                        Icon(Icons.remove_red_eye, color: AppTheme.otripMaterial),
-                      ],
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed('/wallet');
+                  },
+                  child: Card(
+                    elevation: 12.0,
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.monetization_on),
+                              SizedBox(width: 10,),
+                              Text("wallet".tr)
+                            ],
+                          ),
+                          Icon(Icons.remove_red_eye, color: AppTheme.otripMaterial),
+                        ],
+                      ),
                     ),
                   ),
                 ),
