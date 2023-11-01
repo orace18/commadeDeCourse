@@ -11,7 +11,7 @@ class ApiClient extends GetConnect {
     httpClient.baseUrl = '';
     httpClient.addRequestModifier((Request request) async {
       final prefs = GetStorage();
-      String accessToken = prefs.read('access_token') ?? '';
+      // String accessToken = prefs.read('access_token') ?? '';
       request.headers['Content-Type'] = 'application/json';
       request.headers['Accept'] = 'application/json';
       return request;
