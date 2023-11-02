@@ -50,7 +50,7 @@ class AuthApiClient extends GetConnect {
     box.remove('access_token');
     box.remove('refresh_token');
     Get.snackbar('disconnection'.tr, 'disconnection_message'.tr, backgroundColor: successColor, colorText: Colors.white);
-    Get.offAllNamed('/signin');
+    Get.offAllNamed('/connexion');
   }
 
 }

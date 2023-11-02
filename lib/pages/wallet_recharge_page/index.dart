@@ -19,11 +19,32 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('recharge_ways'.tr),
+                Text('balance'.tr),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('recharge_ways'.tr),
+                    ElevatedButton(
+                      child: Icon(Icons.add),
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(40, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                RechargeForm(),
                 Text('recharge_amount'.tr),
+
+
+
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }

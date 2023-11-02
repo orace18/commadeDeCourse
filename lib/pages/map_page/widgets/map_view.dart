@@ -41,6 +41,7 @@ class _MapViewState extends State<MapView> {
   @override
   void initState() {
     setMarkerIcons();
+
     super.initState();
   }
 
@@ -105,8 +106,7 @@ class _MapViewState extends State<MapView> {
     //   // Permissions are denied forever, handle appropriately.
     //   Get.back();
     // }
-    LocationPermission permission;
-    permission = await Geolocator.requestPermission();
+
     positions.Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );

@@ -11,36 +11,40 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
   Widget build(BuildContext context) {
     return FormBuilder(
       key: controller.formKey,
-      child: Column(
-        children: [
-          FormBuilderDropdown(
-            name: "recharge_way",
-            isExpanded: true,
-            items: [
-              DropdownMenuItem(
-                child: Text("MTN"),
-              ),
-              DropdownMenuItem(
-                child: Text("Moov Africa"),
-              ),
-            ],
-          ),
-          FormBuilderTextField(
-            name: "amount",
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              suffix: Text("F"),
-              hintText: 'enter_amount',
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide(
-                      width: 0.5
-                  )
-              ),
-              contentPadding: EdgeInsets.all(defaultPadding)
+      child: Flexible(
+
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FormBuilderDropdown(
+              name: "recharge_way",
+              isExpanded: true,
+              items: [
+                DropdownMenuItem(
+                  child: Text("MTN"),
+                ),
+                DropdownMenuItem(
+                  child: Text("Moov Africa"),
+                ),
+              ],
             ),
-          )
-        ],
+            FormBuilderTextField(
+              name: "amount",
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                suffix: Text("F"),
+                hintText: 'enter_amount',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(
+                        width: 0.5
+                    )
+                ),
+                contentPadding: EdgeInsets.all(defaultPadding)
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
