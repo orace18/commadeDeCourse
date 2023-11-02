@@ -3,8 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/login_page/controllers/login_controller.dart';
+
+import '../../../api/api_client.dart';
 
 import '../../../providers/theme/theme.dart';
 
@@ -22,8 +26,9 @@ class LoginForm extends GetWidget<LoginController> {
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderPhoneField(
                 name: 'phone_number',
+                key: controller.mobileFieldKey,
                 onChanged: (value) {
-                  controller.updateButtonEnabled(controller.formKey.currentState?.validate() ?? false);
+                  controller.validateField(controller.mobileFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
@@ -38,6 +43,39 @@ class LoginForm extends GetWidget<LoginController> {
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'password',
+                key: controller.passwordFieldKey,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                onChanged: (value){
+                  controller.validateField(controller.passwordFieldKey);
+                },
+                autovalidateMode: AutovalidateMode.disabled,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
+                  hintText: 'password'.tr,
+                ),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                      8,
+                      errorText: 'string_too_short'.tr
+                  ),
                 ]),
               ),
             ),
@@ -71,9 +109,11 @@ class LoginForm extends GetWidget<LoginController> {
     );
   }
 
-
-  // Fontion pour login
+  // Fonction pour login
   void loginRequest(){
-
+    String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
+    String? password = controller.passwordFieldKey.currentState?.value.toString();
+    print(phone_number);
+    AuthApiClient().login(phone_number!, password!);
   }
 }

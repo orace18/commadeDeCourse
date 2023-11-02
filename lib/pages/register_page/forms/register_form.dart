@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:otrip/pages/register_page/controllers/register_controller.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../api/auth/auth_api_client.dart';
 import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
@@ -24,10 +25,11 @@ class RegisterForm extends GetWidget<RegisterController> {
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
                 name: 'lastname',
+                key: controller.lastnameFieldKey,
                 onChanged: (value){
-                  controller.updateButtonEnabled(controller.formKey.currentState?.validate() ?? false);
+                  controller.validateField(controller.lastnameFieldKey);
                 },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
@@ -48,10 +50,11 @@ class RegisterForm extends GetWidget<RegisterController> {
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
                 name: 'firstname',
+                key: controller.firstnameFieldKey,
                 onChanged: (value){
-                  controller.updateButtonEnabled(controller.formKey.currentState?.validate() ?? false);
+                  controller.validateField(controller.firstnameFieldKey);
                 },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
@@ -80,15 +83,50 @@ class RegisterForm extends GetWidget<RegisterController> {
             defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'username',
+                key: controller.usernameFieldKey,
+                onChanged: (value){
+                  controller.validateField(controller.usernameFieldKey);
+                },
+                autovalidateMode: AutovalidateMode.disabled,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
+                  hintText: 'username'.tr,
+                ),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                      4,
+                      errorText: 'string_too_short'.tr
+                  ),
+                  FormBuilderValidators.maxLength(
+                      50,
+                      errorText: 'string_too_long'.tr
+                  ),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderPhoneField(
                 name: 'phone_number',
+                key: controller.mobileFieldKey,
                 onChanged: (value) {
-                  controller.updateButtonEnabled(controller.formKey.currentState?.validate() ?? false);
+                  controller.validateField(controller.mobileFieldKey);
                 },
                 inputFormatters: [
-
                 ],
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   border: OutlineInputBorder(
@@ -106,6 +144,38 @@ class RegisterForm extends GetWidget<RegisterController> {
             SizedBox(
               height: 20,
             ),
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'password',
+                key: controller.passwordFieldKey,
+                keyboardType: TextInputType.visiblePassword,
+                onChanged: (value){
+                  controller.validateField(controller.passwordFieldKey);
+                },
+                autovalidateMode: AutovalidateMode.disabled,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
+                  hintText: 'password'.tr,
+                ),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                      8,
+                      errorText: 'string_too_short'.tr
+                  ),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
@@ -153,6 +223,11 @@ class RegisterForm extends GetWidget<RegisterController> {
 
   // Fonction pour register
   void registerRequest(){
-    print("logging");
+    String? firstname = controller.firstnameFieldKey.currentState?.value.toString();
+    String? lastname = controller.lastnameFieldKey.currentState?.value.toString();
+    String? username = controller.usernameFieldKey.currentState?.value.toString();
+    String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
+    String? password = controller.passwordFieldKey.currentState?.value.toString();
+    AuthApiClient().register(username!, firstname!, lastname!, phone_number!, "+229", 1, password!);
   }
 }

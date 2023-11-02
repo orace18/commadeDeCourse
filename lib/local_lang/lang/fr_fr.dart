@@ -24,8 +24,8 @@ const fr_FR = {
   'you_accept':'En continuant vous acceptez les ',
   'terms':'Termes et Conditions d\'utilisation de Otrip',
   'field_required':'Le champ ne peut pas être vide',
-  'string_too_short':'Le nom est trop court',
-  'string_too_long':'Le nom est trop long',
+  'string_too_short':'Le texte est trop court',
+  'string_too_long':'Le texte est trop long',
   'or':'OU',
   'register':'S\'inscrire',
   'login':'Se connecter',
@@ -58,6 +58,8 @@ const fr_FR = {
   'recharge_amount':'Montant à recharger',
   'enter_amount':'Entrer un montant',
   'credit_card' : 'Carte de credit',
+  'password':'Mot de passe',
+  'username':'Nom d\'utilisateur',
   '':'',
 
 };
