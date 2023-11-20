@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
+import 'package:otrip/pages/add_user_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
 import 'package:otrip/pages/map_page/index.dart';
 
@@ -91,6 +93,11 @@ class AppRouter {
       name: '/activities',
       page: () => ActivitiesPage(),
       binding: ActivitiesBinding(),
+    ),
+    GetPage(
+      name: '/add_user',
+      page: () => AddUserPage(),
+      binding: AddUserBinding(),
     ),
     GetPage(
       name: '/customers',
