@@ -60,6 +60,8 @@ const fr_FR = {
   'credit_card' : 'Carte de credit',
   'password':'Mot de passe',
   'username':'Nom d\'utilisateur',
+  'add_user':'Nouvel utilisateur',
+  'add_new':'Enregistrer',
   '':'',
 
 };

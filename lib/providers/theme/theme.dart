@@ -18,18 +18,7 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-    textTheme: TextTheme(
-        titleLarge: TextStyle(
-            fontWeight: FontWeight.bold
-        ),
-        titleMedium: TextStyle(
-
-
-        ),
-        titleSmall: TextStyle(
-
-        )
-    ),
+    textTheme: GoogleFonts.robotoTextTheme(),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.0)

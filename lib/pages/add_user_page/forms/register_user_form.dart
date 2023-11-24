@@ -175,24 +175,6 @@ class AddUserForm extends GetWidget<AddUserController> {
                 ]),
               ),
             ),
-            defaultSizedBox,
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: 'you_accept'.tr,
-                  style: TextStyle(
-                      color: Colors.black
-                  ),
-                  children: [
-                    TextSpan(
-                        text: 'terms'.tr,
-                        style: TextStyle(
-                            color: AppTheme.otripMaterial
-                        )
-                    )
-                  ]
-              ),
-            ),
             SizedBox(
               height: 15,
             ),
@@ -204,7 +186,7 @@ class AddUserForm extends GetWidget<AddUserController> {
                       registerRequest();
                     }
                   },
-                  child: Text('continue'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
+                  child: Text('Register'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     elevation: 0,
