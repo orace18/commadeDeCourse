@@ -693,6 +693,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  localization:
+    dependency: "direct main"
+    description:
+      name: localization
+      sha256: "9fa21644b75ca3fe844f8f115d03cd6fdc675054dd9aab6c5de5861145ea57b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   logging:
     dependency: transitive
     description:
@@ -814,7 +822,7 @@ packages:
     source: hosted
     version: "2.2.1"
   phone_number:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: phone_number
       sha256: "509033faaed1e95f778b9dd6679a458d4e2641c579d40bee0db1cb674de8efac"

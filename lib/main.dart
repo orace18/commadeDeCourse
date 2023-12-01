@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -27,7 +28,14 @@ class MyApp extends StatelessWidget {
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
         initialRoute: '/connexion',
-        getPages: AppRouter.routes
+        getPages: AppRouter.routes,
+      // supportedLocales: const [...FormBuilderLocalizations.supportedLocales],
+      localizationsDelegates: const [
+        // GlobalMaterialLocalizations.delegate,
+        // GlobalWidgetsLocalizations.delegate,
+        // GlobalCupertinoLocalizations.delegate,
+        FormBuilderLocalizations.delegate,
+      ],
     );
   }
 }
