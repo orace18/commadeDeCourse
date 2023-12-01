@@ -6,12 +6,19 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'providers/theme/theme.dart';
 import 'providers/theme/theme_provider.dart';
 import 'routers/routes.dart';
+import 'package:flutter/services.dart';
 
 import 'local_lang/translator.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
+  ]);
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

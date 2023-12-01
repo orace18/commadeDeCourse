@@ -41,7 +41,6 @@ class _MapViewState extends State<MapView> {
   @override
   void initState() {
     setMarkerIcons();
-
     super.initState();
   }
 
@@ -71,6 +70,7 @@ class _MapViewState extends State<MapView> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -241,7 +241,7 @@ class _MapViewState extends State<MapView> {
     return distanceInMeters;
   }
 
-  Marker findClosestLocation( List<Marker> locations) {
+  Marker findClosestLocation(List<Marker> locations) {
     late Marker closest;
     positions.Position userPosition = _initialPosition;
     double minDistance = double.infinity;
@@ -307,6 +307,29 @@ class _MapViewState extends State<MapView> {
     ui.FrameInfo fi = await codec.getNextFrame();
 
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+
+  }
+
+  // Code pour envoyer la demande de course au conducteur
+  void sendRequestToDriver(){
+
+  }
+
+  // Code pour accepter la demande de course
+  void answerUserRequest(){
+
+  }
+  // suivi dd l'itinéraire vers le client
+  void roadToClient(){
+
+  }
+
+  // Demarrer la course
+  void startTrip(){
+
+  }
+  // Calcul du montant de commission
+  void tripCash(){
 
   }
 
