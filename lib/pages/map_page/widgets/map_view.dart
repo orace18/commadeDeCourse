@@ -288,14 +288,6 @@ class _MapViewState extends State<MapView> {
         userIcon = icon;
       },
     );
-
-    setState(() {
-
-    });
-
-    // _addMarker(LatLng(6.375373, 2.357766), "place1");
-    _addMarker(LatLng(6.372538, 2.363626), "place2");
-    _addMarker(LatLng(6.371736, 2.363729), "place3");
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
