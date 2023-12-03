@@ -9,10 +9,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart' as positions;
+// import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'dart:ui' as ui;
 import '../../../constants.dart';
+import '../../../providers/theme/theme.dart';
 
 class MapView extends StatefulWidget {
   const MapView({Key? key}) : super(key: key);
@@ -32,6 +34,8 @@ class _MapViewState extends State<MapView> {
 
   String googleAPiKey = google_api_key;
   late Marker mainMarker;
+
+  // LocationData? currentLocation;
 
   BitmapDescriptor bikeIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor taxiIcon = BitmapDescriptor.defaultMarker;
@@ -82,13 +86,22 @@ class _MapViewState extends State<MapView> {
   }
 
   _getLocation() async {
-    var customIcon = userIcon;
+    // Location location = Location();
+    //
+    // location.getLocation().then((value) {
+    //   currentLocation = value;
+    // });
+    //
+    // location.onLocationChanged.listen((newLoc) {
+    //   currentLocation = newLoc;
+    //
+    // });
     _initialPosition = await getCurrentLocation();
     mainMarker = Marker(
       markerId: MarkerId('user_location'),
       position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
       infoWindow: InfoWindow(title: 'Position actuelle'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      icon: userIcon,
     );
     _markers.add(mainMarker);
     _mapController.animateCamera(
@@ -292,7 +305,7 @@ class _MapViewState extends State<MapView> {
     setState(() {
       _polylines.add(Polyline(
         polylineId: PolylineId('route'),
-        color: Colors.red,
+        color: AppTheme.otripMaterial,
         width: 3,
         points: coordinates,
       ));

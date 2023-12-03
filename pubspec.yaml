@@ -59,6 +59,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   phone_number: ^2.0.1
   localization: ^2.1.1
+  location: ^5.0.3
 
 dev_dependencies:
   flutter_test:
