@@ -64,7 +64,7 @@ class _MapViewState extends State<MapView> {
           child: FloatingActionButton(
             mini: true,
             onPressed: (){
-              showClosestDrivers(200000);
+              showClosestDrivers(2000);
             },
             child: Image.asset('assets/maps/taxi.png') //Icon(Icons.directions_bike_rounded),
           ),
