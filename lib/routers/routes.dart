@@ -3,6 +3,8 @@ import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
 import 'package:otrip/pages/map_page/index.dart';
+ import 'package:otrip/pages/map_page/index.dart';
+//import 'package:otrip/pages/other_map_page/index.dart';
 
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
 import 'package:otrip/pages/onboarding_page/index.dart';

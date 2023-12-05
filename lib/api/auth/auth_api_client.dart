@@ -25,7 +25,6 @@ class AuthApiClient extends GetConnect {
     Map<String, String> body = {'mobile_number': email, 'password': password};
     final response = await post(loginUrl, body);
 
-    print(response.body);
     print(response.statusCode);
     if (response.status.hasError) {
       if (response.status.code == 401) {
@@ -57,7 +56,7 @@ class AuthApiClient extends GetConnect {
       'country_id' : countryId,
       'password': password};
     final response = await post(registerUrl, body);
-    print(response.bodyString);
+    print(response.statusCode);
     if (response.status.hasError) {
       if (response.status.code == 401) {
         throw Exception("invalid_credentials".tr);

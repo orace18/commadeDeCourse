@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  feda
+  flash_api
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

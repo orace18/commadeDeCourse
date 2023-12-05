@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+Vous devez installer toutes les dépendance d'abord et ensuite gérer la connexion avec le backend 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
