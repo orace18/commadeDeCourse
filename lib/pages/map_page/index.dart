@@ -10,8 +10,6 @@ class MapPage extends GetWidget<MapController> {
     return Scaffold(
         body: GetBuilder<MapController>(
           builder: (_) => MapView(),
-        ),
-    );
-
+        ));
   }
 }

@@ -9,12 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart' as positions;
-// import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'dart:ui' as ui;
 import '../../../constants.dart';
-import '../../../providers/theme/theme.dart';
 
 class MapView extends StatefulWidget {
   const MapView({Key? key}) : super(key: key);
@@ -35,8 +33,6 @@ class _MapViewState extends State<MapView> {
   String googleAPiKey = google_api_key;
   late Marker mainMarker;
 
-  // LocationData? currentLocation;
-
   BitmapDescriptor bikeIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor taxiIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor userIcon = BitmapDescriptor.defaultMarker;
@@ -48,36 +44,6 @@ class _MapViewState extends State<MapView> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(0, 0),
-            zoom: 14.0,
-          ),
-          markers: Set<Marker>.of(_markers),
-          polylines: _polylines,
-        ),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          left: 20,
-          child: FloatingActionButton(
-            mini: true,
-            onPressed: (){
-              showClosestDrivers(2000);
-            },
-            child: Image.asset('assets/maps/taxi.png') //Icon(Icons.directions_bike_rounded),
-          ),
-        ),
-
-      ]
-    );
-  }
-
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     setState(() {
@@ -86,22 +52,13 @@ class _MapViewState extends State<MapView> {
   }
 
   _getLocation() async {
-    // Location location = Location();
-    //
-    // location.getLocation().then((value) {
-    //   currentLocation = value;
-    // });
-    //
-    // location.onLocationChanged.listen((newLoc) {
-    //   currentLocation = newLoc;
-    //
-    // });
+    var customIcon = userIcon;
     _initialPosition = await getCurrentLocation();
     mainMarker = Marker(
       markerId: MarkerId('user_location'),
       position: LatLng(_initialPosition.latitude, _initialPosition.longitude),
       infoWindow: InfoWindow(title: 'Position actuelle'),
-      icon: userIcon,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
     _markers.add(mainMarker);
     _mapController.animateCamera(
@@ -111,6 +68,19 @@ class _MapViewState extends State<MapView> {
           zoom: 16.0,
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: LatLng(0, 0),
+        zoom: 14.0,
+      ),
+      markers: Set<Marker>.of(_markers),
+      polylines: _polylines,
     );
   }
 
@@ -187,116 +157,6 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  Future<ByteData> _getBytesFromAsset(String path) async {
-    ByteData data = await rootBundle.load(path);
-    return data;
-  }
-
-  void setMarkerIcons() async {
-    clientIcon = BitmapDescriptor.fromBytes(
-        (await _getBytesFromAsset('assets/maps/client.png')).buffer.asUint8List(),
-    );
-
-    taxiIcon = BitmapDescriptor.fromBytes(
-      (await _getBytesFromAsset('assets/maps/taxi.png')).buffer.asUint8List(),
-    );
-
-    userIcon = BitmapDescriptor.fromBytes(
-      (await _getBytesFromAsset('assets/maps/user.png')).buffer.asUint8List(),
-    );
-
-    bikeIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)),
-        'assets/maps/bike.png');
-
-    // clientIcon = BitmapDescriptor.fromBytes(
-    //   (await _getBytesFromAsset('assets/maps/client.png')).buffer.asUint8List(),
-    // );
-
-    // BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration.empty, "assets/maps/user.png")
-    //     .then(
-    //       (icon) {
-    //     userIcon = icon;
-    //   },
-    // );
-  }
-
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-
-    ByteData data = await rootBundle.load(path);
-
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
-
-    ui.FrameInfo fi = await codec.getNextFrame();
-
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
-
-  }
-
-  double calculateDistance(positions.Position userPosition, double targetLatitude, double targetLongitude) {
-    double distanceInMeters = Geolocator.distanceBetween(
-      userPosition.latitude,
-      userPosition.longitude,
-      targetLatitude,
-      targetLongitude,
-    );
-    return distanceInMeters;
-  }
-
-  void showClosestDrivers(double maxDistance) {
-    List<Marker> locations = [];
-    late List<Marker> nearestDrivers = [];
-    positions.Position userPosition = _initialPosition;
-
-    for (Marker location in locations) {
-      double distance = calculateDistance(userPosition, location.position.latitude, location.position.longitude);
-      if (distance < maxDistance) {
-        nearestDrivers.add(location);
-      }
-    }
-    
-    setState(() {
-      _markers.addAll(nearestDrivers);
-    });
-
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId('2'),
-          position: LatLng(6.438001, 2.306632), // Exemple : New York City
-          infoWindow: InfoWindow(title: 'New Marker'),
-          icon: bikeIcon
-        ),
-      );
-    });
-
-  }
-
-  // Code pour envoyer la demande de course au conducteur
-  void sendRequestToDriver(){
-
-  }
-
-  // Code pour accepter la demande de course
-  void answerUserRequest(){
-
-  }
-  // suivi dd l'itinéraire vers le client
-  void roadToClient(){
-
-  }
-
-  // Demarrer la course
-  void startTrip(){
-
-  }
-  // Calcul du montant de commission
-  void tripCash(){
-
-  }
-
-  // Fonctions pour le tracé d'itinéraire
   Future<void> _getPolyline(LatLng destination) async {
     // Obtenez les coordonnées du chemin entre _currentPosition et la destination
     List<LatLng> coordinates = await getRouteCoordinates(destination);
@@ -305,7 +165,7 @@ class _MapViewState extends State<MapView> {
     setState(() {
       _polylines.add(Polyline(
         polylineId: PolylineId('route'),
-        color: AppTheme.otripMaterial,
+        color: Colors.red,
         width: 3,
         points: coordinates,
       ));
@@ -369,6 +229,108 @@ class _MapViewState extends State<MapView> {
       poly.add(LatLng(latitude, longitude));
     }
     return poly;
+  }
+
+  double calculateDistance(positions.Position userPosition, double targetLatitude, double targetLongitude) {
+    double distanceInMeters = Geolocator.distanceBetween(
+      userPosition.latitude,
+      userPosition.longitude,
+      targetLatitude,
+      targetLongitude,
+    );
+    return distanceInMeters;
+  }
+
+  Marker findClosestLocation(List<Marker> locations) {
+    late Marker closest;
+    positions.Position userPosition = _initialPosition;
+    double minDistance = double.infinity;
+
+    for (Marker location in locations) {
+      double distance = calculateDistance(userPosition, location.position.latitude, location.position.longitude);
+      if (distance < minDistance && location.markerId.value != "user_location") {
+        minDistance = distance;
+        closest = location;
+      }
+    }
+    return closest;
+  }
+
+  void setMarkerIcons(){
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/client.png")
+        .then(
+          (icon) {
+        clientIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/bike.png")
+        .then(
+          (icon) {
+        bikeIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/taxi.png")
+        .then(
+          (icon) {
+        taxiIcon = icon;
+      },
+    );
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty, "assets/maps/user.png")
+        .then(
+          (icon) {
+        userIcon = icon;
+      },
+    );
+
+    setState(() {
+
+    });
+
+    // _addMarker(LatLng(6.375373, 2.357766), "place1");
+    _addMarker(LatLng(6.372538, 2.363626), "place2");
+    _addMarker(LatLng(6.371736, 2.363729), "place3");
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+
+    ByteData data = await rootBundle.load(path);
+
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+
+    ui.FrameInfo fi = await codec.getNextFrame();
+
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+
+  }
+
+  // Code pour envoyer la demande de course au conducteur
+  void sendRequestToDriver(){
+
+  }
+
+  // Code pour accepter la demande de course
+  void answerUserRequest(){
+
+  }
+  // suivi dd l'itinéraire vers le client
+  void roadToClient(){
+
+  }
+
+  // Demarrer la course
+  void startTrip(){
+
+  }
+  // Calcul du montant de commission
+  void tripCash(){
+
   }
 
 }
