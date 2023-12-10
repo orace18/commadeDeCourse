@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
-        initialRoute: '/wallet',
+        initialRoute: '/wallet_recharge',
         getPages: AppRouter.routes,
       // supportedLocales: const [...FormBuilderLocalizations.supportedLocales],
       localizationsDelegates: const [

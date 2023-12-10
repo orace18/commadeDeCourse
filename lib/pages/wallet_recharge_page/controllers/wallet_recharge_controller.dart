@@ -5,4 +5,6 @@ import 'package:get/get.dart';
 class WalletRechargeController extends GetxController {
   void navigateBack() => Get.back();
   final formKey = GlobalKey<FormBuilderState>();
+
+  final idFormKey = GlobalKey<FormBuilderState>();
 }

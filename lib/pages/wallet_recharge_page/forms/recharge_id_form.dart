@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_controller.dart';
 
-class RechargeForm extends GetWidget<WalletRechargeController> {
-  const RechargeForm({Key? key}) : super(key: key);
+class RechargeIdForm extends GetWidget<WalletRechargeController> {
+  const RechargeIdForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
-      key: controller.formKey,
+      key: controller.idFormKey,
       child: Flexible(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -21,18 +22,18 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
               child: FormBuilderDropdown(
                 name: "recharge_way",
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5.0),
+                        )
                     )
-                  )
                 ),
                 alignment: Alignment.center,
                 borderRadius: BorderRadius.circular(10.0),
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 16.0
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 16.0
                 ),
                 initialValue: "mtn",
                 items: [
@@ -77,28 +78,13 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                 ],
               ),
             ),
-            Text('recharge_amount'.tr),
-            FormBuilderTextField(
-              name: "amount",
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                suffix: Text(
-                    "FCFA",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-                hintText: 'enter_amount'.tr,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                        width: 0.5
-                    )
-                ),
-                contentPadding: EdgeInsets.all(defaultPadding)
-              ),
-            )
+            Text('recharge_phone_number'.tr),
+            FormBuilderPhoneField(
+              name: "recharge_phone_number",
+            ),
           ],
+
+          //TODO Try resizing trick and use GetStorage
         ),
       ),
     );
