@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:ui' as ui;
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -26,9 +30,10 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
 
-  BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor srcIcon = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor desIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor userIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor taxiIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor clientIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor bikeIcon = BitmapDescriptor.defaultMarker;
 
   void getCurrentLocation () async {
     Location location = Location();
@@ -58,21 +63,46 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  void setCustomMarkerIcon() {
-    BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      "assets/icons/maps/bike.png"
-    ).then((icon) => desIcon = icon);
+  void setCustomMarkerIcon () async {
 
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty,
-        "assets/icons/maps/taxi.png"
-    ).then((icon) => srcIcon = icon);
+    final Uint8List? bikeMarker= await getBytesFromAsset(
+        path:"assets/icons/maps/bike.png", //paste the custom image path
+        width: 50 // size of custom image as marker
+    );
 
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty,
-        "assets/icons/maps/client.png"
-    ).then((icon) => currentLocationIcon = icon);
+    final Uint8List? taxiMarker= await getBytesFromAsset(
+        path:"assets/icons/maps/taxi.png", //paste the custom image path
+        width: 50 // size of custom image as marker
+    );
+
+    final Uint8List? clientMarker= await getBytesFromAsset(
+        path:"assets/icons/maps/client.png", //paste the custom image path
+        width: 50 // size of custom image as marker
+    );
+
+    final Uint8List? userMarker= await getBytesFromAsset(
+        path:"assets/icons/maps/user.png", //paste the custom image path
+        width: 50 // size of custom image as marker
+    );
+
+    userIcon = BitmapDescriptor.fromBytes(userMarker!);
+    clientIcon = BitmapDescriptor.fromBytes(clientMarker!);
+    taxiIcon = BitmapDescriptor.fromBytes(taxiMarker!);
+    bikeIcon = BitmapDescriptor.fromBytes(bikeMarker!);
+    // BitmapDescriptor.fromAssetImage(
+    //   ImageConfiguration.empty,
+    //   "assets/icons/maps/bike.png"
+    // ).then((icon) => desIcon = icon);
+    //
+    // BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration.empty,
+    //     "assets/icons/maps/taxi.png"
+    // ).then((icon) => srcIcon = icon);
+    //
+    // BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration.empty,
+    //     "assets/icons/maps/client.png"
+    // ).then((icon) => currentLocationIcon = icon);
   }
 
   void getPolyPoints() async {
@@ -93,6 +123,18 @@ class _MapViewState extends State<MapView> {
 
       });
     }
+  }
+
+  Future<Uint8List?> getBytesFromAsset({required String path,required int width})async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(
+        data.buffer.asUint8List(),
+        targetWidth: width
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(
+        format: ui.ImageByteFormat.png))
+        ?.buffer.asUint8List();
   }
 
   @override
@@ -125,17 +167,17 @@ class _MapViewState extends State<MapView> {
         markers: {
           Marker(
             markerId: const MarkerId("current"),
-            icon: currentLocationIcon,
+            icon: userIcon,
             position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
           ),
           Marker(
               markerId: MarkerId("src"),
-              icon: srcIcon,
+              icon: bikeIcon,
               position: src
           ),
           Marker(
               markerId: MarkerId("des"),
-              icon: desIcon,
+              icon: bikeIcon,
               position: des
           ),
         },
