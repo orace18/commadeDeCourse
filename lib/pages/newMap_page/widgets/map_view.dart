@@ -13,7 +13,8 @@ import 'package:location/location.dart';
 import '../../../constants.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({super.key});
+  const MapView({super.key, required this.initialPositon});
+  final LocationData initialPositon;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -21,13 +22,15 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-
+  bool loadingLocation = true;
   String googleAPiKey = google_api_key;
 
   final Completer<GoogleMapController> _controller = Completer();
   static const LatLng src = LatLng(6.4413180, 2.3066649);
   static const LatLng des = LatLng(6.371736, 2.363729);
 
+  Set<Marker> _markers = Set<Marker>();
+  
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
 
@@ -39,9 +42,13 @@ class _MapViewState extends State<MapView> {
   void getCurrentLocation () async {
     Location location = Location();
 
-    location.getLocation().then((location) {
-      currentLocation = location;
-    });
+    currentLocation = widget.initialPositon;
+    // location.getLocation().then((location) {
+    //   currentLocation = location;
+    //   setState(() {
+    //     loadingLocation = false;
+    //   });
+    // });
 
     GoogleMapController googleMapController = await _controller.future;
 
@@ -56,10 +63,6 @@ class _MapViewState extends State<MapView> {
               )
             )
           );
-
-          setState(() {
-
-          });
         }
     );
   }
@@ -68,17 +71,17 @@ class _MapViewState extends State<MapView> {
 
     final Uint8List? bikeMarker= await getBytesFromAsset(
         path:"assets/icons/maps/bike.png", //paste the custom image path
-        width: 50 // size of custom image as marker
+        width: 60 // size of custom image as marker
     );
 
     final Uint8List? taxiMarker= await getBytesFromAsset(
         path:"assets/icons/maps/taxi.png", //paste the custom image path
-        width: 50 // size of custom image as marker
+        width: 60 // size of custom image as marker
     );
 
     final Uint8List? clientMarker= await getBytesFromAsset(
         path:"assets/icons/maps/client.png", //paste the custom image path
-        width: 50 // size of custom image as marker
+        width: 60 // size of custom image as marker
     );
 
     final Uint8List? userMarker= await getBytesFromAsset(
@@ -138,58 +141,56 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Map"),
-      ),
-
-      body: currentLocation == null ?
-      const Center(
-        child: Text('...')
-      ) :
-      GoogleMap(
+      body:GoogleMap(
         onMapCreated: (mapController){
           _controller.complete(mapController);
         },
         initialCameraPosition: CameraPosition(
-          target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          zoom: 15.5
+            target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+            zoom: 15.5
         ),
         markers: {
           Marker(
-            markerId: const MarkerId("current"),
-            icon: userIcon,
-            position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
+              markerId: const MarkerId(''),
+              icon: userIcon,
+              position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
           ),
-          Marker(
-              markerId: MarkerId("src"),
-              icon: bikeIcon, 
-              position: src,
-              onTap: (){
-                  getPolyPoints(LatLng(src.latitude, src.longitude));
-              },
-            infoWindow: InfoWindow(
-              title: "Chez moi",
-              snippet: "3 stars"
-            )
-          ),
-          // Marker(
-          //     markerId: MarkerId("des"),
-          //     icon: bikeIcon,
-          //     position: des,
-          //     onTap: (){
-          //       getPolyPoints(LatLng(des.latitude, des.longitude));
-          //     }
-          // ),
-        },
+        }.union(_markers),
         polylines: {
           Polyline(
-            polylineId: PolylineId("road"),
-            points: polylineCoordinates,
-            color: Colors.green,
-            width: 5
+              polylineId: PolylineId("road"),
+              points: polylineCoordinates,
+              color: Colors.green,
+              width: 5
           )
         },
       ),
+
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          _markers.add(
+            Marker(
+                markerId: MarkerId("src"),
+                icon: bikeIcon,
+                position: src,
+                onTap: (){
+                  getPolyPoints(LatLng(src.latitude, src.longitude));
+                },
+                infoWindow: InfoWindow(
+                    title: "Chez moi",
+                    snippet: "3 stars"
+                )
+            ),
+          );
+          setState(() {
+
+          });
+        },
+        child: Icon(Icons.search),
+        mini: true,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 

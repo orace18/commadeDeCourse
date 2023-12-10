@@ -9,7 +9,16 @@ class NewMapPage extends GetWidget<NewMapController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: GetBuilder<NewMapController>(
-          builder: (_) => MapView(),
+          builder: (_) => Obx(() {
+            return controller.isLoadingPosition.isFalse ?
+            MapView(initialPositon: controller.initialPosition,) :
+            const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 4.0,
+                color: Colors.green,
+              ),
+            );
+          }),
         ));
   }
 }
