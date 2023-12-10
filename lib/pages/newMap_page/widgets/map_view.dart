@@ -26,6 +26,10 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
 
+  BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor srcIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor desIcon = BitmapDescriptor.defaultMarker;
+
   void getCurrentLocation () async {
     Location location = Location();
 
@@ -54,6 +58,23 @@ class _MapViewState extends State<MapView> {
     );
   }
 
+  void setCustomMarkerIcon() {
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/icons/maps/bike.png"
+    ).then((icon) => desIcon = icon);
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty,
+        "assets/icons/maps/taxi.png"
+    ).then((icon) => srcIcon = icon);
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty,
+        "assets/icons/maps/client.png"
+    ).then((icon) => currentLocationIcon = icon);
+  }
+
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
 
@@ -77,6 +98,7 @@ class _MapViewState extends State<MapView> {
   @override
   void initState() {
     getCurrentLocation();
+    setCustomMarkerIcon();
     getPolyPoints();
     super.initState();
   }
@@ -102,15 +124,18 @@ class _MapViewState extends State<MapView> {
         ),
         markers: {
           Marker(
-            markerId: MarkerId("current"),
+            markerId: const MarkerId("current"),
+            icon: currentLocationIcon,
             position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
           ),
-          const Marker(
+          Marker(
               markerId: MarkerId("src"),
+              icon: srcIcon,
               position: src
           ),
-          const Marker(
+          Marker(
               markerId: MarkerId("des"),
+              icon: desIcon,
               position: des
           ),
         },
