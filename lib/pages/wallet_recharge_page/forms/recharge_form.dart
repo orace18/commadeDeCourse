@@ -16,24 +16,26 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            FormBuilderDropdown(
-              name: "recharge_way",
-              isExpanded: true,
-              items: [
-                DropdownMenuItem(
-                  child: Text("MTN"),
-                ),
-                DropdownMenuItem(
-                  child: Text("Moov Africa"),
-                ),
-              ],
-            ),
+            Text('recharge_way'.tr),
+            // FormBuilderDropdown(
+            //   name: "recharge_way",
+            //   isExpanded: true,
+            //   items: [
+            //     DropdownMenuItem(
+            //       child: Text("MTN"),
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text("Moov Africa"),
+            //     ),
+            //   ],
+            // ),
+            Text('recharge_amount'.tr),
             FormBuilderTextField(
               name: "amount",
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 suffix: Text("F"),
-                hintText: 'enter_amount',
+                hintText: 'enter_amount'.tr,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide(

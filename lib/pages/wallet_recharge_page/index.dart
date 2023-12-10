@@ -37,7 +37,7 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
                   ],
                 ),
                 RechargeForm(),
-                Text('recharge_amount'.tr),
+
 
 
 
