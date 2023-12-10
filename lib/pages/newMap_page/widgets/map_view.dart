@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _MapViewState extends State<MapView> {
   String googleAPiKey = google_api_key;
 
   final Completer<GoogleMapController> _controller = Completer();
-  static const LatLng src = LatLng(6.472538, 2.363626);
+  static const LatLng src = LatLng(6.4413180, 2.3066649);
   static const LatLng des = LatLng(6.371736, 2.363729);
 
   List<LatLng> polylineCoordinates = [];
@@ -51,7 +52,7 @@ class _MapViewState extends State<MapView> {
           googleMapController.animateCamera(
             CameraUpdate.newCameraPosition(CameraPosition(
                 target: LatLng(newLocation.latitude!,newLocation.longitude!),
-                zoom: 14.5
+                zoom: 15.5
               )
             )
           );
@@ -151,7 +152,7 @@ class _MapViewState extends State<MapView> {
         },
         initialCameraPosition: CameraPosition(
           target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          zoom: 14.5
+          zoom: 15.5
         ),
         markers: {
           Marker(
@@ -163,18 +164,22 @@ class _MapViewState extends State<MapView> {
               markerId: MarkerId("src"),
               icon: bikeIcon, 
               position: src,
-            onTap: (){
-                getPolyPoints(LatLng(src.latitude, src.longitude));
-            }
-          ),
-          Marker(
-              markerId: MarkerId("des"),
-              icon: bikeIcon,
-              position: des,
               onTap: (){
-                getPolyPoints(LatLng(des.latitude, des.longitude));
-              }
+                  getPolyPoints(LatLng(src.latitude, src.longitude));
+              },
+            infoWindow: InfoWindow(
+              title: "Chez moi",
+              snippet: "3 stars"
+            )
           ),
+          // Marker(
+          //     markerId: MarkerId("des"),
+          //     icon: bikeIcon,
+          //     position: des,
+          //     onTap: (){
+          //       getPolyPoints(LatLng(des.latitude, des.longitude));
+          //     }
+          // ),
         },
         polylines: {
           Polyline(
@@ -186,5 +191,52 @@ class _MapViewState extends State<MapView> {
         },
       ),
     );
+  }
+
+  Marker findClosestLocation(List<Marker> locations) {
+    late Marker closest;
+    LocationData? userPosition = currentLocation;
+    double minDistance = double.infinity;
+
+    for (Marker location in locations) {
+      double distance = calculateDistance(userPosition, location.position.latitude, location.position.longitude);
+      if (distance < minDistance && location.markerId.value != "user_location") {
+        minDistance = distance;
+        closest = location;
+      }
+    }
+    return closest;
+  }
+
+  double calculateDistance(LocationData? userPosition, double targetLatitude, double targetLongitude) {
+    double distanceInMeters = Geolocator.distanceBetween(
+      userPosition!.latitude!,
+      userPosition.longitude!,
+      targetLatitude,
+      targetLongitude,
+    );
+    return distanceInMeters;
+  }
+
+  void sendRequestToDriver(){
+
+  }
+
+  // Code pour accepter la demande de course
+  void answerUserRequest(){
+
+  }
+  // suivi dd l'itinéraire vers le client
+  void roadToClient(){
+
+  }
+
+  // Demarrer la course
+  void startTrip(){
+
+  }
+  // Calcul du montant de commission
+  void tripCash(){
+
   }
 }
