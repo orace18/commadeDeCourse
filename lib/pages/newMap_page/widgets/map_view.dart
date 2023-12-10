@@ -82,36 +82,26 @@ class _MapViewState extends State<MapView> {
 
     final Uint8List? userMarker= await getBytesFromAsset(
         path:"assets/icons/maps/user.png", //paste the custom image path
-        width: 50 // size of custom image as marker
+        width: 60 // size of custom image as marker
     );
 
     userIcon = BitmapDescriptor.fromBytes(userMarker!);
     clientIcon = BitmapDescriptor.fromBytes(clientMarker!);
     taxiIcon = BitmapDescriptor.fromBytes(taxiMarker!);
     bikeIcon = BitmapDescriptor.fromBytes(bikeMarker!);
-    // BitmapDescriptor.fromAssetImage(
-    //   ImageConfiguration.empty,
-    //   "assets/icons/maps/bike.png"
-    // ).then((icon) => desIcon = icon);
-    //
-    // BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration.empty,
-    //     "assets/icons/maps/taxi.png"
-    // ).then((icon) => srcIcon = icon);
-    //
-    // BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration.empty,
-    //     "assets/icons/maps/client.png"
-    // ).then((icon) => currentLocationIcon = icon);
   }
 
-  void getPolyPoints() async {
+  void getPolyPoints(LatLng destination) async {
     PolylinePoints polylinePoints = PolylinePoints();
+
+    if (polylineCoordinates.isNotEmpty){
+      polylineCoordinates.clear();
+    }
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(src.latitude, src.longitude),
-      PointLatLng(des.latitude, des.longitude),
+      PointLatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+      PointLatLng(destination.latitude, destination.longitude),
     );
 
     if (result.points.isNotEmpty) {
@@ -141,7 +131,6 @@ class _MapViewState extends State<MapView> {
   void initState() {
     getCurrentLocation();
     setCustomMarkerIcon();
-    getPolyPoints();
     super.initState();
   }
 
@@ -172,13 +161,19 @@ class _MapViewState extends State<MapView> {
           ),
           Marker(
               markerId: MarkerId("src"),
-              icon: bikeIcon,
-              position: src
+              icon: bikeIcon, 
+              position: src,
+            onTap: (){
+                getPolyPoints(LatLng(src.latitude, src.longitude));
+            }
           ),
           Marker(
               markerId: MarkerId("des"),
               icon: bikeIcon,
-              position: des
+              position: des,
+              onTap: (){
+                getPolyPoints(LatLng(des.latitude, des.longitude));
+              }
           ),
         },
         polylines: {
