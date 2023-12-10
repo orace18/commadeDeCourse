@@ -13,8 +13,9 @@ import 'package:location/location.dart';
 import '../../../constants.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({super.key, required this.initialPositon});
+  const MapView({super.key, required this.initialPositon, required this.userIcon});
   final LocationData initialPositon;
+  final BitmapDescriptor userIcon;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -34,7 +35,6 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
 
-  BitmapDescriptor userIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor taxiIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor clientIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor bikeIcon = BitmapDescriptor.defaultMarker;
@@ -84,12 +84,6 @@ class _MapViewState extends State<MapView> {
         width: 60 // size of custom image as marker
     );
 
-    final Uint8List? userMarker= await getBytesFromAsset(
-        path:"assets/icons/maps/user.png", //paste the custom image path
-        width: 60 // size of custom image as marker
-    );
-
-    userIcon = BitmapDescriptor.fromBytes(userMarker!);
     clientIcon = BitmapDescriptor.fromBytes(clientMarker!);
     taxiIcon = BitmapDescriptor.fromBytes(taxiMarker!);
     bikeIcon = BitmapDescriptor.fromBytes(bikeMarker!);
@@ -152,7 +146,7 @@ class _MapViewState extends State<MapView> {
         markers: {
           Marker(
               markerId: const MarkerId(''),
-              icon: userIcon,
+              icon: widget.userIcon,
               position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
           ),
         }.union(_markers),
