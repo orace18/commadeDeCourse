@@ -187,7 +187,7 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                       "recharge".tr,
                     ),
                     onPressed: (){
-
+                      
                     },
                   ),
                 );
