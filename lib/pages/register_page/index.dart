@@ -72,7 +72,7 @@ class RegisterPage extends GetWidget<RegisterController> {
                             width: MediaQuery.of(context).size.width,
                             child: SingleChildScrollView(
                               child: Padding(
-                                padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: defaultPadding),
                                 child: RegisterForm(),
                               ),
                             ),
