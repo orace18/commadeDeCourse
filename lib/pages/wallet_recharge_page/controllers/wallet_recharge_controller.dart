@@ -31,10 +31,11 @@ class WalletRechargeController extends GetxController {
 
   void updateRechargePhoneNumbers(){
     if(recharge_way.currentState?.value.toString() == "mtn") {
-      List temp  = box.read<List<String>>('mtn_phone_numbers') ?? [];
+      print(box.read<List<dynamic>>('mtn_phone_numbers').runtimeType);
+      List<dynamic> temp  = box.read<List<dynamic>>('mtn_phone_numbers') ?? [];
       recharge_phone_numbers.value = temp.obs;
     } else {
-      List temp = box.read<List<String>>('moov_phone_numbers') ?? [];
+      List<dynamic> temp = box.read<List<dynamic>>('moov_phone_numbers') ?? [];
       recharge_phone_numbers.value = temp.obs;
     }
   }

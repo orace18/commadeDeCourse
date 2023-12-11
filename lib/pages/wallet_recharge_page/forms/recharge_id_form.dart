@@ -115,7 +115,7 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: (){
-                   // storeRechargeId();
+                   storeRechargeId();
                   // cleanBox();
                 },
                 child: Text(
@@ -130,20 +130,20 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
   }
 
   void storeRechargeId(){
-    List<String> phone_numbers_list = [];
+    List<dynamic> phoneNumbersList = [];
     final box = GetStorage('Otrip');
 
     if(controller.recharge_way_add.currentState?.value.toString() == "mtn") {
-      phone_numbers_list = box.read<List<String>>('mtn_phone_numbers') ?? [];
-      phone_numbers_list.add(controller.phone_number.currentState?.value);
-      box.write('mtn_phone_numbers', phone_numbers_list);
+      phoneNumbersList = box.read<List<dynamic>>('mtn_phone_numbers') ?? [];
+      phoneNumbersList.add(controller.phone_number.currentState?.value);
+      box.write('mtn_phone_numbers', phoneNumbersList);
     } else {
-      phone_numbers_list = box.read<List<String>>('moov_phone_numbers') ?? [];
-      phone_numbers_list.add(controller.phone_number.currentState?.value);
-      box.write('moov_phone_numbers', phone_numbers_list);
+      phoneNumbersList = box.read<List<dynamic>>('moov_phone_numbers') ?? [];
+      phoneNumbersList.add(controller.phone_number.currentState?.value);
+      box.write('moov_phone_numbers', phoneNumbersList);
     }
 
-    print(phone_numbers_list);
+    print(phoneNumbersList);
   }
 
   void cleanBox(){

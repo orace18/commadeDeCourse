@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_controller.dart';
@@ -78,7 +79,12 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                 ],
                 onChanged: (value){
                   controller.updateRechargePhoneNumbers();
+                  controller.validateField(controller.recharge_way);
                 },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required()
+                ]),
               ),
             ),
             Text('phone_number'.tr),
@@ -102,6 +108,9 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                       color: Colors.black,
                       fontSize: 16.0
                   ),
+                  initialValue: controller.recharge_phone_numbers.isNotEmpty ?
+                        controller.recharge_phone_numbers.first.toString() :
+                        '',
                   items: List.generate(
                       controller.recharge_phone_numbers.length,
                           (index) => DropdownMenuItem(
@@ -111,6 +120,13 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                           )
                       )
                   ),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required()
+                  ]),
+                  onChanged: (value){
+                    controller.validateField(controller.recharge_phone_number);
+                  },
                 );
               }),
             ),
@@ -120,6 +136,10 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
               child: FormBuilderTextField(
                 name: "amount",
                 keyboardType: TextInputType.number,
+                onChanged: (value){
+                  controller.validateField(controller.recharge_amount);
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   suffix: Text(
                       "FCFA",
@@ -134,10 +154,45 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                           width: 0.5
                       )
                   ),
-                  contentPadding: EdgeInsets.all(defaultPadding)
+                  contentPadding: EdgeInsets.all(defaultPadding),
+
                 ),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.numeric(
+                      errorText: 'number_too_small'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                      3,
+                      errorText: 'int_too_short'.tr
+                  ),
+                  FormBuilderValidators.maxLength(
+                      8,
+                      errorText: 'int_too_long'.tr
+                  ),
+                ]),
               ),
             ),
+
+            Obx(()
+              {
+                return Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: controller.isButtonEnabled.isFalse ?
+                  SizedBox() :
+                  ElevatedButton(
+                    child: Text(
+                      "recharge".tr,
+                    ),
+                    onPressed: (){
+
+                    },
+                  ),
+                );
+              }
+            )
           ],
         ),
       ),
