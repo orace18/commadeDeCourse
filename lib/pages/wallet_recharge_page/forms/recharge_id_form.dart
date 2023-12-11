@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_controller.dart';
 
@@ -20,7 +24,11 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               child: FormBuilderDropdown(
+                key: controller.recharge_way_add,
                 name: "recharge_way",
+                onChanged: (value){
+                  print(controller.recharge_way_add.currentState?.value);
+                },
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -33,7 +41,7 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 16.0
+                    fontSize: 14.0
                 ),
                 initialValue: "mtn",
                 items: [
@@ -51,7 +59,7 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
                         ),
 
                         Text(
-                          "MTN Mobile Money",
+                          "MTN Momo",
                         )
                       ],
                     ),
@@ -78,15 +86,71 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
                 ],
               ),
             ),
-            Text('recharge_phone_number'.tr),
-            FormBuilderPhoneField(
-              name: "recharge_phone_number",
+            Text('phone_number'.tr),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              child: FormBuilderPhoneField(
+                name: "recharge_phone_number",
+                key: controller.phone_number,
+                onChanged: (value) {
+                  controller.validateField(controller.phone_number);
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'phone_number'.tr,
+                ),
+                priorityListByIsoCode: ['BJ'],
+                defaultSelectedCountryIsoCode: 'BJ',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.numeric(),
+                ]),
+              ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: (){
+                   // storeRechargeId();
+                  // cleanBox();
+                },
+                child: Text(
+                    "add".tr
+                ),
+              ),
+            )
           ],
-
-          //TODO Try resizing trick and use GetStorage
         ),
       ),
     );
   }
+
+  void storeRechargeId(){
+    List<String> phone_numbers_list = [];
+    final box = GetStorage('Otrip');
+
+    if(controller.recharge_way_add.currentState?.value.toString() == "mtn") {
+      phone_numbers_list = box.read<List<String>>('mtn_phone_numbers') ?? [];
+      phone_numbers_list.add(controller.phone_number.currentState?.value);
+      box.write('mtn_phone_numbers', phone_numbers_list);
+    } else {
+      phone_numbers_list = box.read<List<String>>('moov_phone_numbers') ?? [];
+      phone_numbers_list.add(controller.phone_number.currentState?.value);
+      box.write('moov_phone_numbers', phone_numbers_list);
+    }
+
+    print(phone_numbers_list);
+  }
+
+  void cleanBox(){
+    final box = GetStorage('Otrip');
+    box.erase();
+    print("box cleared");
+  }
+
+
 }

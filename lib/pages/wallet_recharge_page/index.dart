@@ -31,12 +31,6 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
                         Get.defaultDialog(
                           title: "new_recharge_id",
                           content: RechargeIdForm(),
-                          confirm: ElevatedButton(
-                            onPressed: (){},
-                            child: Text(
-                              "add".tr
-                            ),
-                          )
                         );
                       },
                       style: ElevatedButton.styleFrom(

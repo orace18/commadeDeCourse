@@ -62,6 +62,9 @@ const fr_FR = {
   'username':'Nom d\'utilisateur',
   'add_user':'Nouvel utilisateur',
   'add_new':'Enregistrer',
+  'new_recharge_id':'Nouvel id de paiement',
+  'recharge_way':'Moyen de paiement',
+  // '':'',
   '':'',
 
 };

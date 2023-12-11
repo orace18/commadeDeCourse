@@ -20,6 +20,7 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               child: FormBuilderDropdown(
                 name: "recharge_way",
+                key: controller.recharge_way,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
@@ -75,29 +76,68 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                     ),
                   ),
                 ],
+                onChanged: (value){
+                  controller.updateRechargePhoneNumbers();
+                },
               ),
             ),
-            Text('recharge_amount'.tr),
-            FormBuilderTextField(
-              name: "amount",
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                suffix: Text(
-                    "FCFA",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold
+            Text('phone_number'.tr),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              child: Obx((){
+                return FormBuilderDropdown(
+                  name: "recharge_phone_number",
+                  key: controller.recharge_phone_number,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5.0),
+                          )
+                      )
                   ),
+                  alignment: Alignment.center,
+                  borderRadius: BorderRadius.circular(10.0),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 16.0
+                  ),
+                  items: List.generate(
+                      controller.recharge_phone_numbers.length,
+                          (index) => DropdownMenuItem(
+                          value: controller.recharge_phone_numbers[index],
+                          child: Text(
+                            controller.recharge_phone_numbers[index].toString(),
+                          )
+                      )
+                  ),
+                );
+              }),
+            ),
+            Text('recharge_amount'.tr),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              child: FormBuilderTextField(
+                name: "amount",
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  suffix: Text(
+                      "FCFA",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  hintText: 'enter_amount'.tr,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
+                  contentPadding: EdgeInsets.all(defaultPadding)
                 ),
-                hintText: 'enter_amount'.tr,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(
-                        width: 0.5
-                    )
-                ),
-                contentPadding: EdgeInsets.all(defaultPadding)
               ),
-            )
+            ),
           ],
         ),
       ),
