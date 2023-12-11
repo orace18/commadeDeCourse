@@ -11,31 +11,32 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
 
   List <Map<String, String>> roles = [
     {
-      "title" : "merchant",
+      "title" : "merchant".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "merchant_details".tr
     },
     {
-      "title" : "feeder",
+      "title" : "feeder".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "feeder_details".tr
     },
     {
-      "title" : "driver",
+      "title" : "driver".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "driver_details".tr
     },
     {
-      "title" : "passenger",
+      "title" : "passenger".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "passenger_details".tr
     },
     {
-      "title" : "society",
+      "title" : "society".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "society_details".tr
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,20 +102,44 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
           title: role["title"],
           imagePath: role["image_path"],
           details: () {
+            print("bb");
             Get.bottomSheet(
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        role["title"].tr
-                    ),
-                    Text(
-                        role["role_details"].tr
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: ElevatedButton(
+                Container(
+                  height: Get.height *0.4,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(40.0),
+                    )
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding*2, defaultPadding, 0),
+                          child: Column(
+                            children: [
+                              Text(
+                                role["title"],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18
+                                ),
+                              ),
+                              Text(
+                                  role["role_details"]
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(defaultPadding*2, defaultPadding, defaultPadding*2, 0),
+                        child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size.fromHeight(50),
                             elevation: 0,
@@ -123,15 +148,15 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
                                 borderRadius: BorderRadius.circular(10.0)
                             ),
                           ),
-                        onPressed: (){
-                            Get.toNamed("/register");
-                        },
+                          onPressed: (){
+                            Get.toNamed("/register",arguments: {"role" : role["text"]});
+                          },
                           child: Text('continue'.tr, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
-                      ),
-                    )
-                  ],
-                ),
-              )
+                        ),
+                      )
+                    ],
+                  ),
+                )
             );
           }, description: role["role_details"],
         )
