@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/providers/theme/theme.dart';
 
 
 class RoleGridViewItem extends StatelessWidget {
@@ -12,11 +13,11 @@ class RoleGridViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Get.bottomSheet;
+        details;
       },
       child: Card(
         elevation: 4.0,
-        color: Colors.white,
+        color: AppTheme.otripMaterialAccent,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
