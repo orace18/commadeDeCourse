@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_controller.dart';
-import 'package:otrip/api/feda.dart';
+import 'package:otrip/api/fedapay/feda.dart';
 
 class RechargeForm extends GetWidget<WalletRechargeController> {
   const RechargeForm({Key? key}) : super(key: key);
