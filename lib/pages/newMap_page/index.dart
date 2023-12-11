@@ -10,7 +10,7 @@ class NewMapPage extends GetWidget<NewMapController> {
     return Scaffold(
         body: GetBuilder<NewMapController>(
           builder: (_) => Obx(() {
-            return controller.isLoadingPosition.isFalse && controller.isLoadingIcon.isFalse ?
+            return (controller.isLoadingPosition.isFalse && controller.isLoadingIcon.isFalse) ?
             MapView(initialPositon: controller.initialPosition, userIcon: controller.userIcon,) :
             const Center(
               child: CircularProgressIndicator(

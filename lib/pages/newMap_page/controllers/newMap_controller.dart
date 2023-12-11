@@ -31,6 +31,7 @@ class NewMapController extends GetxController {
     );
     userIcon = BitmapDescriptor.fromBytes(userMarker!);
     isLoadingIcon = false.obs;
+    print('icon ok');
   }
 
   void getLocation(){
@@ -38,6 +39,7 @@ class NewMapController extends GetxController {
     location.getLocation().then((location) {
       initialPosition = location;
       isLoadingPosition = false.obs;
+      print('location ok');
     });
   }
 
