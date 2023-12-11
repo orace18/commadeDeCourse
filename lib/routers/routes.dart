@@ -20,6 +20,8 @@ import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_info
 import 'package:otrip/pages/profile_edit_info_page/index.dart';
 import 'package:otrip/pages/profile_edit_seats_page/controllers/profile_edit_seats_binding.dart';
 import 'package:otrip/pages/profile_edit_seats_page/index.dart';
+import 'package:otrip/pages/role_choose_page/controllers/role_choose_binding.dart';
+import 'package:otrip/pages/role_choose_page/index.dart';
 import 'package:otrip/pages/role_page/controllers/role_binding.dart';
 import 'package:otrip/pages/role_page/index.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
@@ -175,5 +177,10 @@ class AppRouter {
       binding: NewMapBinding(),
     ),
 
+    GetPage(
+      name: '/role_choose',
+      page: () => RoleChoosePage(),
+      binding: RoleChooseBinding(),
+    ),
   ];
 }
