@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_controller.dart';
+import 'package:otrip/api/feda.dart';
 
 class RechargeForm extends GetWidget<WalletRechargeController> {
   const RechargeForm({Key? key}) : super(key: key);
@@ -187,7 +189,7 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                       "recharge".tr,
                     ),
                     onPressed: (){
-                      
+
                     },
                   ),
                 );
@@ -197,5 +199,14 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
         ),
       ),
     );
+  }
+
+  void rechargeWallet(){
+    String email = "makandjou3000@gmail.com";
+    String country = "bj";
+    String network = controller.recharge_way.val.toString();
+    String phoneNumber = controller.recharge_phone_number.val.toString();
+    double amount = double.parse(controller.recharge_amount.val.toString());
+    FedaApi().createTransaction(email, country, network, phoneNumber, amount);
   }
 }
