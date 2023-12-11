@@ -224,8 +224,9 @@ class RegisterForm extends GetWidget<RegisterController> {
     String? firstname = controller.firstnameFieldKey.currentState?.value.toString();
     String? lastname = controller.lastnameFieldKey.currentState?.value.toString();
     String? username = controller.usernameFieldKey.currentState?.value.toString();
-    String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
+    String? phoneNumber = controller.mobileFieldKey.currentState?.value.toString();
     String? password = controller.passwordFieldKey.currentState?.value.toString();
-    AuthApiClient().register(username!, firstname!, lastname!, phone_number!, "+229", 1, password!);
+    int? roleId = controller.roleId;
+    AuthApiClient().register(roleId!, username!, firstname!, lastname!, phoneNumber!, "+229", 1, password!);
   }
 }

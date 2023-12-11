@@ -9,8 +9,6 @@ import 'controllers/register_controller.dart';
 
 class RegisterPage extends GetWidget<RegisterController> {
 
-  var dataFromRolePage = Get.arguments;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +84,7 @@ class RegisterPage extends GetWidget<RegisterController> {
                   ]
               )
           ),
-        ));
+        )
+    );
   }
 }

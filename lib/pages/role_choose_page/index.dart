@@ -9,28 +9,33 @@ import 'controllers/role_choose_controller.dart';
 
 class RoleChoosePage extends GetWidget<RoleChooseController> {
 
-  List <Map<String, String>> roles = [
+  List <Map<String, dynamic>> roles = [
     {
+      "id" : 1,
       "title" : "merchant".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "merchant_details".tr
     },
     {
+      "id" : 2,
       "title" : "feeder".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "feeder_details".tr
     },
     {
+      "id" : 3,
       "title" : "driver".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "driver_details".tr
     },
     {
+      "id" : 4,
       "title" : "passenger".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "passenger_details".tr
     },
     {
+      "id" : 5,
       "title" : "society".tr,
       "image_path" : "assets/logos/moov_momo.png",
       "role_details" : "society_details".tr
@@ -95,7 +100,7 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
     );
   }
 
-  List<Widget> _buildGridView(List<Map<String, String>> itemList){
+  List<Widget> _buildGridView(List<Map<String, dynamic>> itemList){
     List<Widget> gridItems = [];
     for (Map role in itemList){
       gridItems.add(RoleGridViewItem(
@@ -149,7 +154,7 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
                             ),
                           ),
                           onPressed: (){
-                            Get.toNamed("/register",arguments: {"role" : role["text"]});
+                            Get.toNamed("/register",arguments: {"role_id" : role["id"]});
                           },
                           child: Text('continue'.tr, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
                         ),

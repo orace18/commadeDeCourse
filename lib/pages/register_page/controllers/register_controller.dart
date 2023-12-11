@@ -15,6 +15,8 @@ class RegisterController extends GetxController {
     isButtonEnabled.value = isEnabled;
   }
 
+  final roleId = Get.arguments["role_id"];
+
   void validateField(GlobalKey<FormBuilderFieldState> key){
     key.currentState?.validate();
     updateButtonEnabled(formKey.currentState?.isValid ?? false);
