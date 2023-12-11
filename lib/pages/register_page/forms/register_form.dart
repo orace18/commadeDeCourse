@@ -141,9 +141,7 @@ class RegisterForm extends GetWidget<RegisterController> {
                 ]),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(

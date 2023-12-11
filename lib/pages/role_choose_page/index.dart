@@ -133,7 +133,7 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
                 ),
               )
             );
-          }
+          }, description: role["role_details"],
         )
       );
     }

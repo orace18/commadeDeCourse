@@ -8,6 +8,9 @@ import '../profile_page/widgets/clipper.dart';
 import 'controllers/register_controller.dart';
 
 class RegisterPage extends GetWidget<RegisterController> {
+
+  var dataFromRolePage = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,7 @@ class RegisterPage extends GetWidget<RegisterController> {
                     Column(
                       children: [
                         Expanded(
-                          flex: 5,
+                          flex: 4,
                           child: ClipPath(
                             clipper: DrawClip(),
                             child: Container(
