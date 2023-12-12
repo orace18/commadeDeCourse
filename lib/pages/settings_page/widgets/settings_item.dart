@@ -24,7 +24,6 @@ class SettingsItem extends StatelessWidget {
                 ),
               ),
             ),
-
             Expanded(
               flex: 10,
               child: Padding(
