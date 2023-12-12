@@ -15,7 +15,11 @@ class SettingsPage extends GetWidget<SettingsController> {
           builder: (_) => Container(
             child: Column(
               children: [
-                SettingsItem(title: "language".tr, icon: Icons.language),
+                GestureDetector(child: SettingsItem(title: "dark_theme".tr, icon: Icons.language),
+                onTap: (){
+                  controller.changeAppLanguage();
+                }
+                ),
                 SettingsItem(title: "language".tr, icon: Icons.language),
               ],
             ),

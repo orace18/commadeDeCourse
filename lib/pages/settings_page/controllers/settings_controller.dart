@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -11,8 +12,17 @@ class SettingsController extends GetxController {
     isLightMode = box.read("lightTheme");
     super.onInit();
   }
-  void themeModeChanged() {
-
+  void changeThemeMode() {
+    Get.changeTheme(
+      Get.isDarkMode ? ThemeData.light() : ThemeData.dark()
+    );
   }
+
+  void changeAppLanguage() {
+    Get.updateLocale(
+        Get.locale == const Locale("fr","FR") ? const Locale("en","US") : const Locale("fr","FR")
+    );
+  }
+
   void navigateBack() => Get.back();
 }
