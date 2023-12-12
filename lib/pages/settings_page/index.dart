@@ -1,14 +1,25 @@
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/pages/settings_page/widgets/settings_item.dart';
 import 'controllers/settings_controller.dart';
 
 class SettingsPage extends GetWidget<SettingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("settings".tr),
+      ),
         body: GetBuilder<SettingsController>(
-          builder: (_) => Placeholder(),
+          builder: (_) => Container(
+            child: Column(
+              children: [
+                SettingsItem(title: "language".tr, icon: Icons.language),
+                SettingsItem(title: "language".tr, icon: Icons.language),
+              ],
+            ),
+          ),
         ));
   }
 }

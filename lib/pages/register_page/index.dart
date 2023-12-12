@@ -80,7 +80,6 @@ class RegisterPage extends GetWidget<RegisterController> {
                         ),
                       ],
                     ),
-
                   ]
               )
           ),

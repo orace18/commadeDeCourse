@@ -87,13 +87,13 @@ class MenuScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        _listText("role".tr, Icons.person),
+                        _listText("role".tr, Icons.person, "/settings"),
 
-                        _listText("wallet".tr, Icons.wallet),
+                        _listText("wallet".tr, Icons.wallet, "/settings"),
 
-                        _listText("assistance".tr, Icons.assignment_late_sharp),
+                        _listText("assistance".tr, Icons.assignment_late_sharp, "/settings"),
 
-                        _listText("settings".tr, Icons.settings),
+                        _listText("settings".tr, Icons.settings, "/settings"),
                       ],
                     ),
                   ),
@@ -106,39 +106,44 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _listText(String _text, IconData _iconData) {
-    return Padding(
-      padding: EdgeInsets.only(),
-      child: Column(
-        children: [
-          Row(
-            children: <Widget>[
-              Container(
-                height: 45.0,
-                width: 45.0,
-                decoration: BoxDecoration(),
-                child: Center(
-                  child: Icon(
-                    _iconData,
-                    color: Colors.black38,
+  Widget _listText(String _text, IconData _iconData, String route) {
+    return GestureDetector(
+      onTap: (){
+        Get.toNamed(route);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(),
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Container(
+                  height: 45.0,
+                  width: 45.0,
+                  decoration: BoxDecoration(),
+                  child: Center(
+                    child: Icon(
+                      _iconData,
+                      color: Colors.black38,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                _text,
-                style: TextStyle(
-                    fontFamily: "Sofia",
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  _text,
+                  style: TextStyle(
+                      fontFamily: "Sofia",
 
-                    color: Colors.black,
-                    fontSize: 16.0),
-              )
-            ],
-          ),
-          Divider(height: 2, color: Colors.black,)
-        ],
+                      color: Colors.black,
+                      fontSize: 16.0),
+                )
+              ],
+            ),
+            Divider(height: 10, color: Colors.black,)
+          ],
+        ),
       ),
     );
   }
