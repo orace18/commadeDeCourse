@@ -17,7 +17,7 @@ class SettingsPage extends GetWidget<SettingsController> {
               children: [
                 GestureDetector(child: SettingsItem(title: "dark_theme".tr, icon: Icons.language),
                 onTap: (){
-                  controller.changeAppLanguage();
+                  controller.changeThemeMode();
                 }
                 ),
                 SettingsItem(title: "language".tr, icon: Icons.language),

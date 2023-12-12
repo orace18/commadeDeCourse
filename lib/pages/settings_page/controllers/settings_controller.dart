@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otrip/providers/theme/theme.dart';
 
 class SettingsController extends GetxController {
 
@@ -14,7 +15,7 @@ class SettingsController extends GetxController {
   }
   void changeThemeMode() {
     Get.changeTheme(
-      Get.isDarkMode ? ThemeData.light() : ThemeData.dark()
+      Get.isDarkMode ? AppTheme.lightTheme : AppTheme.darkTheme
     );
   }
 
