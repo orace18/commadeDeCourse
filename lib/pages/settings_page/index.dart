@@ -17,6 +17,7 @@ class SettingsPage extends GetWidget<SettingsController> {
           builder: (_) => Container(
             child: Column(
               children: [
+                // Menu Parametres Theme
                 Container(
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding/2),
@@ -47,15 +48,102 @@ class SettingsPage extends GetWidget<SettingsController> {
                             ),
                           ),
                         ),
+                        Obx(() {
+                          return Expanded(
+                              flex: 4,
+                              child: Switch(
+                                value: controller.isLightMode.value ? false : true,
+                                onChanged: (value){
+                                  controller.changeThemeMode();
+                                },
+                              )
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding/2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
                         Expanded(
-                          flex: 4,
-                          child: Switch(
-                            value: controller.isLightMode ? false : true,
-                            onChanged: (value){
-                                controller.changeThemeMode();
-                            },
-                          )
+                          flex: 2,
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(Icons.language,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "language".tr,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
+                        Obx((){
+                          return Expanded(
+                              flex: 4,
+                              child: DropdownButton(
+                                key: controller.languageKey,
+                                // value: controller.language.value!,
+                                isExpanded: false,
+                                items: [
+                                  DropdownMenuItem(child: Text("fr".tr), value: Locale("fr","FR"),),
+                                  DropdownMenuItem(child: Text("en".tr), value: Locale("en","US"),)
+                                ], onChanged: (value) {
+                                controller.changeAppLanguage();
+                              },
+                              )
+                          );
+                        }
                         )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding/2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(Icons.logout,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 14,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "logout".tr,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

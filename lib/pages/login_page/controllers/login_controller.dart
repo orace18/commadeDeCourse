@@ -8,6 +8,7 @@ class LoginController extends GetxController {
   final mobileFieldKey = GlobalKey<FormBuilderFieldState>();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final isButtonEnabled = false.obs;
+
   void updateButtonEnabled(bool isEnabled) {
     isButtonEnabled.value = isEnabled;
   }
