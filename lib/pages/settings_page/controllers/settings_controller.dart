@@ -6,16 +6,26 @@ import 'package:otrip/providers/theme/theme.dart';
 class SettingsController extends GetxController {
 
   final box = GetStorage('Otrip');
-  late var isLightMode ;
+  var isLightMode = true;
+  late var language ;
 
   @override
   void onInit() {
-    isLightMode = box.read("lightTheme");
+    isLightMode = box.read("darkTheme") ?? false;
     super.onInit();
   }
+
   void changeThemeMode() {
+    var theme = AppTheme.lightTheme;
+    if(Get.isDarkMode){
+      theme = AppTheme.lightTheme;
+      box.write("darkTheme", false);
+    } else {
+      theme = AppTheme.darkTheme;
+      box.write("darkTheme", true);
+    }
     Get.changeTheme(
-      Get.isDarkMode ? AppTheme.lightTheme : AppTheme.darkTheme
+      theme
     );
   }
 

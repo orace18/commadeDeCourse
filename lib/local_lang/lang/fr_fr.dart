@@ -74,5 +74,9 @@ const fr_FR = {
   'feeder_details':'feeder_details',
   'driver_details':'driver_details',
   'society_details':'society_details',
+  'dark_theme':'Thème sombre',
+  'language':'Langue',
+  'fr':'Français',
+  'en':'Anglais',
   '':'',
 };

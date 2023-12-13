@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:otrip/constants.dart';
 
 class SettingsItem extends StatelessWidget {
-  const SettingsItem({super.key, required this.title, required this.icon});
+  const SettingsItem({super.key, required this.title, required this.icon, required this.initialValue, required this.onChanged});
   final String title;
   final IconData icon;
+  final bool initialValue;
+  final VoidCallback onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,19 @@ class SettingsItem extends StatelessWidget {
                     fontWeight: FontWeight.bold
                   ),
                 ),
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: FormBuilderSwitch(
+                name: "language_switch",
+                title: Text(
+                  ""
+                ),
+                initialValue: initialValue,
+                onChanged: (value){
+                  onChanged;
+                },
               ),
             )
           ],

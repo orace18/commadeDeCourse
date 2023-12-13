@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
-        initialRoute: '/home',
+        initialRoute: '/settings',
         getPages: AppRouter.routes,
       // supportedLocales: const [...FormBuilderLocalizations.supportedLocales],
       localizationsDelegates: const [
