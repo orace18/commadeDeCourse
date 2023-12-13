@@ -62,6 +62,17 @@ const fr_FR = {
   'username':'Nom d\'utilisateur',
   'add_user':'Nouvel utilisateur',
   'add_new':'Enregistrer',
+  'new_recharge_id':'Nouvel id de paiement',
+  'recharge_way':'Moyen de paiement',
+  'merchant':'Marchand',
+  'passenger':'Passager',
+  'feeder':'Fournisseur',
+  'driver':'Conducteur',
+  'society':'Entreprise',
+  'merchant_details':'merchant_details',
+  'passenger_details':'passenger_details',
+  'feeder_details':'feeder_details',
+  'driver_details':'driver_details',
+  'society_details':'society_details',
   '':'',
-
 };

@@ -1,8 +1,12 @@
 import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
  import 'package:otrip/pages/map_page/index.dart';
+import 'package:otrip/pages/newMap_page/controllers/newMap_binding.dart';
+import 'package:otrip/pages/newMap_page/index.dart';
 //import 'package:otrip/pages/other_map_page/index.dart';
 
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
@@ -18,8 +22,18 @@ import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_info
 import 'package:otrip/pages/profile_edit_info_page/index.dart';
 import 'package:otrip/pages/profile_edit_seats_page/controllers/profile_edit_seats_binding.dart';
 import 'package:otrip/pages/profile_edit_seats_page/index.dart';
+import 'package:otrip/pages/role_choose_page/controllers/role_choose_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/driver_page/controllers/driver_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/driver_page/index.dart';
+import 'package:otrip/pages/role_choose_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/controller/demande_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/controller/marchand_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/demande.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/index.dart';
+import 'package:otrip/pages/role_page/controllers/listconducteur_binding.dart';
 import 'package:otrip/pages/role_page/controllers/role_binding.dart';
 import 'package:otrip/pages/role_page/index.dart';
+import 'package:otrip/pages/role_page/list_conducteur.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
@@ -167,5 +181,41 @@ class AppRouter {
       binding: WalletRechargeBinding(),
     ),
 
+    GetPage(
+      name: '/new_map',
+      page: () => NewMapPage(),
+      binding: NewMapBinding(),
+    ),
+
+    GetPage(
+      name: '/role_choose',
+      page: () => RoleChoosePage(),
+      binding: RoleChooseBinding(),
+    ),
+    GetPage(
+      name: '/marchand',
+      page: () => MarchandPage(),
+      binding: MarchandBinding(),
+    ),
+    GetPage(
+      name: '/demande',
+      page: () => DemandePage(),
+      binding: DemandeBinding(),
+    ),
+    GetPage(
+      name: '/listConducteur',
+      page: () => ListConducteurPage(),
+      binding: ListConducteurBinding(),
+    ),
+    GetPage(
+      name: '/driver',
+      page: () => DriverPage(),
+      binding: DriverBinding(),
+    ),
+    GetPage(
+      name: '/passager',
+      page: () => PassagerPage(),
+      binding: PassagerBinding(),
+    ),
   ];
 }

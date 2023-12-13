@@ -210,6 +210,7 @@ class AddUserForm extends GetWidget<AddUserController> {
     String? username = controller.usernameFieldKey.currentState?.value.toString();
     String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
     String? password = controller.passwordFieldKey.currentState?.value.toString();
-    AuthApiClient().register(username!, firstname!, lastname!, phone_number!, "+229", 1, password!);
+    int? roleId = 3;
+    AuthApiClient().register(roleId, username!, firstname!, lastname!, phone_number!, "+229", 1, password!);
   }
 }

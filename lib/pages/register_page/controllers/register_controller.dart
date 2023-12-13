@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:otrip/api/auth/auth_api_client.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
@@ -15,9 +16,41 @@ class RegisterController extends GetxController {
     isButtonEnabled.value = isEnabled;
   }
 
+  final roleId = Get.arguments["role_id"];
+
   void validateField(GlobalKey<FormBuilderFieldState> key){
     key.currentState?.validate();
     updateButtonEnabled(formKey.currentState?.isValid ?? false);
   }
   void navigateBack() => Get.back();
+
+
+   void registerRequest() {
+    // ... (votre code existant)
+
+   // AuthApiClient().register();
+
+    // Naviguer vers la page d'accueil appropriée en fonction du rôle
+    navigateToHome(roleId);
+  }
+
+  void navigateToHome(int roleId){
+    switch (roleId) {
+      case 1:
+        Get.toNamed("/marchand");
+        break;
+      case 3:
+        Get.toNamed("/driver");
+        break;
+      case 4:
+        Get.toNamed("/passager");
+        break;
+      case 5:
+        Get.toNamed("/");
+        break;
+      default:
+        // Gérer le cas par défaut si nécessaire
+        break;
+    }
+  }
 }

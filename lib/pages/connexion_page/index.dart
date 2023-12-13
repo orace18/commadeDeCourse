@@ -71,7 +71,7 @@ class ConnexionPage extends GetWidget<ConnexionController> {
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       ElevatedButton(
-                                          onPressed: (){ Get.toNamed('/register'); },
+                                          onPressed: (){ Get.toNamed('/role_choose'); },
                                           child: Text('register'.tr, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),
                                           style: ElevatedButton.styleFrom(
                                             minimumSize: const Size.fromHeight(50),

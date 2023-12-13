@@ -256,6 +256,7 @@ class _MapViewState extends State<MapView> {
     return closest;
   }
 
+  // creation des markers personnalises
   void setMarkerIcons(){
     BitmapDescriptor.fromAssetImage(
         ImageConfiguration.empty, "assets/maps/client.png")
@@ -298,6 +299,7 @@ class _MapViewState extends State<MapView> {
     _addMarker(LatLng(6.371736, 2.363729), "place3");
   }
 
+  // CONVERSON DES IMAGES EN BYTES
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
 
     ByteData data = await rootBundle.load(path);

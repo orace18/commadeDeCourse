@@ -7,15 +7,17 @@ import 'providers/theme/theme.dart';
 import 'providers/theme/theme_provider.dart';
 import 'routers/routes.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'local_lang/translator.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp
   ]);
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
-        initialRoute: '/connexion',
+        initialRoute: '/splash',
         getPages: AppRouter.routes,
       // supportedLocales: const [...FormBuilderLocalizations.supportedLocales],
       localizationsDelegates: const [
