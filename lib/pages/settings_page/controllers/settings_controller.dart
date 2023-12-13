@@ -20,11 +20,12 @@ class SettingsController extends GetxController {
     Get.changeTheme(
       theme
     );
+    isLightMode.value = !isLightMode.value;
   }
 
-  void changeAppLanguage() {
+  void changeAppLanguage( Locale locale) {
     Get.updateLocale(
-        language.value == const Locale("fr","FR") ? const Locale("en","US") : const Locale("fr","FR")
+        language.value = locale
     );
   }
 

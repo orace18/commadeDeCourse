@@ -98,13 +98,18 @@ class SettingsPage extends GetWidget<SettingsController> {
                               flex: 4,
                               child: DropdownButton(
                                 key: controller.languageKey,
-                                // value: controller.language.value!,
-                                isExpanded: false,
+                                value: controller.language.value,
+                                isExpanded: true,
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                alignment: Alignment.center,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5)
+                                ),
                                 items: [
-                                  DropdownMenuItem(child: Text("fr".tr), value: Locale("fr","FR"),),
-                                  DropdownMenuItem(child: Text("en".tr), value: Locale("en","US"),)
+                                  DropdownMenuItem(child: Text("fr"), value: Locale("fr","FR"),),
+                                  DropdownMenuItem(child: Text("en"), value: Locale("en","US"),)
                                 ], onChanged: (value) {
-                                controller.changeAppLanguage();
+                                controller.changeAppLanguage(value!);
                               },
                               )
                           );
@@ -114,7 +119,23 @@ class SettingsPage extends GetWidget<SettingsController> {
                     ),
                   ),
                 ),
-                Container(
+                GestureDetector(
+                  onTap: (){
+                    Get.defaultDialog(
+                      title: "logout_alert".tr,
+                      content: Text("logout_confirm"),
+                      cancel: ElevatedButton(
+                        child: Text("cancel".tr),
+                        onPressed: (){
+
+                        },
+                      ),
+                      confirm: ElevatedButton(
+                        child: Text("confirm".tr),
+                        onPressed: (){},
+                      )
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding/2),
                     child: Row(
