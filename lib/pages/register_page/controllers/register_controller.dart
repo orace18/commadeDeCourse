@@ -25,12 +25,10 @@ class RegisterController extends GetxController {
   void navigateBack() => Get.back();
 
 
-   void registerRequest() {
-    // ... (votre code existant)
+   void registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password) {
 
-   // AuthApiClient().register();
+    AuthApiClient().register(role,username, firstname, lastname, phoneNumber,password);
 
-    // Naviguer vers la page d'accueil appropriée en fonction du rôle
     navigateToHome(roleId);
   }
 

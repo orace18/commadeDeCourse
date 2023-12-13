@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/connect.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
-
 import '../../constants.dart';
 import '../api_constants.dart';
 
@@ -46,7 +45,7 @@ class AuthApiClient extends GetConnect {
     }
   }
 
-  Future<Map<String, dynamic>> register(int role, String username, String name, String lastname, String mobileNumber, String phoneCode, int countryId, String password) async {
+  Future<Map<String, dynamic>> register(int role, String username, String name, String lastname, String mobileNumber, /*String phoneCode, int countryId,*/ String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, dynamic> body = {
       'role_id' : role,
@@ -54,8 +53,8 @@ class AuthApiClient extends GetConnect {
       'name' : name,
       'lastname' : lastname,
       'mobile_number' : mobileNumber,
-      'phone_code' : phoneCode,
-      'country_id' : countryId,
+     // 'phone_code' : phoneCode,
+     // 'country_id' : countryId,
       'password': password};
     final response = await post(registerUrl, body);
     print(response.statusCode);

@@ -176,7 +176,14 @@ class RegisterForm extends GetWidget<RegisterController> {
                   onPressed: () {
                     if (controller.isButtonEnabled.value) {
                       print('Le role est : ${registerController.roleId}');
-                      registerController.registerRequest();
+                      registerController.registerRequest(
+                        registerController.roleId,
+                        controller.usernameFieldKey.currentState!.value,
+                        controller.firstnameFieldKey.currentState!.value,
+                        controller.lastnameFieldKey.currentState!.value,
+                        controller.mobileFieldKey.currentState!.value,
+                        controller.passwordFieldKey.currentState!.value
+                      );
                     }
                   },
                   child: Text(
