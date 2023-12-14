@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/connect.dart';
@@ -5,8 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import '../../constants.dart';
 import '../api_constants.dart';
-
-
+import 'package:http/http.dart' as http;
 
 class AuthApiClient extends GetConnect {
   @override
@@ -28,15 +28,13 @@ class AuthApiClient extends GetConnect {
     if (response.status.hasError) {
       if (response.status.code == 401) {
         throw Exception("invalid_credentials".tr);
-      }
-      else {
+      } else {
         throw Exception('connection_error'.tr);
       }
     } else if (response.body is Map) {
-      try{
+      try {
         // await cBox.clear();
-
-      }catch(e){
+      } catch (e) {
         print("error: $e");
       }
       return response.body;
@@ -45,39 +43,92 @@ class AuthApiClient extends GetConnect {
     }
   }
 
-  Future<Map<String, dynamic>> register(int role, String username, String name, String lastname, String mobileNumber, /*String phoneCode, int countryId,*/ String password) async {
+  Future<Map<String, dynamic>> register(
+      int role,
+      String username,
+      String name,
+      String lastname,
+      String mobileNumber,
+      /*String phoneCode, int countryId,*/ String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, dynamic> body = {
-      'role_id' : role,
+      'role_id': role,
       'username': username,
-      'name' : name,
-      'lastname' : lastname,
-      'mobile_number' : mobileNumber,
-     // 'phone_code' : phoneCode,
-     // 'country_id' : countryId,
-      'password': password};
+      'name': name,
+      'lastname': lastname,
+      'mobile_number': mobileNumber,
+      // 'phone_code' : phoneCode,
+      // 'country_id' : countryId,
+      'password': password
+    };
     final response = await post(registerUrl, body);
     print(response.statusCode);
     if (response.status.hasError) {
       if (response.status.code == 401) {
         throw Exception("invalid_credentials".tr);
-      } else if(response.status.code == 400) {
+      } else if (response.status.code == 400) {
         throw Exception("400");
       } else {
         throw Exception('connection_error'.tr);
       }
       //throw Exception('Response has error');
     } else if (response.body is Map) {
-      try{
+      try {
         // delete all contacts
         // await cBox.clear();
-          
-      }catch(e){
+      } catch (e) {
         print("error: $e");
       }
       return response.body;
     } else {
       throw Exception('Response is not a Map');
+    }
+  }
+
+  Future<bool> signUp(
+    int role,
+    String username,
+    String name,
+    String lastname,
+    String mobileNumber,
+    String password,
+  ) async {
+    String registerUrl = "http://192.168.1.10:5000/api/register";
+
+    String body = jsonEncode({
+      'role_id': role,
+      'username': username,
+      'name': name,
+      'lastname': lastname,
+      'mobile_number': mobileNumber,
+      'password': password,
+      'phone_code': '+229'
+    });
+
+    print("Le body: ${body}");
+
+    try {
+      final response = await http.post(
+        Uri.parse(registerUrl),
+        body: body,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      print("code status: ${response.statusCode}");
+
+      if (response.statusCode == 401) {
+        throw Exception("invalid_credentials".tr);
+      } else if (response.statusCode == 400) {
+        throw Exception("400");
+      } else if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Enregistré avec succès!");
+        return true;
+      } else {
+        throw Exception('connection_error'.tr);
+      }
+    } catch (e) {
+      print("error: $e");
+      throw Exception('Une erreur inattendue s\'est produite');
     }
   }
 
@@ -272,12 +323,12 @@ class AuthApiClient extends GetConnect {
   // }
 
   // For Logout
-  Future<void> logout() async{
+  Future<void> logout() async {
     final box = GetStorage();
     box.remove('access_token');
     box.remove('refresh_token');
-    Get.snackbar('disconnection'.tr, 'disconnection_message'.tr, backgroundColor: successColor, colorText: Colors.white);
+    Get.snackbar('disconnection'.tr, 'disconnection_message'.tr,
+        backgroundColor: successColor, colorText: Colors.white);
     Get.offAllNamed('/connexion');
   }
-
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/providers/theme/theme.dart';
-
-
 
 class WalletCard extends StatelessWidget {
   @override
@@ -17,9 +16,8 @@ class WalletCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Row(
-          // Changez cette ligne
           mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Ajustez cela selon vos préférences
+              .spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +42,7 @@ class WalletCard extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-               
+               Get.toNamed('/wallet_recharge');
               },
               child: Text("recharge".tr),
               style: ElevatedButton.styleFrom(

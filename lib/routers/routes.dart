@@ -1,12 +1,17 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
+import 'package:otrip/pages/course_page/controllers/course_binding.dart';
+import 'package:otrip/pages/course_page/index.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
  import 'package:otrip/pages/map_page/index.dart';
 import 'package:otrip/pages/newMap_page/controllers/newMap_binding.dart';
 import 'package:otrip/pages/newMap_page/index.dart';
+import 'package:otrip/pages/notifications_page/controllers/notification_binding.dart';
+import 'package:otrip/pages/notifications_page/index.dart';
 //import 'package:otrip/pages/other_map_page/index.dart';
 
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
@@ -216,6 +221,16 @@ class AppRouter {
       name: '/passager',
       page: () => PassagerPage(),
       binding: PassagerBinding(),
+    ),
+    GetPage(
+      name: '/notification',
+      page: () => NotificationPage(),
+      binding: NotificationBinding(),
+    ),
+     GetPage(
+      name: '/course',
+      page: () => CoursePage(),
+      binding: CourseBinding(),
     ),
   ];
 }

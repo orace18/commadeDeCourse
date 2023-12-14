@@ -3,20 +3,20 @@ import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/caro
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/grid_view_widget.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/wallet_widget.dart';
 
-class PassagerPage extends StatelessWidget {
-
+class PassagerDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CarouselWidget(),
-        WalletCard(),
-        Expanded(
-          child: DashboardGridView(),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CarouselWidget(),
+          WalletCard(),
+          DashboardGridView(),
+        ],
+      ),
     );
   }
 }
+
+
+

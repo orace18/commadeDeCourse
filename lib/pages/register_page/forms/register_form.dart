@@ -210,22 +210,4 @@ class RegisterForm extends GetWidget<RegisterController> {
       ),
     );
   }
-
-  // Fonction pour register
-  /* void registerRequest() {
-    String? firstname =
-        controller.firstnameFieldKey.currentState?.value.toString();
-    String? lastname =
-        controller.lastnameFieldKey.currentState?.value.toString();
-    String? username =
-        controller.usernameFieldKey.currentState?.value.toString();
-    String? phoneNumber =
-        controller.mobileFieldKey.currentState?.value.toString();
-    String? password =
-        controller.passwordFieldKey.currentState?.value.toString();
-    int? roleId = controller.roleId;
-    AuthApiClient().register(roleId!, username!, firstname!, lastname!,
-        phoneNumber!, "+229", 1, password!);
-    Get.toNamed("/"); */
-  //}
 }

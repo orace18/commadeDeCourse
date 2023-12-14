@@ -1,22 +1,29 @@
-// grid_view_widget.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:otrip/providers/theme/theme.dart';
 
 class DashboardGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 2, // Nombre de colonnes dans le GridView
+      crossAxisCount: 2,
       crossAxisSpacing: 16.0,
       mainAxisSpacing: 16.0,
       padding: EdgeInsets.all(16.0),
       children: [
         buildGridItem("Trouver un conducteur", Icons.directions_car, () {
-          // Mettez votre logique ici pour l'action du bouton
+
         }),
-        buildGridItem("Autre élément", Icons.access_time, () {
-          // Mettez votre logique ici pour l'action du bouton
+        buildGridItem("ride".tr, Icons.access_time, () {
+          Get.toNamed('/course');
         }),
-        // Ajoutez plus d'éléments au besoin
+        buildGridItem("activities".tr, Icons.access_time, () {
+          Get.toNamed('/activities');
+        }),
+        buildGridItem("profil".tr, Icons.access_time, () {
+          Get.toNamed('/profile');
+        }),
+
       ],
     );
   }
@@ -35,7 +42,7 @@ class DashboardGridView extends StatelessWidget {
             Icon(
               icon,
               size: 48.0,
-              color: Colors.blue,
+              color: AppTheme.otripMaterial[500],
             ),
             SizedBox(height: 8.0),
             Text(

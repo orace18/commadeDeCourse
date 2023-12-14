@@ -25,12 +25,24 @@ class RegisterController extends GetxController {
   void navigateBack() => Get.back();
 
 
-   void registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password) {
+/*    registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password){
 
-    AuthApiClient().register(role,username, firstname, lastname, phoneNumber,password);
+    bool valid = AuthApiClient().signUp(role,username, firstname, lastname, phoneNumber,password);
+    if(valid == true){
+      navigateToHome(roleId);
+    }
+  } */
 
-    navigateToHome(roleId);
+  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password) async {
+  try {
+    bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password);
+    if (valid) {
+      navigateToHome(roleId);
+    }
+  } catch (e) {
+    print("Error during registration: $e");
   }
+}
 
   void navigateToHome(int roleId){
     switch (roleId) {
@@ -47,7 +59,6 @@ class RegisterController extends GetxController {
         Get.toNamed("/");
         break;
       default:
-        // Gérer le cas par défaut si nécessaire
         break;
     }
   }

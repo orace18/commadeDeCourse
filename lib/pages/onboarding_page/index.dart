@@ -108,7 +108,6 @@ class OnboardingPage extends GetWidget<OnboardingController> {
           color: Colors.black12,
         ),
         bodyTextStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
-//        ),
         pageColor: Colors.white,
       ),
     );
