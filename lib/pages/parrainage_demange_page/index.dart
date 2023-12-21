@@ -1,11 +1,13 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
-
+import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_controller.dart';
+import 'package:otrip/pages/parrainage_demange_page/models/parrainage_demande.dart';
 import '../../../../constants.dart';
 import '../../../../providers/theme/theme.dart';
-import 'controller/demande_controller.dart';
+
 
 class DemandePage extends GetWidget<DemandeController> {
   @override
@@ -55,7 +57,7 @@ class DemandePage extends GetWidget<DemandeController> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "Demande",
+                                    "Liste des demandes reçues",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -75,7 +77,7 @@ class DemandePage extends GetWidget<DemandeController> {
                       builder: (_) => ListView.builder(
                         itemCount: controller.listDemandes.length,
                         itemBuilder: (context, index) {
-                          Demande demande = controller.listDemandes[index];
+                          DemandeParrainage demande = controller.listDemandes[index];
                           return Card(
                             margin: EdgeInsets.all(8.0),
                             child: Padding(
@@ -88,21 +90,19 @@ class DemandePage extends GetWidget<DemandeController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('Titre: ${demande.title}'),
-                                        SizedBox(height: 10),
-                                        Text('Message: ${demande.message}'),
+                                       // Text('${demande.message}'),
                                         SizedBox(height: 10),
                                         Text(
-                                            'Date: ${demande.dateDemande.toString()}'),
+                                            '${demande.dateDemande.toString()}'),
                                         SizedBox(height: 10),
                                         Text(
-                                            'Nom et prénom: ${demande.nom} ${demande.prenom}'),
+                                           ''),
                                       ],
                                     ),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 10),
-                                    child: Column(
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -110,14 +110,22 @@ class DemandePage extends GetWidget<DemandeController> {
                                           onPressed: () {
                                             controller.annulerDemande(index);
                                           },
-                                          child: Text('Annuler'),
+                                          child: Icon(
+                                            FontAwesomeIcons.xmark,
+                                            size: 20,
+                                            color: Colors.red,
+                                          )
                                         ),
-                                        SizedBox(height: 15),
+                                        SizedBox(width: 10),
                                         ElevatedButton(
                                           onPressed: () {
                                             controller.validerDemande(index);
                                           },
-                                          child: Text('Valider'),
+                                          child: Icon(
+                                            FontAwesomeIcons.check,
+                                            size: 20,
+                                            color: Colors.green,
+                                          )
                                         ),
                                       ],
                                     ),

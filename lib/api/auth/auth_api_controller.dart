@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../../constants.dart';
 import '../api_helper.dart';
 import 'auth_api_client.dart';
@@ -31,6 +30,20 @@ class AuthController extends GetxController {
       isLoggedIn.value = true;
     }
   }
+
+  RxBool isAuthenticated = false.obs;
+  RxMap userData = {}.obs;
+
+  void setAuthenticated(bool value) {
+    isAuthenticated.value = value;
+  }
+
+  void setUserData(Map<String, dynamic> data) {
+    userData.assignAll(data);
+  }
+
+
+
 
   // For login using apiClient Login
   // Future<void> login(String email, String password) async {

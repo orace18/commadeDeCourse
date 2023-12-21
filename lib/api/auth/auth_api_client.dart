@@ -49,7 +49,7 @@ class AuthApiClient extends GetConnect {
       String name,
       String lastname,
       String mobileNumber,
-      /*String phoneCode, int countryId,*/ String password) async {
+      String phoneCode, int countryId, String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, dynamic> body = {
       'role_id': role,
@@ -57,8 +57,8 @@ class AuthApiClient extends GetConnect {
       'name': name,
       'lastname': lastname,
       'mobile_number': mobileNumber,
-      // 'phone_code' : phoneCode,
-      // 'country_id' : countryId,
+      'phone_code' : phoneCode,
+      'country_id' : countryId,
       'password': password
     };
     final response = await post(registerUrl, body);
@@ -85,6 +85,62 @@ class AuthApiClient extends GetConnect {
     }
   }
 
+/*   Future<bool> signUp(
+  int role,
+  String username,
+  String name,
+  String lastname,
+  String mobileNumber,
+  String password,
+  Map<String, double?> positions,
+) async {
+  String registerUrl = "http://192.168.1.10:5000/api/register";
+
+  try {
+    String body = jsonEncode(User(
+      roleId: role,
+      username: username,
+      name: name,
+      lastname: lastname,
+      mobileNumber: mobileNumber,
+      password: password,
+      positions: positions,
+    ).toJson());
+
+    print("Le body: ${body}");
+
+    final response = await http.post(
+      Uri.parse(registerUrl),
+      body: body,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    print("code status: ${response.statusCode}");
+
+    if (response.statusCode == 401) {
+      throw Exception("invalid_credentials".tr);
+    } else if (response.statusCode == 400) {
+      throw Exception("400");
+    } else if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Enregistré avec succès!");
+      return true;
+    } else {
+      throw Exception('connection_error'.tr);
+    }
+  } catch (e) {
+    if (e is http.ClientException) {
+      print("Erreur HTTP : ${e.message}");
+      // Vous pouvez extraire le corps de la réponse ici
+    } else {
+      print("Erreur inattendue : $e");
+    }
+    throw Exception('Une erreur inattendue s\'est produite');
+  }
+} */
+
+
+
+
   Future<bool> signUp(
     int role,
     String username,
@@ -92,6 +148,8 @@ class AuthApiClient extends GetConnect {
     String lastname,
     String mobileNumber,
     String password,
+    Map<String, double> positions,
+
   ) async {
     String registerUrl = "http://192.168.1.10:5000/api/register";
 
@@ -102,7 +160,8 @@ class AuthApiClient extends GetConnect {
       'lastname': lastname,
       'mobile_number': mobileNumber,
       'password': password,
-      'phone_code': '+229'
+      'phone_code': '+229',
+      'positions': positions
     });
 
     print("Le body: ${body}");
@@ -122,6 +181,7 @@ class AuthApiClient extends GetConnect {
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
+        getUserData(mobileNumber);
         return true;
       } else {
         throw Exception('connection_error'.tr);
@@ -131,6 +191,77 @@ class AuthApiClient extends GetConnect {
       throw Exception('Une erreur inattendue s\'est produite');
     }
   }
+
+   Future<Map<String, dynamic>> getUserData(String phoneNumber) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/user/$phoneNumber'));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> userData = json.decode(response.body);
+        print('L\'utilisateur est : ${userData}');
+        return userData;
+      } else {
+        throw Exception('Erreur lors de la récupération des données utilisateur');
+      }
+    } catch (e) {
+      throw Exception('Erreur réseau: $e');
+    }
+  }
+
+
+ /*  Future<void> signIn(String phoneNumber, String password) async {
+    final String apiUrl = 'http://192.168.1.10:5000/api/login';
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      body: {'mobile_Number': phoneNumber, 'password': password},
+    );
+
+    if (response.statusCode == 200) {
+      // Analysez la réponse JSON pour déterminer si l'authentification a réussi
+      Map<String, dynamic> responseData = json.decode(response.body);
+
+      if (responseData['success'] == true) {
+        // Authentification réussie, effectuez les actions nécessaires ici.
+        print("Connecté avec succès!");
+      } else {
+        // Authentification échouée, affichez un message d'erreur ou gérez l'échec de connexion.
+        print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
+      }
+    } else {
+      // Gérez les erreurs HTTP, par exemple, en affichant un message d'erreur.
+      print("Erreur lors de la communication avec le serveur");
+    }
+  }
+ */
+
+
+Future<void> signIn(String phoneNumber, String password) async {
+  final String apiUrl = 'http://192.168.1.10:5000/api/login';
+
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    body: {'mobile_number': phoneNumber, 'password': password},
+  );
+
+  if (response.statusCode == 200) {
+    Map<String, dynamic> responseData = json.decode(response.body);
+
+    // Affichez le contenu de la réponse dans la console de débogage
+    print("Réponse du serveur: $responseData");
+
+    if (responseData['success'] == true) {
+      print("Connecté avec succès!");
+    } else {
+      print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
+    }
+  } else {
+    print("Erreur lors de la communication avec le serveur. Code d'erreur: ${response.statusCode}");
+    print("Contenu de la réponse: ${response.body}");
+  }
+}
+
+
 
   // Future <Map<String, dynamic>> refreshToken(String refreshToken) async {
   //   Map<String, String> body = {'refresh': refreshToken};

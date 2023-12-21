@@ -21,7 +21,7 @@ class CarouselWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             image: DecorationImage(
-              image: AssetImage('assets/logos/ill.jpg'),
+              image: AssetImage('assets/illustrations/ill.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -31,7 +31,7 @@ class CarouselWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             image: DecorationImage(
-              image: AssetImage('assets/logos/ill1.jpg'),
+              image: AssetImage('assets/illustrations/ill1.jpg'),
               fit: BoxFit.cover,
             ),
           ),

@@ -4,15 +4,14 @@ import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
 import 'package:otrip/pages/register_page/controllers/register_controller.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
-import '../../../api/auth/auth_api_client.dart';
 import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
-class RegisterForm extends GetWidget<RegisterController> {
-  final RegisterController registerController;
+class RegisterForm extends GetWidget<RegisterController>{
 
- const RegisterForm({Key? key, required this.registerController}) : super(key: key);
+ RegisterForm({Key? key}) : super(key: key);
+  final RegisterController registerController = RegisterController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,13 +175,17 @@ class RegisterForm extends GetWidget<RegisterController> {
                   onPressed: () {
                     if (controller.isButtonEnabled.value) {
                       print('Le role est : ${registerController.roleId}');
+                      registerController.getPostion().then((position) {
+                        print('La position est : $position');
+                      });
                       registerController.registerRequest(
                         registerController.roleId,
                         controller.usernameFieldKey.currentState!.value,
                         controller.firstnameFieldKey.currentState!.value,
                         controller.lastnameFieldKey.currentState!.value,
                         controller.mobileFieldKey.currentState!.value,
-                        controller.passwordFieldKey.currentState!.value
+                        controller.passwordFieldKey.currentState!.value,
+                        registerController.getPostion() as Map<String, double>,
                       );
                     }
                   },

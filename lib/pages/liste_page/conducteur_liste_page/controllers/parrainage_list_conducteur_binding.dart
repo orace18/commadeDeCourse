@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'listconducteur_controller.dart';
+import 'parrainage_list_conducteur_controller.dart';
 
 class ListConducteurBinding implements Bindings {
   @override

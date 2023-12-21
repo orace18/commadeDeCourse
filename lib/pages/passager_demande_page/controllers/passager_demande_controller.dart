@@ -1,25 +1,12 @@
 import 'package:get/get.dart';
+import 'package:otrip/pages/passager_demande_page/models/passager_demande.dart';
 
-class Demande {
-  final String title;
-  final String nom;
-  final String prenom;
-  final DateTime dateDemande;
-  final String message;
 
-  Demande({
-    required this.title,
-    required this.nom,
-    required this.prenom,
-    required this.dateDemande,
-    required this.message,
-  });
-}
 
-class DemandeController extends GetxController {
+class PassagerDemandeController extends GetxController {
   // Liste de demandes
-  List<Demande> _listDemandes = [
-    Demande(
+  List<PassagerDemande> _listDemandes = [
+    PassagerDemande(
       title: 'Demande de livraison urgente',
       nom: 'Dupont',
       prenom: 'Jean',
@@ -27,7 +14,7 @@ class DemandeController extends GetxController {
       message:
           'J\'ai besoin d\'une livraison rapide pour la commande en cours.',
     ),
-    Demande(
+    PassagerDemande(
       title: 'Demande de livraison urgente',
       nom: 'Dupont',
       prenom: 'Jean',
@@ -35,7 +22,7 @@ class DemandeController extends GetxController {
       message:
           'J\'ai besoin d\'une livraison rapide pour la commande en cours.',
     ),
-    Demande(
+    PassagerDemande(
       title: 'Demande de livraison urgente',
       nom: 'Dupont',
       prenom: 'Jean',
@@ -43,7 +30,7 @@ class DemandeController extends GetxController {
       message:
           'J\'ai besoin d\'une livraison rapide pour la commande en cours.',
     ),
-    Demande(
+    PassagerDemande(
       title: 'Demande de livraison urgente',
       nom: 'Dupont',
       prenom: 'Jean',
@@ -54,7 +41,7 @@ class DemandeController extends GetxController {
   ];
 
   // Getter pour obtenir la liste des demandes
-  List<Demande> get listDemandes => _listDemandes;
+  List<PassagerDemande> get listDemandes => _listDemandes;
 
   // Méthode pour ajouter une nouvelle demande
   // void ajouterDemande(String nom, String prenom) {

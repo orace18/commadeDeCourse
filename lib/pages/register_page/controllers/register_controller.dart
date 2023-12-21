@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
+
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
@@ -10,6 +12,7 @@ class RegisterController extends GetxController {
   final usernameFieldKey = GlobalKey<FormBuilderFieldState>();
   final mobileFieldKey = GlobalKey<FormBuilderFieldState>();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
+
 
   final isButtonEnabled = false.obs;
   void updateButtonEnabled(bool isEnabled) {
@@ -24,18 +27,9 @@ class RegisterController extends GetxController {
   }
   void navigateBack() => Get.back();
 
-
-/*    registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password){
-
-    bool valid = AuthApiClient().signUp(role,username, firstname, lastname, phoneNumber,password);
-    if(valid == true){
-      navigateToHome(roleId);
-    }
-  } */
-
-  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password) async {
+  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password, Map<String, double> location) async {
   try {
-    bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password);
+    bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password, location);
     if (valid) {
       navigateToHome(roleId);
     }
@@ -60,6 +54,26 @@ class RegisterController extends GetxController {
         break;
       default:
         break;
+    }
+  }
+
+
+  final Location _location = Location();
+  Map<String, double> location = {};
+
+  Future<Map<String, double?>> getPostion() async {
+    try {
+      var currentLocation = await _location.getLocation();
+      print(
+          "Latitude: ${currentLocation.latitude}, Longitude: ${currentLocation.longitude}");
+      return {
+        'longitude': currentLocation.longitude,
+        'latitude': currentLocation.latitude,
+      };
+    } catch (e) {
+      print("Erreur: $e");
+
+      return {'longitude': 0.0, 'latitude': 0.0};
     }
   }
 }

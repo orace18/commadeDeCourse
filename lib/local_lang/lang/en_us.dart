@@ -18,6 +18,7 @@ const en_US = {
   'register_info':'',
   'firtname':'',
   'lastname':'',
-  'phone_number':'Phone number'
+  'phone_number':'Phone number',
+  'tasks':'Demandes',
 
 };

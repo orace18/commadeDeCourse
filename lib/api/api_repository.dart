@@ -1,8 +1,5 @@
-// Create repository class using hive and getConnect
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'api_client.dart';
 import 'auth/auth_api_controller.dart';
 import 'dart:developer';

@@ -1,11 +1,10 @@
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
-import '../../constants.dart';
-import '../../providers/theme/theme.dart';
-import '../home_page/index.dart';
-import 'controllers/listconducteur_controller.dart';
+import 'package:otrip/providers/theme/theme.dart';
+import 'controllers/parrainage_list_conducteur_controller.dart';
 
 class ListConducteurPage extends GetWidget<ListConducteurController> {
   @override
@@ -47,7 +46,7 @@ class ListConducteurPage extends GetWidget<ListConducteurController> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 60.0),
+                            padding: const EdgeInsets.only(bottom: 50.0),
                             child: Container(
                               margin: EdgeInsets.only(left: 30),
                               child: Column(
@@ -58,7 +57,7 @@ class ListConducteurPage extends GetWidget<ListConducteurController> {
                                     "La liste des conducteurs",
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -70,14 +69,34 @@ class ListConducteurPage extends GetWidget<ListConducteurController> {
                     ),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: 3,
                     child: ListView.builder(
                       itemCount: controller.people.length,
                       itemBuilder: (context, index) {
                         final person = controller.people[index];
-                        return ListTile(
-                          title: Text('${person.firstName} ${person.lastName}'),
-                          subtitle: Text(person.phoneNumber),
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey), 
+                            borderRadius: BorderRadius.circular(8.0), 
+                            color: Colors.grey[200], 
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10.0), 
+                          padding: EdgeInsets.all(0),
+                          child: ListTile(
+                            title: Text(
+                              '${person.firstName} ${person.lastName}',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                              ),
+                              ),
+                            subtitle: Text(
+                              person.phoneNumber,
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
                         );
                       },
                     ),

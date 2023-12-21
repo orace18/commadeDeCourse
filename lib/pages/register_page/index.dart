@@ -1,14 +1,15 @@
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
+import 'package:otrip/pages/add_user_page/forms/register_user_form.dart';
+import 'package:otrip/pages/register_page/controllers/register_controller.dart';
 import 'package:otrip/pages/register_page/forms/register_form.dart';
 import '../../providers/theme/theme.dart';
 import '../profile_page/widgets/clipper.dart';
-import 'controllers/register_controller.dart';
+
 
 class RegisterPage extends GetWidget<RegisterController> {
-  final RegisterController registerController = RegisterController();
+  //final RegisterController registerController = RegisterController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class RegisterPage extends GetWidget<RegisterController> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: defaultPadding),
-                            child: RegisterForm(registerController: registerController),
+                            child: AddUserForm(),
                           ),
                         ),
                       ),

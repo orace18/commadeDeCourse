@@ -16,19 +16,19 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
       "role_details": "merchant_details".tr
     },
     {
-      "id": 3,
+      "id": 2,
       "title": "driver".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "driver_details".tr
     },
     {
-      "id": 4,
+      "id": 3,
       "title": "passenger".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "passenger_details".tr
     },
     {
-      "id": 5,
+      "id": 4,
       "title": "society".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "society_details".tr
@@ -152,7 +152,7 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
                     onPressed: () {
                       controller.setSelectedRole(role["id"]);
                       print(controller.selectedRoleId.value);
-                      Get.toNamed("/register",
+                      Get.toNamed("/add_user",
                           arguments: {"role_id": role["id"]});
                       print("Le role id est: ${role['id']}");
                       //Get.toNamed("/register",arguments: {"role_id" : role["id"]});
