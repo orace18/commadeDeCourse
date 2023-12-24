@@ -87,13 +87,13 @@ class MenuScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        _listText("role".tr, Icons.person),
+                        _listText("role".tr, Icons.person,'/role_choose'),
 
-                        _listText("wallet".tr, Icons.wallet),
+                        _listText("wallet".tr, Icons.wallet,'/wallet_recharge'),
 
-                        _listText("assistance".tr, Icons.assignment_late_sharp),
+                        _listText("assistance".tr, Icons.assignment_late_sharp, '/support'),
 
-                        _listText("settings".tr, Icons.settings),
+                        _listText("settings".tr, Icons.settings, '/settings'),
                       ],
                     ),
                   ),
@@ -106,8 +106,12 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _listText(String _text, IconData _iconData) {
-    return Padding(
+  Widget _listText(String _text, IconData _iconData, String routes) {
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(routes);
+      },
+   child: Padding(
       padding: EdgeInsets.only(),
       child: Column(
         children: [
@@ -140,9 +144,13 @@ class MenuScreen extends StatelessWidget {
           Divider(height: 2, color: Colors.black,)
         ],
       ),
+    )
     );
   }
 }
+
+
+
 
 class MenuItem {
   String title;

@@ -1,25 +1,56 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
+import 'package:otrip/pages/assistance_page/controllers/assistance_binding.dart';
+import 'package:otrip/pages/assistance_page/index.dart';
+import 'package:otrip/pages/course_page/controllers/course_binding.dart';
+import 'package:otrip/pages/course_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver_menu.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/widgets/machand_menu.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/passager_menu.dart';
+import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
- import 'package:otrip/pages/map_page/index.dart';
-//import 'package:otrip/pages/other_map_page/index.dart';
-
+import 'package:otrip/pages/map_page/index.dart';
+import 'package:otrip/pages/newMap_page/controllers/newMap_binding.dart';
+import 'package:otrip/pages/newMap_page/index.dart';
+import 'package:otrip/pages/notifications_page/controllers/notification_binding.dart';
+import 'package:otrip/pages/notifications_page/index.dart';
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
 import 'package:otrip/pages/onboarding_page/index.dart';
-
 import 'package:otrip/pages/connexion_page/controllers/connexion_binding.dart';
 import 'package:otrip/pages/connexion_page/index.dart';
+import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_binding.dart';
+import 'package:otrip/pages/parrainage_demange_page/index.dart';
+import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_bindings.dart';
+import 'package:otrip/pages/passager_demande_page/index.dart';
 import 'package:otrip/pages/profile_edit_company_page/controllers/profile_edit_company_binding.dart';
 import 'package:otrip/pages/profile_edit_company_page/index.dart';
 import 'package:otrip/pages/profile_edit_contact_address_page/controllers/profile_edit_contact_address_binding.dart';
 import 'package:otrip/pages/profile_edit_contact_address_page/index.dart';
 import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_info_binding.dart';
 import 'package:otrip/pages/profile_edit_info_page/index.dart';
+import 'package:otrip/pages/profile_edit_info_page/profileConducteur_edit.dart';
+import 'package:otrip/pages/profile_edit_info_page/profileMarchand_edit.dart';
 import 'package:otrip/pages/profile_edit_seats_page/controllers/profile_edit_seats_binding.dart';
 import 'package:otrip/pages/profile_edit_seats_page/index.dart';
+import 'package:otrip/pages/profile_page/conducteur_profile.dart';
+import 'package:otrip/pages/profile_page/controllers/conducteur_binding.dart';
+import 'package:otrip/pages/profile_page/controllers/marchand_binding.dart';
+import 'package:otrip/pages/profile_page/passager_profile.dart';
+import 'package:otrip/pages/profile_page/marchand_profile.dart';
+import 'package:otrip/pages/role_choose_page/controllers/role_choose_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/driver_page/controllers/driver_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/driver_page/index.dart';
+import 'package:otrip/pages/role_choose_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/controller/marchand_binding.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/index.dart';
+import 'package:otrip/pages/liste_page/conducteur_liste_page/controllers/parrainage_list_conducteur_binding.dart';
 import 'package:otrip/pages/role_page/controllers/role_binding.dart';
 import 'package:otrip/pages/role_page/index.dart';
+import 'package:otrip/pages/liste_page/conducteur_liste_page/index.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
@@ -32,6 +63,8 @@ import 'package:otrip/pages/wallet_recharge_page/index.dart';
 import '../pages/login_page/controllers/login_binding.dart';
 import '../pages/login_page/index.dart';
 import '../pages/otp_page/index.dart';
+import '../pages/profile_edit_info_page/controllers/profile_edit_conducteur_binding.dart';
+import '../pages/profile_edit_info_page/controllers/profile_edit_marchand_binding.dart';
 import '../pages/register_page/controllers/register_binding.dart';
 import '../pages/register_page/index.dart';
 import '../pages/activities_page/controllers/activities_binding.dart';
@@ -44,7 +77,6 @@ import '../pages/home_page/controllers/home_binding.dart';
 import '../pages/home_page/index.dart';
 import '../pages/otp_page/controllers/otp_binding.dart';
 import '../pages/profile_page/controllers/profile_binding.dart';
-import '../pages/profile_page/index.dart';
 import '../pages/splash_page/controllers/splash_binding.dart';
 import '../pages/splash_page/index.dart';
 
@@ -53,7 +85,13 @@ class AppRouter {
     GetPage(
       name: '/',
       page: () => HomePage(),
-      bindings: [HomeBinding(), DashboardBinding(), ActivitiesBinding(), CustomersBinding(), ProfileBinding()],
+      bindings: [
+        HomeBinding(),
+        DashboardBinding(),
+        ActivitiesBinding(),
+        CustomersBinding(),
+        ProfileBinding()
+      ],
     ),
     GetPage(
       name: '/splash',
@@ -110,7 +148,6 @@ class AppRouter {
       page: () => ProfilePage(),
       binding: ProfileBinding(),
     ),
-
     GetPage(
       name: '/onboarding',
       page: () => OnboardingPage(),
@@ -166,6 +203,96 @@ class AppRouter {
       page: () => WalletRechargePage(),
       binding: WalletRechargeBinding(),
     ),
-
+    GetPage(
+      name: '/new_map',
+      page: () => NewMapPage(),
+      binding: NewMapBinding(),
+    ),
+    GetPage(
+      name: '/role_choose',
+      page: () => RoleChoosePage(),
+      binding: RoleChooseBinding(),
+    ),
+    GetPage(
+      name: '/marchand',
+      page: () => MarchandPage(),
+      binding: MarchandBinding(),
+    ),
+    GetPage(
+      name: '/demande_conducteur',
+      page: () => DemandePage(),
+      binding: DemandeBinding(),
+    ),
+    GetPage(
+      name: '/assistance',
+      page: () => AssistancePage(),
+      binding: AssistanceBinding(),
+    ),
+    GetPage(
+      name: '/listConducteur',
+      page: () => ListConducteurPage(),
+      binding: ListConducteurBinding(),
+    ),
+    GetPage(
+      name: '/driver',
+      page: () => DriverPage(),
+      binding: DriverBinding(),
+    ),
+    GetPage(
+      name: '/passager',
+      page: () => PassagerPage(),
+      binding: PassagerBinding(),
+    ),
+    GetPage(
+      name: '/notification',
+      page: () => NotificationPage(),
+      binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: '/demande_passager',
+      page: () => PassagerDemandePage(),
+      binding: PassagerDemandeBinding(),
+    ),
+    GetPage(
+      name: '/course',
+      page: () => CoursePage(),
+      binding: CourseBinding(),
+    ),
+    GetPage(
+      name: '/driver_menu',
+      page: () => DriverMenu(),
+    ),
+    GetPage(
+      name: '/marchand_menu',
+      page: () => MarchandMenu(),
+    ),
+    GetPage(
+      name: '/passager_menu',
+      page: () => PassagerMenu(),
+    ),
+    GetPage(
+      name: '/profile_marchand',
+      page: () => MerchantProfilePage(),
+      binding: MerchantProfileBinding(),
+    ),
+    GetPage(
+      name: '/profile_conducteur',
+      page: () => DriverProfilePage(),
+      binding: DriverProfileBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_marchand',
+      page: () => ProfileEditMerchantPage(),
+      binding: ProfileEditMarchandBinding(),
+    ),
+    GetPage(
+      name: '/profile_edit_conducteur',
+      page: () => ProfileEditDriverPage(),
+      binding: ProfileEditDriverBinding(),
+    ),
+    GetPage(
+      name: '/parrainage',
+      page: () => MarchandListPage(),
+    ),
   ];
 }

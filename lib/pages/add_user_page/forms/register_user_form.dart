@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
+import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_controller.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import '../../../api/auth/auth_api_client.dart';
 import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
 class AddUserForm extends GetWidget<AddUserController> {
-  const AddUserForm({Key? key}) : super(key: key);
+  AddUserForm({Key? key}) : super(key: key);
+  AddUserController addUserController = AddUserController();
+  MarchandService marchandService = MarchandService();
 
   @override
   Widget build(BuildContext context) {
@@ -181,9 +183,22 @@ class AddUserForm extends GetWidget<AddUserController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
               child: Obx(() =>ElevatedButton(
-                  onPressed: (){
+                  onPressed: ()async{
+
+                    Map<String, double?> positionsNullable = await addUserController.getPostion();
+                    Map<String, double> positions = positionsNullable.map((key, value) => MapEntry(key, value!));
+
                     if (controller.isButtonEnabled.value){
-                      registerRequest();
+                     addUserController.getPostion();
+                     marchandService.getAllMarchand();
+                     addUserController.registerRequest(
+                      addUserController.roleId,
+                       controller.usernameFieldKey.currentState!.value,
+                        controller.firstnameFieldKey.currentState!.value, 
+                        controller.lastnameFieldKey.currentState!.value, 
+                        controller.mobileFieldKey.currentState!.value, 
+                        controller.passwordFieldKey.currentState!.value, 
+                        positions);
                     }
                   },
                   child: Text('Register'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
@@ -201,15 +216,5 @@ class AddUserForm extends GetWidget<AddUserController> {
         ),
       ),
     );
-  }
-
-  // Fonction pour register
-  void registerRequest(){
-    String? firstname = controller.firstnameFieldKey.currentState?.value.toString();
-    String? lastname = controller.lastnameFieldKey.currentState?.value.toString();
-    String? username = controller.usernameFieldKey.currentState?.value.toString();
-    String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
-    String? password = controller.passwordFieldKey.currentState?.value.toString();
-    AuthApiClient().register(username!, firstname!, lastname!, phone_number!, "+229", 1, password!);
   }
 }

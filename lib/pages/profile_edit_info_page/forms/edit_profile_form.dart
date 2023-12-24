@@ -16,6 +16,7 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> userData = controller.getUserData();
     return Container(
       child: FormBuilder(
         key: controller.formKey,
@@ -28,32 +29,25 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
                 name: 'fullname',
-                initialValue: "John Doe Deneiro",
-                enabled: false,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                initialValue:
+                    "${userData['firstname']} ${userData['lastname']}",
+                enabled: true,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                          width: 0.5
-                      )
-                  ),
-                  hintText: 'fullname'.tr,
-                  icon: Icon(Icons.person)
-                ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: defaultPadding,
+                        horizontal: defaultPadding * 2),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide(width: 0.5)),
+                    hintText: 'fullname'.tr,
+                    icon: Icon(Icons.person)),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                    errorText: 'field_required'.tr
-                  ),
-                  FormBuilderValidators.minLength(
-                    4,
-                      errorText: 'string_too_short'.tr
-                  ),
-                  FormBuilderValidators.maxLength(
-                      50,
-                      errorText: 'string_too_long'.tr
-                  ),
+                      errorText: 'field_required'.tr),
+                  FormBuilderValidators.minLength(4,
+                      errorText: 'string_too_short'.tr),
+                  FormBuilderValidators.maxLength(50,
+                      errorText: 'string_too_long'.tr),
                 ]),
               ),
             ),
@@ -61,23 +55,18 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderPhoneField(
-                enabled: false,
+                enabled: true,
                 name: 'phone_number',
-                initialValue: "22960000000",
-                inputFormatters: [
-
-                ],
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                initialValue: "${userData['phone_number']}",
+                inputFormatters: [],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  border: OutlineInputBorder(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  hintText: 'phone_number'.tr,
-                  icon: Icon(
-                    Icons.phone
-                  )
-                ),
+                    ),
+                    hintText: 'phone_number'.tr,
+                    icon: Icon(Icons.phone)),
                 priorityListByIsoCode: ['BJ'],
                 defaultSelectedCountryIsoCode: 'BJ',
                 validator: FormBuilderValidators.compose([
@@ -92,22 +81,48 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
             defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'location',
+                initialValue: "",
+                enabled: true,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: defaultPadding,
+                        horizontal: defaultPadding * 2),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide(width: 0.5)),
+                    hintText: 'Adresse',
+                    icon: Icon(Icons.map)),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'field_required'.tr),
+                ]),
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderRadioGroup(
                 name: 'sex',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  border: OutlineInputBorder(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  hintText: 'sex'.tr,
-                  icon: Icon(
-                    Icons.male
-                  )
-                ),
+                    ),
+                    hintText: 'sex'.tr,
+                    icon: Icon(Icons.male)),
                 options: [
-                  FormBuilderFieldOption(value: "M", child: Text("male".tr),),
-                  FormBuilderFieldOption(value: "F", child: Text("female".tr),),
+                  FormBuilderFieldOption(
+                    value: "M",
+                    child: Text("male".tr),
+                  ),
+                  FormBuilderFieldOption(
+                    value: "F",
+                    child: Text("female".tr),
+                  ),
                 ],
               ),
             ),
@@ -120,13 +135,13 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                 //format: DateFormat('dd/MM/yyyy'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
-                  border: OutlineInputBorder(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 0, horizontal: defaultPadding),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  hintText: 'birthday'.tr,
-                  icon: Icon(Icons.calendar_month)
-                ),
+                    ),
+                    hintText: 'birthday'.tr,
+                    icon: Icon(Icons.calendar_month)),
               ),
             ),
             defaultSizedBox,
@@ -134,7 +149,11 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
               thickness: 1,
             ),
             defaultSizedBox,
-            Text("edit_profile_add_doc".tr, style: TextStyle(color: Colors.grey), textAlign: TextAlign.left  ,),
+            Text(
+              "edit_profile_add_doc".tr,
+              style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.left,
+            ),
             defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
@@ -142,13 +161,13 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                 name: 'document_type',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 0, horizontal: defaultPadding),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     hintText: 'document_type'.tr,
-                    icon: Icon(Icons.inventory_outlined)
-                ),
+                    icon: Icon(Icons.inventory_outlined)),
                 items: [
                   DropdownMenuItem(
                     value: "Passport",
@@ -168,45 +187,37 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                 name: 'document_number',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: defaultPadding),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 0, horizontal: defaultPadding),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     hintText: 'document_number'.tr,
-                    icon: Icon(Icons.inventory_outlined)
-                ),
+                    icon: Icon(Icons.inventory_outlined)),
               ),
             ),
             defaultSizedBox,
-
             GestureDetector(
-              onTap: ()async{
-                FilePickerResult? result = await FilePicker
-                    .platform
-                    .pickFiles(
+              onTap: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
                   type: FileType.image,
                 );
                 if (result != null &&
-                    (result.files.first.extension ==
-                        "jpg" ||
-                        result.files.first.extension ==
-                            "jpeg" ||
-                        result.files.first.extension ==
-                            "png" ||
-                        result.files.first.extension ==
-                            "gif") &&
-                    result.files.first.size <=
-                        4194304) {
-                  controller.imagePath.value =
-                  result.files.single.path!;
+                    (result.files.first.extension == "jpg" ||
+                        result.files.first.extension == "jpeg" ||
+                        result.files.first.extension == "png" ||
+                        result.files.first.extension == "gif") &&
+                    result.files.first.size <= 4194304) {
+                  controller.imagePath.value = result.files.single.path!;
                 } else {
-                  Get.snackbar("Error",
-                      "Veillez selectionner une image de moins de 4Mo", snackPosition: SnackPosition.BOTTOM);
+                  Get.snackbar(
+                      "Error", "Veillez selectionner une image de moins de 4Mo",
+                      snackPosition: SnackPosition.BOTTOM);
                 }
               },
               child: Padding(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                   child: Container(
                     width: double.infinity,
                     height: 150,
@@ -216,27 +227,30 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                         ),
                         color: Colors.grey.shade300.withOpacity(.5),
                         borderRadius: BorderRadius.circular(10)),
-                    child:  controller.imagePath.value ==""? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.file_download_sharp,
-                          color: otripOrange,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'select_file'.tr,
-                          style: TextStyle(
-                              fontSize: 15, color: Colors.grey.shade400),
-                        ),
-                      ],
-                    ): Obx(() {
-                      return Image.file(
-                      File(controller.imagePath.value),
-                    );}),
+                    child: controller.imagePath.value == ""
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.file_download_sharp,
+                                color: otripOrange,
+                                size: 40,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                'select_file'.tr,
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.grey.shade400),
+                              ),
+                            ],
+                          )
+                        : Obx(() {
+                            return Image.file(
+                              File(controller.imagePath.value),
+                            );
+                          }),
                   )),
             ),
             Divider(
@@ -244,18 +258,39 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
             ),
             defaultSizedBox,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultPadding * 2),
               child: ElevatedButton(
-                child: Text('continue'.tr, style: TextStyle(color: /*controller.isButtonEnabled.value ? Colors.white :*/ Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  elevation: 0,
-                  backgroundColor: AppTheme.otripMaterial ,//: Colors.grey[300],
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
+                  child: Text(
+                    'continue'.tr,
+                    style: TextStyle(
+                        color: /*controller.isButtonEnabled.value ? Colors.white :*/
+                            Colors.black26,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
-                ), onPressed: () {  },
-              ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    elevation: 0,
+                    backgroundColor:
+                        AppTheme.otripMaterial, //: Colors.grey[300],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  onPressed: () {
+                    final form = controller.formKey.currentState;
+                    if (form != null && form.saveAndValidate()) {
+                      Map<String, dynamic> updatedData = {
+                        'firstname':
+                            form.fields['fullname']?.value.split(' ')[0],
+                        'lastname':
+                            form.fields['fullname']?.value.split(' ')[1],
+                        'phone_number': form.fields['phone_number']?.value,
+                      };
+                      controller.updateProfile(updatedData);
+                      Get.toNamed('/profile');
+                    }
+                  }),
             )
           ],
         ),
@@ -264,7 +299,7 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
   }
 
   // Fonction pour register
-  void registerRequest(){
+  void registerRequest() {
     print("logging");
   }
 }

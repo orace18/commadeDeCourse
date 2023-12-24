@@ -13,18 +13,21 @@ class OnboardingPage extends GetWidget<OnboardingController> {
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/74/e9/3kp0NqBN_o.png",
+      "img_local" : "assets/onboarding/onboarding_1.png",
     },
     {
       "title": "Lorem Ipsum",
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/90/f4/hGo1mjcP_o.png",
+      "img_local" : "assets/onboarding/onboarding_2.png",
     },
     {
       "title": "Lorem Ipsum",
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/ba/b8/mlYgzX2S_o.png",
+      "img_local" : "assets/onboarding/onboarding_3.png",
     },
   ];
 
@@ -94,8 +97,8 @@ class OnboardingPage extends GetWidget<OnboardingController> {
       image: Padding(
         padding: const EdgeInsets.only(
             top: 40.0, left: 15.0, right: 15.0, bottom: 15.0),
-        child: Image.network(
-          item['img'],
+        child: Image.asset(
+          item['img_local'],
         ),
       ),
       decoration: PageDecoration(
@@ -105,7 +108,6 @@ class OnboardingPage extends GetWidget<OnboardingController> {
           color: Colors.black12,
         ),
         bodyTextStyle: TextStyle(fontSize: 15.0, color: Colors.grey),
-//        ),
         pageColor: Colors.white,
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/wallet_recharge_page/forms/recharge_form.dart';
+import 'package:otrip/pages/wallet_recharge_page/forms/recharge_id_form.dart';
 import 'controllers/wallet_recharge_controller.dart';
 
 class WalletRechargePage extends GetWidget<WalletRechargeController> {
@@ -26,7 +27,12 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
                     Text('recharge_ways'.tr),
                     ElevatedButton(
                       child: Icon(Icons.add),
-                      onPressed: (){},
+                      onPressed: (){
+                        Get.defaultDialog(
+                          title: "new_recharge_id",
+                          content: RechargeIdForm(),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(40, 40),
                         shape: RoundedRectangleBorder(
@@ -37,9 +43,6 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
                   ],
                 ),
                 RechargeForm(),
-                Text('recharge_amount'.tr),
-
-
 
               ],
             ),

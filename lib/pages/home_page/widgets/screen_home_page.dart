@@ -46,11 +46,14 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                 }),
             actions: [
               badges.Badge(
+                badgeStyle: badges.BadgeStyle(
+                  badgeColor: Colors.pinkAccent
+                ),
                 badgeContent: Text("1", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                 position: badges.BadgePosition.topEnd(top: 5, end: 5),
                 child: IconButton(
                   icon: Icon(Icons.notifications),
-                  onPressed: () => Get.toNamed('/connexion'),
+                  onPressed: () => Get.toNamed('/notification'),
                 ),
               ),
             ]
