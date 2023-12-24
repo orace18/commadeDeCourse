@@ -10,8 +10,8 @@ class DrawClip extends CustomClipper<Path> {
     Path path = Path();
     path.lineTo(0, size.height * 0.8);
     double xCenter =
-        size.width * 0.5 + (size.width * 0.6 + 1) * math.sin(move * slice);
-    double yCenter = size.height * 0.8 + 69 * math.cos(move * slice);
+        size.width * 0.5 + (size.width * 0.7 + 1) * math.sin(move * slice);
+    double yCenter = size.height * 0.8 + 99 * math.cos(move * slice);
     path.quadraticBezierTo(xCenter, yCenter, size.width, size.height * 0.8);
 
     path.lineTo(size.width, 0);

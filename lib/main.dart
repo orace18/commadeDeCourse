@@ -3,6 +3,7 @@ import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'providers/theme/theme.dart';
 import 'providers/theme/theme_provider.dart';
 import 'routers/routes.dart';
@@ -36,8 +37,9 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeProvider.theme,
-        initialRoute: '/settings',
+        initialRoute: '/splash',
         getPages: AppRouter.routes,
+        
       // supportedLocales: const [...FormBuilderLocalizations.supportedLocales],
       localizationsDelegates: const [
         // GlobalMaterialLocalizations.delegate,

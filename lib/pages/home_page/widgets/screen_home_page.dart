@@ -53,7 +53,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                 position: badges.BadgePosition.topEnd(top: 5, end: 5),
                 child: IconButton(
                   icon: Icon(Icons.notifications),
-                  onPressed: () => Get.toNamed('/connexion'),
+                  onPressed: () => Get.toNamed('/notification'),
                 ),
               ),
             ]

@@ -87,13 +87,13 @@ class MenuScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        _listText("role".tr, Icons.person, "/settings"),
+                        _listText("role".tr, Icons.person,'/role_choose'),
 
-                        _listText("wallet".tr, Icons.wallet, "/settings"),
+                        _listText("wallet".tr, Icons.wallet,'/wallet_recharge'),
 
-                        _listText("assistance".tr, Icons.assignment_late_sharp, "/settings"),
+                        _listText("assistance".tr, Icons.assignment_late_sharp, '/support'),
 
-                        _listText("settings".tr, Icons.settings, "/settings"),
+                        _listText("settings".tr, Icons.settings, '/settings'),
                       ],
                     ),
                   ),
@@ -106,28 +106,27 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _listText(String _text, IconData _iconData, String route) {
+  Widget _listText(String _text, IconData _iconData, String routes) {
     return GestureDetector(
-      onTap: (){
-        Get.toNamed(route);
+      onTap: () {
+        Get.toNamed(routes);
       },
-      child: Padding(
-        padding: EdgeInsets.only(),
-        child: Column(
-          children: [
-            Row(
-              children: <Widget>[
-                Container(
-                  height: 45.0,
-                  width: 45.0,
-                  decoration: BoxDecoration(),
-                  child: Center(
-                    child: Icon(
-                      _iconData,
-                      color: Colors.black38,
-                    ),
+   child: Padding(
+      padding: EdgeInsets.only(),
+      child: Column(
+        children: [
+          Row(
+            children: <Widget>[
+              Container(
+                height: 45.0,
+                width: 45.0,
+                decoration: BoxDecoration(),
+                child: Center(
+                  child: Icon(
+                    _iconData,
+                    color: Colors.black38,
                   ),
-                ),
+                ),),
                 SizedBox(
                   width: 10.0,
                 ),
@@ -148,6 +147,9 @@ class MenuScreen extends StatelessWidget {
     );
   }
 }
+
+
+
 
 class MenuItem {
   String title;

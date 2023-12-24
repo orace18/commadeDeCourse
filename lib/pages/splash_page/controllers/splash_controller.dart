@@ -14,7 +14,7 @@ class SplashController extends GetxController{
     setIsInSplashScreen(true);
     Future.delayed(Duration(seconds: 5), () {
       initLocale();
-      Get.offNamed('/connexion');
+      Get.offNamed('/onboarding');
     });
     setIsInSplashScreen(false);
   }
