@@ -131,7 +131,7 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
 
   void storeRechargeId(){
     List<dynamic> phoneNumbersList = [];
-    final box = GetStorage('Otrip');
+    final box = GetStorage();
 
     if(controller.recharge_way_add.currentState?.value.toString() == "mtn") {
       phoneNumbersList = box.read<List<dynamic>>('mtn_phone_numbers') ?? [];
@@ -158,7 +158,7 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
   }
 
   void cleanBox(){
-    final box = GetStorage('Otrip');
+    final box = GetStorage();
     box.erase();
     print("box cleared");
   }

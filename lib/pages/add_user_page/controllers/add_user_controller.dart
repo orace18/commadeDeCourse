@@ -6,6 +6,8 @@ import 'package:location/location.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/api/auth/auth_api_controller.dart';
 
+import '../../../constants.dart';
+
 class AddUserController extends GetxController {
   
   final formKey = GlobalKey<FormBuilderState>();
@@ -62,30 +64,11 @@ class AddUserController extends GetxController {
           userData.write('username', username);
           userData.write('phone_number', phoneNumber);
           userData.write('password', password);
-          userData.write('user_role', roleId.toString());
+          userData.write('user_role', roleId);
       }
     } catch (e) {
       print("Error during registration: $e");
     }
 }
-
-  void navigateToHome(int roleId){
-    switch (roleId) {
-      case 1:
-        Get.toNamed("/marchand");
-        break;
-      case 2:
-        Get.toNamed("/driver");
-        break;
-      case 3:
-        Get.toNamed("/passager");
-        break;
-      case 4:
-        Get.toNamed("/");
-        break;
-      default:
-        break;
-    }
-  }
 
 }

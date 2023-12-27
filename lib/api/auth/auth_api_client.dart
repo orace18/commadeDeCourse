@@ -207,8 +207,10 @@ class AuthApiClient extends GetConnect {
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
+        GetStorage('user_infos').write('access_token', response.body['data']['token']);
         returnSuccess(response.body['message']);
-        getUserData(mobileNumber);
+        var userData = await getUserData(mobileNumber);
+        navigateToHome(userData['role_id']);
         return true;
       } else {
         returnError(response.body['message']);
@@ -287,6 +289,7 @@ Future<void> signIn(String phoneNumber, String password) async {
       userData.write('username', user['username']);
       userData.write('phone_number', user['phone_number']);
       userData.write('user_role', user['role_id']);
+      userData.write('access_token', response.body['data']['token']);
 
       print("Connecté avec succès!");
     } else {

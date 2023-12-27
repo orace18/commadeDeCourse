@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController{
   final isInSplashScreen = false.obs;
+  final box = GetStorage();
 
   setIsInSplashScreen(bool value) {
     isInSplashScreen(value);
@@ -14,7 +15,16 @@ class SplashController extends GetxController{
     setIsInSplashScreen(true);
     Future.delayed(Duration(seconds: 5), () {
       initLocale();
-      Get.offNamed('/onboarding');
+      var onboarded = box.read<bool>('onboarding') ?? false;
+      var loggedIn = box.read<String>('token');
+      if(loggedIn != null){
+        Get.offNamed('/connexion');
+      } else if(onboarded){
+        Get.offNamed('/connexion');
+      } else {
+        Get.offNamed('/onboarding');
+      }
+
     });
     setIsInSplashScreen(false);
   }
