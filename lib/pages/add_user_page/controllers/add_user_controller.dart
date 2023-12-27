@@ -56,7 +56,7 @@ class AddUserController extends GetxController {
       Get.find<AuthController>().setAuthenticated(true);
       Get.find<AuthController>().setUserData(userData);  */
 
-          final userData = GetStorage();
+          final userData = GetStorage('user_infos');
           userData.write('firstname', firstname);
           userData.write('lastname', lastname);
           userData.write('username', username);

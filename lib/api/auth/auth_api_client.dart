@@ -265,28 +265,28 @@ class AuthApiClient extends GetConnect {
 
 
 Future<void> signIn(String phoneNumber, String password) async {
-  final String loginUrl = baseUrl+'login';
+  final String apiUrl = baseUrl+'login';
 
   final response = await post(
-    loginUrl,{'mobile_number': phoneNumber, 'password': password},
+    apiUrl,
+    {'mobile_number': phoneNumber, 'password': password},
   );
 
-  if (response.statusCode == 200) {
-    Map<String, dynamic> responseData = json.decode(response.body);
-
+  if (response.statusCode == 201) {
+    Map<String, dynamic> responseData = response.body;
     // Affichez le contenu de la réponse dans la console de débogage
     print("Réponse du serveur: $responseData");
 
     if (responseData['success'] == true) {
-      returnError(response.body['message']);
+      returnSuccess(response.body['message']);
       print("Connecté avec succès!");
     } else {
       print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
     }
   } else {
-    returnError(response.body['message']);
     print("Erreur lors de la communication avec le serveur. Code d'erreur: ${response.statusCode}");
     print("Contenu de la réponse: ${response.body}");
+    returnError(response.body['message']);
   }
 }
 

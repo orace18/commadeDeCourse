@@ -114,6 +114,6 @@ class LoginForm extends GetWidget<LoginController> {
     String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
     String? password = controller.passwordFieldKey.currentState?.value.toString();
     print(phone_number);
-    AuthApiClient().login(phone_number!, password!);
+    AuthApiClient().signIn(phone_number!, password!);
   }
 }
