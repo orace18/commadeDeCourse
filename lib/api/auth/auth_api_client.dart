@@ -19,6 +19,24 @@ class AuthApiClient extends GetConnect {
     });
   }
 
+  void returnError(String error){
+    Get.snackbar(
+        "error".tr,
+        error,
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+    );
+  }
+
+  void returnSuccess(String success){
+    Get.snackbar(
+        "success".tr,
+        success,
+      colorText: Colors.white,
+      backgroundColor: Colors.green,
+    );
+  }
+
   Future<Map<String, dynamic>> login(String phone, String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, String> body = {'mobile_number': phone, 'password': password};
@@ -27,8 +45,10 @@ class AuthApiClient extends GetConnect {
     print(response.statusCode);
     if (response.status.hasError) {
       if (response.status.code == 401) {
+        returnError(response.body['message']);
         throw Exception("invalid_credentials".tr);
       } else {
+        returnError(response.body['message']);
         throw Exception('connection_error'.tr);
       }
     } else if (response.body is Map) {
@@ -37,8 +57,10 @@ class AuthApiClient extends GetConnect {
       } catch (e) {
         print("error: $e");
       }
+      returnSuccess(response.body['message']);
       return response.body;
     } else {
+      returnError(response.body['message']);
       throw Exception('Response is not a Map');
     }
   }
@@ -49,7 +71,9 @@ class AuthApiClient extends GetConnect {
       String name,
       String lastname,
       String mobileNumber,
-      String phoneCode, int countryId, String password) async {
+      String phoneCode,
+      int countryId,
+      String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, dynamic> body = {
       'role_id': role,
@@ -151,7 +175,7 @@ class AuthApiClient extends GetConnect {
     Map<String, double> positions,
 
   ) async {
-    String registerUrl = baseUrl + "api/register";
+    String registerUrl = baseUrl + "register";
 
     String body = jsonEncode({
       'role_id': role,
@@ -167,23 +191,27 @@ class AuthApiClient extends GetConnect {
     print("Le body: ${body}");
 
     try {
-      final response = await http.post(
-        Uri.parse(registerUrl),
-        body: body,
-        headers: {'Content-Type': 'application/json'},
+      final response = await post(
+        registerUrl,
+        body,
       );
 
       print("code status: ${response.statusCode}");
 
       if (response.statusCode == 401) {
+        returnError(response.body['message']);
         throw Exception("invalid_credentials".tr);
+
       } else if (response.statusCode == 400) {
+        returnError(response.body['message']);
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
+        returnSuccess(response.body['message']);
         getUserData(mobileNumber);
         return true;
       } else {
+        returnError(response.body['message']);
         throw Exception('connection_error'.tr);
       }
     } catch (e) {
@@ -237,11 +265,10 @@ class AuthApiClient extends GetConnect {
 
 
 Future<void> signIn(String phoneNumber, String password) async {
-  final String apiUrl = baseUrl+'api/login';
+  final String loginUrl = baseUrl+'login';
 
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    body: {'mobile_number': phoneNumber, 'password': password},
+  final response = await post(
+    loginUrl,{'mobile_number': phoneNumber, 'password': password},
   );
 
   if (response.statusCode == 200) {
@@ -251,11 +278,13 @@ Future<void> signIn(String phoneNumber, String password) async {
     print("Réponse du serveur: $responseData");
 
     if (responseData['success'] == true) {
+      returnError(response.body['message']);
       print("Connecté avec succès!");
     } else {
       print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
     }
   } else {
+    returnError(response.body['message']);
     print("Erreur lors de la communication avec le serveur. Code d'erreur: ${response.statusCode}");
     print("Contenu de la réponse: ${response.body}");
   }

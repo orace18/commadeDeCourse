@@ -135,15 +135,26 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
 
     if(controller.recharge_way_add.currentState?.value.toString() == "mtn") {
       phoneNumbersList = box.read<List<dynamic>>('mtn_phone_numbers') ?? [];
-      phoneNumbersList.add(controller.phone_number.currentState?.value);
-      box.write('mtn_phone_numbers', phoneNumbersList);
+      var newPhoneNumber = controller.phone_number.currentState?.value;
+
+      if(!phoneNumbersList.contains(controller.phone_number.currentState?.value)){
+        phoneNumbersList.add(controller.phone_number.currentState?.value);
+        box.write('mtn_phone_numbers', phoneNumbersList);
+      } else {
+        Get.snackbar("Attention !", "Numero deja ajouté");
+      }
+
     } else {
       phoneNumbersList = box.read<List<dynamic>>('moov_phone_numbers') ?? [];
-      phoneNumbersList.add(controller.phone_number.currentState?.value);
-      box.write('moov_phone_numbers', phoneNumbersList);
+
+      if(!phoneNumbersList.contains(controller.phone_number.currentState?.value)){
+        phoneNumbersList.add(controller.phone_number.currentState?.value);
+        box.write('moov_phone_numbers', phoneNumbersList);
+      } else {
+        Get.snackbar("Attention !", "Numero deja ajouté");
+      }
     }
 
-    print(phoneNumbersList);
   }
 
   void cleanBox(){
@@ -151,6 +162,5 @@ class RechargeIdForm extends GetWidget<WalletRechargeController> {
     box.erase();
     print("box cleared");
   }
-
 
 }

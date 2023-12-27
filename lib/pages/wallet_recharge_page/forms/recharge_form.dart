@@ -136,6 +136,7 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               child: FormBuilderTextField(
+                key: controller.recharge_amount,
                 name: "amount",
                 keyboardType: TextInputType.number,
                 onChanged: (value){
@@ -189,7 +190,7 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
                       "recharge".tr,
                     ),
                     onPressed: (){
-
+                      controller.rechargeWallet();
                     },
                   ),
                 );
@@ -201,12 +202,4 @@ class RechargeForm extends GetWidget<WalletRechargeController> {
     );
   }
 
-  void rechargeWallet(){
-    String email = "makandjou3000@gmail.com";
-    String country = "bj";
-    String network = controller.recharge_way.val.toString();
-    String phoneNumber = controller.recharge_phone_number.val.toString();
-    double amount = double.parse(controller.recharge_amount.val.toString());
-    FedaApi().createTransaction(email, country, network, phoneNumber, amount);
-  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otrip/api/fedapay/feda.dart';
 
 class WalletRechargeController extends GetxController {
   void navigateBack() => Get.back();
@@ -38,6 +39,15 @@ class WalletRechargeController extends GetxController {
       List<dynamic> temp = box.read<List<dynamic>>('moov_phone_numbers') ?? [];
       recharge_phone_numbers.value = temp.obs;
     }
+  }
+
+  void rechargeWallet(){
+    String email = "makandjou3000@gmail.com";
+    String country = "bj";
+    String? network = recharge_way.currentState?.value.toString();
+    String? phoneNumber = recharge_phone_number.currentState?.value.toString();
+    double amount = double.parse(recharge_amount.currentState!.value.toString());
+    FedaApi().createRedirectTransaction(email, country, network!, phoneNumber!, amount);
   }
 
 }

@@ -12,7 +12,7 @@ class FedaApi {
     // Récupération du lien de paiement pour lantransaction afin de faire une redirection
     var transaction_link = await Feda.create_transaction(
       FedaTransactionRequest(
-          amount: amount,
+        amount: amount,
           clienMail: email,
           description: "Ma premiere trx feda",
           phone_number: {
