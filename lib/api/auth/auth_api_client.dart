@@ -279,6 +279,15 @@ Future<void> signIn(String phoneNumber, String password) async {
 
     if (responseData['success'] == true) {
       returnSuccess(response.body['message']);
+
+      var user = response.body['data']['user'];
+      final userData = GetStorage('user_infos');
+      userData.write('firstname', user['name']);
+      userData.write('lastname', user['lastname']);
+      userData.write('username', user['username']);
+      userData.write('phone_number', user['phone_number']);
+      userData.write('user_role', user['role_id']);
+
       print("Connecté avec succès!");
     } else {
       print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
