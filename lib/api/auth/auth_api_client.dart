@@ -207,9 +207,10 @@ class AuthApiClient extends GetConnect {
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
-        GetStorage('user_infos').write('access_token', response.body['data']['token']);
+        GetStorage().write('access_token', response.body['data']['token']);
         returnSuccess(response.body['message']);
         var userData = await getUserData(mobileNumber);
+
         navigateToHome(userData['role_id']);
         return true;
       } else {
@@ -224,10 +225,10 @@ class AuthApiClient extends GetConnect {
 
    Future<Map<String, dynamic>> getUserData(String phoneNumber) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/user/$phoneNumber'));
+      final response = await get('${baseUrl}user/$phoneNumber');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> userData = json.decode(response.body);
+        Map<String, dynamic> userData = response.body['data']['user'];
         print('L\'utilisateur est : ${userData}');
         return userData;
       } else {

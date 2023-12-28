@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otrip/constants.dart';
 
 class SplashController extends GetxController{
   final isInSplashScreen = false.obs;
@@ -16,9 +17,11 @@ class SplashController extends GetxController{
     Future.delayed(Duration(seconds: 5), () {
       initLocale();
       var onboarded = box.read<bool>('onboarding') ?? false;
-      var loggedIn = box.read<String>('token');
+      var loggedIn = box.read<String>('access_token');
+
       if(loggedIn != null){
-        Get.offNamed('/connexion');
+        int roleId = box.read('user_role');
+        navigateToHome(roleId);
       } else if(onboarded){
         Get.offNamed('/connexion');
       } else {
