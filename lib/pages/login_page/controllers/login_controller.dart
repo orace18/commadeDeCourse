@@ -18,5 +18,7 @@ class LoginController extends GetxController {
     updateButtonEnabled(formKey.currentState?.isValid ?? false);
   }
 
+  var phoneNumber = ''.obs;
+
   void navigateBack() => Get.back();
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_controller.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -11,8 +12,8 @@ import '../../../providers/theme/theme.dart';
 
 class AddUserForm extends GetWidget<AddUserController> {
   AddUserForm({Key? key}) : super(key: key);
-  AddUserController addUserController = AddUserController();
   MarchandService marchandService = MarchandService();
+  int maxNumLength = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -120,32 +121,63 @@ class AddUserForm extends GetWidget<AddUserController> {
             defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
-              child: FormBuilderPhoneField(
-                name: 'phone_number',
+              child: FormBuilderField(
+                name: "phone_number",
                 key: controller.mobileFieldKey,
-                onChanged: (value) {
+                builder: (FormFieldState<dynamic> field){
+                  return IntlPhoneField(
+                    // key: controller.mobileFieldKey,
+                    languageCode: "fr",
+                    //c000ontroller: controller.mobileFieldController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      hintText: 'phone_number'.tr,
+                    ),
+
+                    disableLengthCheck: true,
+                    initialCountryCode: 'BJ',
+                    onCountryChanged: (country){
+                      maxNumLength = country.maxLength;
+                    },
+                    autofocus: true,
+                    onChanged: (phone) {
+                      // field.didChange(controller.phoneNumber.value);
+                      field.didChange(phone.number.replaceAll(' ', ''));
+                      controller.phoneNumber.value = controller.mobileFieldKey.currentState?.value;
+                      controller.mobileFieldKey.currentState?.setValue(phone.number);
+                      print(controller.mobileFieldKey.currentState?.value);
+                    },
+                    // validator: (value) {
+                    //   if (value == null || value.number.isEmpty) {
+                    //     return "num_required".tr;
+                    //   } else if (value.number.length < maxNumLength) {
+                    //     return "num_too_short".tr;
+                    //   } else if (value.number.length > maxNumLength) {
+                    //     return "num_too_long".tr;
+                    //   }
+                    //   return null;
+                    // },
+                  );
+                },
+                autovalidateMode: AutovalidateMode.always,
+                onChanged: (value){
                   controller.validateField(controller.mobileFieldKey);
                 },
-                inputFormatters: [
-                ],
-                autovalidateMode: AutovalidateMode.disabled,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  hintText: 'phone_number'.tr,
-                ),
-                priorityListByIsoCode: ['BJ'],
-                defaultSelectedCountryIsoCode: 'BJ',
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
+                  FormBuilderValidators.required(
+                      errorText: 'number_required'.tr
+                  ),
+                  FormBuilderValidators.equalLength(
+                      maxNumLength,
+                      errorText: 'invalid_number'.tr
+                  ),
                 ]),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
@@ -167,13 +199,11 @@ class AddUserForm extends GetWidget<AddUserController> {
                   hintText: 'password'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
+
                   FormBuilderValidators.required(
                       errorText: 'field_required'.tr
                   ),
-                  FormBuilderValidators.minLength(
-                      8,
-                      errorText: 'string_too_short'.tr
-                  ),
+
                 ]),
               ),
             ),
@@ -185,19 +215,20 @@ class AddUserForm extends GetWidget<AddUserController> {
               child: Obx(() =>ElevatedButton(
                   onPressed: ()async{
 
-                    Map<String, double?> positionsNullable = await addUserController.getPostion();
+                    Map<String, double?> positionsNullable = await controller.getPostion();
                     Map<String, double> positions = positionsNullable.map((key, value) => MapEntry(key, value!));
 
                     if (controller.isButtonEnabled.value){
-                     addUserController.getPostion();
+                     controller.getPostion();
                      marchandService.getAllMarchand();
-                     addUserController.registerRequest(
-                      addUserController.roleId,
+                     controller.registerRequest(
+                      controller.roleId,
                        controller.usernameFieldKey.currentState!.value,
                         controller.firstnameFieldKey.currentState!.value, 
                         controller.lastnameFieldKey.currentState!.value, 
-                        controller.mobileFieldKey.currentState!.value, 
-                        controller.passwordFieldKey.currentState!.value, 
+                        controller.mobileFieldKey.currentState!.value,
+                        controller.passwordFieldKey.currentState!.value,
+                        "gg",
                         positions);
                     }
                   },

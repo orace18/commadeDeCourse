@@ -19,6 +19,7 @@ void main() async{
     DeviceOrientation.portraitUp
   ]);
   await GetStorage.init();
+  await GetStorage.init('user_infos');
   runApp(const MyApp());
 }
 

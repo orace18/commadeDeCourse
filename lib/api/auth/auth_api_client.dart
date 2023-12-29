@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 class AuthApiClient extends GetConnect {
   @override
   void onInit() {
+
     httpClient.baseUrl = baseUrl;
     httpClient.addRequestModifier<dynamic>((request) async {
       request.headers['Content-Type'] = 'application/json';
@@ -171,11 +172,19 @@ class AuthApiClient extends GetConnect {
     String name,
     String lastname,
     String mobileNumber,
+    String phoneCode,
     String password,
     Map<String, double> positions,
 
   ) async {
     String registerUrl = baseUrl + "register";
+    if (role == 1){
+
+    } else if (role == 2) {
+      registerUrl = baseUrl + "marchand/create";
+    } else if (role == 3) {
+      registerUrl = baseUrl + "conducteur/create";
+    }
 
     String body = jsonEncode({
       'role_id': role,
@@ -184,7 +193,7 @@ class AuthApiClient extends GetConnect {
       'lastname': lastname,
       'mobile_number': mobileNumber,
       'password': password,
-      'phone_code': '+229',
+      'phone_code': phoneCode,
       'positions': positions
     });
 
@@ -207,7 +216,8 @@ class AuthApiClient extends GetConnect {
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
-        GetStorage().write('access_token', response.body['data']['token']);
+        print(response.body);
+        GetStorage('user_infos').write('access_token', response.body['data']['token']);
         returnSuccess(response.body['message']);
         var userData = await getUserData(mobileNumber);
 
@@ -281,7 +291,6 @@ Future<void> signIn(String phoneNumber, String password) async {
     print("Réponse du serveur: $responseData");
 
     if (responseData['success'] == true) {
-      returnSuccess(response.body['message']);
 
       var user = response.body['data']['user'];
       final userData = GetStorage('user_infos');
@@ -291,7 +300,8 @@ Future<void> signIn(String phoneNumber, String password) async {
       userData.write('phone_number', user['phone_number']);
       userData.write('user_role', user['role_id']);
       userData.write('access_token', response.body['data']['token']);
-
+      returnSuccess(response.body['message']);
+      navigateToHome(user['role_id']);
       print("Connecté avec succès!");
     } else {
       print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
@@ -497,11 +507,45 @@ Future<void> signIn(String phoneNumber, String password) async {
 
   // For Logout
   Future<void> logout() async {
-    final box = GetStorage();
-    box.remove('access_token');
-    box.remove('refresh_token');
-    Get.snackbar('disconnection'.tr, 'disconnection_message'.tr,
-        backgroundColor: successColor, colorText: Colors.white);
-    Get.offAllNamed('/connexion');
+    String token = GetStorage('user_infos').read('access_token') ?? '';
+    final headers = {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    };
+
+    final response = await post(logoutUrl, {}, headers: headers);
+    print(response.body);
+    if (response.status.hasError) {
+      if (response.status.code == 401) {
+        returnError(response.body['message']);
+        throw Exception("invalid_credentials".tr);
+      } else {
+        returnError(response.body['message']);
+        throw Exception('connection_error'.tr);
+      }
+    } else if (response.status.code == 200) {
+      try {
+        // await cBox.clear();
+      } catch (e) {
+        print("error: $e");
+      }
+
+      final box = GetStorage('user_infos');
+      box.remove('access_token');
+      box.remove('refresh_token');
+      box.remove('firstname');
+      box.remove('lastname');
+      box.remove('username');
+      box.remove('phone_number');
+      box.remove('user_role');
+      box.remove('access_token');
+
+      returnSuccess(response.body['message']);
+      Get.offAllNamed('/connexion');
+      return response.body;
+    } else {
+      returnError(response.body['message']);
+      throw Exception('Response is not a Map');
+    }
   }
 }
