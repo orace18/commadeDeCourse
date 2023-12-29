@@ -1,12 +1,16 @@
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/api/conduteur/models/driver_list.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/providers/theme/theme.dart';
 import 'controllers/parrainage_list_conducteur_controller.dart';
 
 class ListConducteurPage extends GetWidget<ListConducteurController> {
+  final ListConducteurController _controller =
+      Get.put(ListConducteurController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,29 +73,27 @@ class ListConducteurPage extends GetWidget<ListConducteurController> {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 6,
                     child: ListView.builder(
-                      itemCount: controller.people.length,
+                      itemCount: _controller.drivers.length,
                       itemBuilder: (context, index) {
-                        final person = controller.people[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey), 
-                            borderRadius: BorderRadius.circular(8.0), 
-                            color: Colors.grey[200], 
+                        Driver driver = controller.drivers[index];
+                        return Card(
+                          elevation: 5,
+                          margin: EdgeInsets.all(8.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10.0), 
-                          padding: EdgeInsets.all(0),
                           child: ListTile(
                             title: Text(
-                              '${person.firstName} ${person.lastName}',
+                              '${driver.firstname} ${driver.lastname}',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                               ),
-                              ),
+                            ),
                             subtitle: Text(
-                              person.phoneNumber,
+                              driver.phoneNumber,
                               style: TextStyle(
                                 color: Colors.red,
                               ),

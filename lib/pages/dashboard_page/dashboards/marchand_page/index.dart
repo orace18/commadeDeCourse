@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/controller/marchand_controller.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
@@ -8,18 +9,19 @@ import '../../../liste_page/conducteur_liste_page/controllers/parrainage_list_co
 class MarchandPage extends GetWidget<MarchandController> {
   final ListConducteurController listController =
       Get.put(ListConducteurController());
+    final MarchandService service = MarchandService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-           appBar: AppBar(
-            title: Text("Otrip"),
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                  Get.toNamed('/marchand_menu');
-              },
-            ),
+      appBar: AppBar(
+        title: Text("Otrip"),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {
+            Get.toNamed('/marchand_menu');
+          },
+        ),
       ),
       body: GetBuilder<ListConducteurController>(
         builder: (_) => Padding(
@@ -39,7 +41,7 @@ class MarchandPage extends GetWidget<MarchandController> {
                       children: [
                         Row(
                           children: [
- /*                            Icon(Icons.monetization_on),
+                            /*                            Icon(Icons.monetization_on),
                             SizedBox(
                               width: 10,
                             ), */
@@ -49,7 +51,7 @@ class MarchandPage extends GetWidget<MarchandController> {
                             ),
                           ],
                         ),
-                       Text("O FCFA"),
+                        Text("O FCFA"),
                       ],
                     ),
                   ),
@@ -69,7 +71,7 @@ class MarchandPage extends GetWidget<MarchandController> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Obx(() => Text(
-                              _.people.length.toString(),
+                              listController.drivers.length.toString(),
                               style: TextStyle(
                                 color: AppTheme.otripMaterial,
                                 fontSize: 14,

@@ -151,7 +151,6 @@ class AuthApiClient extends GetConnect {
     Map<String, double> positions,
 
   ) async {
-    String registerUrl = "http://192.168.1.10:5000/api/register";
 
     String body = jsonEncode({
       'role_id': role,

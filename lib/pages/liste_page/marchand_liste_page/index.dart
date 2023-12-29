@@ -98,16 +98,13 @@ class _MarchandListPageState extends State<MarchandListPage> {
               onPressed: () async {
               await fetchUserData();
                 try {
-                  print(userData['phoneNumber']);
-                  print(driverData['id']);
-                  print(marchand.id);
-                   print(driverData['id'].toString());
-                  print(marchand.id.toString());
+
                   if (driverData['id'] != null) {
                     await marchandService.makeParrainage(
                       marchand.id.toString(),
                       driverData['id'].toString(),
                     );
+                  // await marchandService.fetchAndDisplayDemandesParrainage(marchand.id.toString());
                     Navigator.of(context).pop();
                   } else {
                     print('Driver ID is null');

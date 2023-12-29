@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -6,11 +7,12 @@ import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_marchand_controller.dart';
+
 import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
 class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
-  EditMarchandForm({Key? key}) : super(key: key);
+  const EditMarchandForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,8 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
                 name: 'fullname',
-                initialValue: userData['firstname'] != null &&
-                        userData['lastname'] != null
-                    ? "${userData['firstname']} ${userData['lastname']}"
-                    : '',
+                initialValue:
+                    "${userData['firstname']} ${userData['lastname']}",
                 enabled: true,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -57,9 +57,7 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
               child: FormBuilderPhoneField(
                 enabled: true,
                 name: 'phone_number',
-                initialValue: userData['phone_Number'] != null
-                    ? "${userData['phone_Number']}"
-                    : '',
+                initialValue: "${userData['phone_number']}",
                 inputFormatters: [],
                 decoration: InputDecoration(
                     contentPadding:
@@ -77,10 +75,14 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
               ),
             ),
             defaultSizedBox,
+            Divider(
+              thickness: 1,
+            ),
+            defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
-                name: 'location',
+                name: 'address',
                 initialValue: "",
                 enabled: true,
                 decoration: InputDecoration(
@@ -90,7 +92,7 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: BorderSide(width: 0.5)),
-                    hintText: 'Votre siège',
+                    hintText: 'Adresse',
                     icon: Icon(Icons.map)),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
@@ -99,14 +101,10 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
               ),
             ),
             defaultSizedBox,
-            Divider(
-              thickness: 1,
-            ),
-            defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderRadioGroup(
-                name: 'sex',
+                name: 'gender',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                     contentPadding:
@@ -114,7 +112,7 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    hintText: 'sex'.tr,
+                    hintText: 'sexe'.tr,
                     icon: Icon(Icons.male)),
                 options: [
                   FormBuilderFieldOption(
@@ -282,20 +280,27 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
                   onPressed: () {
                     final form = controller.formKey.currentState;
                     if (form != null && form.saveAndValidate()) {
-                      final String? fullName = form.fields['fullname']?.value;
-                      final String? phoneNumber =
-                          form.fields['phone_number']?.value;
-
-                      if (fullName != null && phoneNumber != null) {
-                        Map<String, dynamic> updatedData = {
-                          'firstname': fullName.split(' ')[0],
-                          'lastname': fullName.split(' ')[1],
-                          'phone_number': phoneNumber,
-                        };
-
-                        controller.updateProfile(updatedData);
-                        Get.toNamed('/profile');
-                      }
+                      Map<String, dynamic> updatedData = {
+                        'firstname':
+                            form.fields['fullname']?.value.split(' ')[0],
+                        'lastname':
+                            form.fields['fullname']?.value.split(' ')[1],
+                        'phone_number': form.fields['phone_number']?.value,
+                      };
+                      // mise à jour sexe, l'anniversaire et l'adresse du formulaire
+                      String updatedGender = form.value['gender'] ?? '';
+                      DateTime updatedBirthday =
+                          form.value['birthday'] ?? DateTime.now();
+                      String updatedAddress = form.value['address'] ?? '';
+                      controller.updateProfileInfo(
+                        updatedGender,
+                        updatedBirthday,
+                        updatedAddress,
+                      );
+                      controller.updateProfile(updatedData, updatedGender,
+                          updatedBirthday, updatedAddress);
+                      Get.toNamed('/profile_marchand');
+                      print('Données bien recupérées');
                     }
                   }),
             )

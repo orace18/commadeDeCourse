@@ -1,25 +1,24 @@
 class DemandeParrainage {
-  final int id;
-  final String marchandId;
-  final String conducteurId;
+  String conducteurPhone;
   String conducteurNom;
+  String status;
   String conducteurPrenom;
   final DateTime dateDemande;
 
   DemandeParrainage({
-    required this.id,
-    required this.marchandId,
-    required this.conducteurId,
+    required this.conducteurPhone,
     required this.dateDemande,
-    this.conducteurNom = '',
-    this.conducteurPrenom = '',
+    required this.conducteurNom,
+    required this.conducteurPrenom ,
+    required this.status,
   });
 
   factory DemandeParrainage.fromJson(Map<String, dynamic> json) {
     return DemandeParrainage(
-      id: json['id'] ?? 0,
-      marchandId: json['marchand_id'] ?? '',
-      conducteurId: json['conducteur_id'] ?? '',
+      status:  json['status'] ?? '',
+      conducteurPhone: json['mobile_number'] ?? '',
+      conducteurNom: json['lastname'] ?? '',
+      conducteurPrenom: json['name'] ?? '',
       dateDemande: DateTime.parse(json['created_at'] ?? ''),
     );
   }

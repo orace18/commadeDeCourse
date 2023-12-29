@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
 import 'package:otrip/pages/assistance_page/controllers/assistance_binding.dart';
+
 import 'package:otrip/pages/assistance_page/index.dart';
 import 'package:otrip/pages/course_page/controllers/course_binding.dart';
 import 'package:otrip/pages/course_page/index.dart';
@@ -272,7 +273,7 @@ class AppRouter {
     ),
     GetPage(
       name: '/profile_marchand',
-      page: () => MerchantProfilePage(),
+      page: () => MarchandProfilePage(),
       binding: MerchantProfileBinding(),
     ),
     GetPage(

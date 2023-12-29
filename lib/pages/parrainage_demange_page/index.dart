@@ -1,44 +1,49 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_controller.dart';
-import 'package:otrip/pages/parrainage_demange_page/models/parrainage_demande.dart';
-import '../../../../constants.dart';
-import '../../../../providers/theme/theme.dart';
+import 'package:otrip/pages/parrainage_demange_page/models/demande_model.dart';
+import 'package:otrip/providers/theme/theme.dart';
 
+class DemandePage extends StatelessWidget {
+  final DemandeController controller = Get.find<DemandeController>();
+  final userData = GetStorage();
 
-class DemandePage extends GetWidget<DemandeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Ink(
-                decoration: ShapeDecoration(
-                  color: AppTheme.otripMaterial[600],
-                  shape: CircleBorder(),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-              ),
-            )),
-        body: GetBuilder<DemandeController>(
-          builder: (_) => SafeArea(
-            top: false,
-            child: Stack(
-              children: [
-                Column(children: [
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Ink(
+            decoration: ShapeDecoration(
+              color: AppTheme.otripMaterial[600],
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Get.back();
+                controller.fetchAndDisplayDemandesParrainage();
+              },
+            ),
+          ),
+        ),
+      ),
+      body: GetBuilder<DemandeController>(
+        builder: (_) => SafeArea(
+          top: false,
+          child: Stack(
+            children: [
+              Column(
+                children: [
                   Expanded(
                     flex: 3,
                     child: ClipPath(
@@ -59,10 +64,25 @@ class DemandePage extends GetWidget<DemandeController> {
                                   Text(
                                     "Liste des demandes reçues",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  SizedBox(height: 10),
+                                  Obx(() {
+                                    // Afficher le message d'erreur s'il y en a un
+                                    if (controller.resultMessage.isNotEmpty) {
+                                      return Text(
+                                        controller.resultMessage.value,
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox.shrink();
+                                  }),
                                 ],
                               ),
                             ),
@@ -77,7 +97,8 @@ class DemandePage extends GetWidget<DemandeController> {
                       builder: (_) => ListView.builder(
                         itemCount: controller.listDemandes.length,
                         itemBuilder: (context, index) {
-                          DemandeParrainage demande = controller.listDemandes[index];
+                          Demande demande =
+                              controller.listDemandes[index];
                           return Card(
                             margin: EdgeInsets.all(8.0),
                             child: Padding(
@@ -90,13 +111,21 @@ class DemandePage extends GetWidget<DemandeController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                       // Text('${demande.message}'),
+                                        Text(
+                                          '${demande.dateDemande}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         SizedBox(height: 10),
                                         Text(
-                                            '${demande.dateDemande.toString()}'),
+                                          '${demande.status} ${demande.driver}',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                         SizedBox(height: 10),
-                                        Text(
-                                           ''),
+                                        // Ajoutez ici tout autre élément que vous souhaitez afficher
                                       ],
                                     ),
                                   ),
@@ -114,7 +143,7 @@ class DemandePage extends GetWidget<DemandeController> {
                                             FontAwesomeIcons.xmark,
                                             size: 20,
                                             color: Colors.red,
-                                          )
+                                          ),
                                         ),
                                         SizedBox(width: 10),
                                         ElevatedButton(
@@ -125,7 +154,7 @@ class DemandePage extends GetWidget<DemandeController> {
                                             FontAwesomeIcons.check,
                                             size: 20,
                                             color: Colors.green,
-                                          )
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -138,10 +167,12 @@ class DemandePage extends GetWidget<DemandeController> {
                       ),
                     ),
                   ),
-                ]),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

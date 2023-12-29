@@ -1,6 +1,5 @@
 import 'lang/fr_fr.dart';
 import 'package:get/get.dart';
-
 import 'lang/en_us.dart';
 
 class Translator extends Translations{

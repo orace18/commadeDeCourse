@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otrip/pages/profile_page/controllers/profile_controller.dart';
+import 'package:otrip/pages/profile_page/controllers/profile_marchand_controller.dart';
 
 class ProfileEditMarchandController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
@@ -19,18 +19,9 @@ class ProfileEditMarchandController extends GetxController {
     };
   }
 
-//   void updateProfile(Map<String, dynamic> updatedData) {
-//     final profileController = Get.find<ProfileController>();
-
-//     userData.write('firstname', updatedData['firstname']);
-//     userData.write('lastname', updatedData['lastname']);
-//     userData.write('phone_number', updatedData['phone_number']);
-
-//     profileController.updateProfile(updatedData);
-
-// }
-  void updateProfile(Map<String, dynamic> updatedData) {
-    final profileController = Get.find<ProfileController>();
+  void updateProfile(Map<String, dynamic> updatedData, String updatedGender,
+      DateTime updatedBirthday, String updatedAddress) {
+    final profileController = Get.find<MerchantController>();
 
     userData.write('firstname', updatedData['firstname']);
     userData.write('lastname', updatedData['lastname']);
@@ -44,10 +35,20 @@ class ProfileEditMarchandController extends GetxController {
 
     // Appel à la méthode updateProfile du profileController avec les données mises à jour
     profileController.updateProfile(userDataMap);
+    profileController.updateProfileInfo(
+      updatedGender,
+      updatedBirthday, // Mise à jour de l'anniversaire ici si nécessaire
+      updatedAddress,
+    );
 
     // Naviguer vers la page de profil après la mise à jour
-    Get.toNamed('/profile');
+    Get.toNamed('/profile_marchand');
   }
 
   void navigateBack() => Get.back();
+  void updateProfileInfo(
+    String updatedGender,
+    DateTime updatedBirthday,
+    String updatedAddress,
+  ) {}
 }

@@ -12,7 +12,6 @@ import '../../../providers/theme/theme.dart';
 class AddUserForm extends GetWidget<AddUserController> {
   AddUserForm({Key? key}) : super(key: key);
   AddUserController addUserController = AddUserController();
-  MarchandService marchandService = MarchandService();
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +151,7 @@ class AddUserForm extends GetWidget<AddUserController> {
                 name: 'password',
                 key: controller.passwordFieldKey,
                 keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
                 onChanged: (value){
                   controller.validateField(controller.passwordFieldKey);
                 },
@@ -190,7 +190,6 @@ class AddUserForm extends GetWidget<AddUserController> {
 
                     if (controller.isButtonEnabled.value){
                      addUserController.getPostion();
-                     marchandService.getAllMarchand();
                      addUserController.registerRequest(
                       addUserController.roleId,
                        controller.usernameFieldKey.currentState!.value,

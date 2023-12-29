@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ProfileController extends GetxController {
+class ConducteurProfileController extends GetxController {
   final imagePath = ''.obs;
   late RxString gender;
   late Rx<DateTime> birthday;
   late RxString address;
+  late RxString numeroImmatricule;
   final userData = GetStorage();
   late String userRole;
   late final GetStorage storage;
@@ -18,6 +19,7 @@ class ProfileController extends GetxController {
     gender = RxString('');
     birthday = DateTime.now().obs;
     address = RxString('');
+    numeroImmatricule = RxString('');
   }
 
   // Fonction pour récupérer les données de l'utilisateur
@@ -30,6 +32,7 @@ class ProfileController extends GetxController {
       'gender': userData.read('gender') ?? '',
       'birthday': userData.read('birthday') ?? DateTime.now(),
       'address': userData.read('address') ?? '',
+      'numeroImmatricule': userData.read('numeroImmatricule') ?? '',
     };
   }
 
@@ -43,16 +46,17 @@ class ProfileController extends GetxController {
   }
 
   //recuperer le reste des infos
-  void updateProfileInfo(
-      String updatedGender, DateTime updatedBirthday, String updatedAddress) {
+  void updateProfileInfo(String updatedGender, DateTime updatedBirthday,
+      String updatedAddress, String updatedNumeroImmatricule) {
     gender.value = updatedGender;
     birthday.value = updatedBirthday;
     address.value = updatedAddress;
-    
+    numeroImmatricule.value = updatedNumeroImmatricule;
 
     userData.write('gender', updatedGender);
     userData.write('birthday', updatedBirthday.toString());
     userData.write('address', updatedAddress);
+    userData.write(' numeroImmatricule', updatedNumeroImmatricule);
   }
 
   String getUserRole() {
