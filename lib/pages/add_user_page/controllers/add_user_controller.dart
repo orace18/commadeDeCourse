@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:location/location.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/api/auth/auth_api_controller.dart';

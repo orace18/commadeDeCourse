@@ -13,10 +13,13 @@ import '../../../providers/theme/theme.dart';
 class AddUserForm extends GetWidget<AddUserController> {
   AddUserForm({Key? key}) : super(key: key);
   MarchandService marchandService = MarchandService();
-  int maxNumLength = 8;
 
   @override
   Widget build(BuildContext context) {
+    int maxNumLength = 8;
+    String phoneNumber = "";
+    String phoneCode = "+229";
+
     return Container(
       child: FormBuilder(
         key: controller.formKey,
@@ -126,9 +129,10 @@ class AddUserForm extends GetWidget<AddUserController> {
                 key: controller.mobileFieldKey,
                 builder: (FormFieldState<dynamic> field){
                   return IntlPhoneField(
-                    // key: controller.mobileFieldKey,
+
+                    autofocus: true,
+                    controller:  controller.mobileFieldController,
                     languageCode: "fr",
-                    //c000ontroller: controller.mobileFieldController,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                       border: OutlineInputBorder(
@@ -136,35 +140,21 @@ class AddUserForm extends GetWidget<AddUserController> {
                       ),
                       hintText: 'phone_number'.tr,
                     ),
-
-                    disableLengthCheck: true,
+                    invalidNumberMessage: "invalid_phone_number".tr,
+                    disableLengthCheck: false,
                     initialCountryCode: 'BJ',
                     onCountryChanged: (country){
                       maxNumLength = country.maxLength;
                     },
-                    autofocus: true,
                     onChanged: (phone) {
-                      // field.didChange(controller.phoneNumber.value);
-                      field.didChange(phone.number.replaceAll(' ', ''));
-                      controller.phoneNumber.value = controller.mobileFieldKey.currentState?.value;
-                      controller.mobileFieldKey.currentState?.setValue(phone.number);
-                      print(controller.mobileFieldKey.currentState?.value);
+                      phoneCode = phone.countryCode;
+                      phoneNumber = phone.number.replaceAll(' ', '');
+                      controller.mobileFieldKey.currentState?.setValue(phoneNumber);
+                      field.didChange(phoneNumber);
+
+                      print(field.value);
                     },
-                    // validator: (value) {
-                    //   if (value == null || value.number.isEmpty) {
-                    //     return "num_required".tr;
-                    //   } else if (value.number.length < maxNumLength) {
-                    //     return "num_too_short".tr;
-                    //   } else if (value.number.length > maxNumLength) {
-                    //     return "num_too_long".tr;
-                    //   }
-                    //   return null;
-                    // },
                   );
-                },
-                autovalidateMode: AutovalidateMode.always,
-                onChanged: (value){
-                  controller.validateField(controller.mobileFieldKey);
                 },
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
@@ -175,6 +165,10 @@ class AddUserForm extends GetWidget<AddUserController> {
                       errorText: 'invalid_number'.tr
                   ),
                 ]),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: (value){
+                  controller.validateField(controller.mobileFieldKey);
+                },
               ),
             ),
             defaultSizedBox,
@@ -203,7 +197,6 @@ class AddUserForm extends GetWidget<AddUserController> {
                   FormBuilderValidators.required(
                       errorText: 'field_required'.tr
                   ),
-
                 ]),
               ),
             ),
@@ -226,9 +219,9 @@ class AddUserForm extends GetWidget<AddUserController> {
                        controller.usernameFieldKey.currentState!.value,
                         controller.firstnameFieldKey.currentState!.value, 
                         controller.lastnameFieldKey.currentState!.value, 
-                        controller.mobileFieldKey.currentState!.value,
+                        phoneNumber,
+                        phoneCode,
                         controller.passwordFieldKey.currentState!.value,
-                        "gg",
                         positions);
                     }
                   },

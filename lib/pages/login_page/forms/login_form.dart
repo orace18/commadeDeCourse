@@ -26,50 +26,28 @@ class LoginForm extends GetWidget<LoginController> {
           children: [
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
-              child: IntlPhoneField(
-                languageCode: "fr",
+              child: FormBuilderPhoneField(
+                name: 'phone_number',
                 key: controller.mobileFieldKey,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    hintText: 'phone_number'.tr,
-                  ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(
-                      errorText: "required".tr
-                    ),
-                  ]),
-                initialCountryCode: 'BJ',
-                onChanged: (phone) {
-                  controller.validateField(controller.mobileFieldKey);
+                onChanged: (number) {
+                  print('Formatted Phone Number: ${controller.phoneNumber.value}');
                 },
-              )
-
-              // FormBuilderPhoneField(
-              //   name: 'phone_number',
-              //   key: controller.mobileFieldKey,
-              //   onChanged: (number) {
-              //
-              //     print('Formatted Phone Number: ${controller.phoneNumber.value}');
-              //   },
-              //   keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   decoration: InputDecoration(
-              //     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12.0),
-              //     ),
-              //     hintText: 'phone_number'.tr,
-              //   ),
-              //   priorityListByIsoCode: ['BJ'],
-              //   defaultSelectedCountryIsoCode: 'BJ',
-              //   validator: FormBuilderValidators.compose([
-              //     FormBuilderValidators.required(),
-              //     FormBuilderValidators.numeric(),
-              //   ]),
-              // ),
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'phone_number'.tr,
+                ),
+                priorityListByIsoCode: ['BJ'],
+                defaultSelectedCountryIsoCode: 'BJ',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.numeric(),
+                ]),
+              ),
             ),
             defaultSizedBox,
             Padding(
