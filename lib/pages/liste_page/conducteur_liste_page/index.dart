@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otrip/api/conduteur/models/driver_list.dart';
@@ -7,7 +6,6 @@ import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/liste_page/conducteur_liste_page/controllers/parrainage_list_conducteur_controller.dart';
 import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_controller.dart';
-import 'package:otrip/pages/parrainage_demange_page/models/demande_model.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
 class ListConducteurPage extends StatelessWidget {
@@ -38,7 +36,7 @@ class ListConducteurPage extends StatelessWidget {
           ),
         ),
       ),
-      body: GetBuilder<DemandeController>(
+      body: GetBuilder<ListConducteurController>(
         builder: (_) => SafeArea(
           top: false,
           child: Stack(

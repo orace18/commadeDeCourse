@@ -28,7 +28,7 @@ class DemandePage extends StatelessWidget {
               shape: CircleBorder(),
             ),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 187, 106, 106)),
               onPressed: () {
                 Get.back();
               },
@@ -128,14 +128,14 @@ class DemandePage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${demande.driver.firstname} ${demande.driver.lastname}',
+                                                  '${demande.driver}',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                                 SizedBox(height: 10),
                                                 Text(
-                                                  '${demande.driver.phoneNumber} ${demande.status}',
+                                                  '${demande.status}',
                                                   style: TextStyle(
                                                     color: Colors.grey,
                                                   ),

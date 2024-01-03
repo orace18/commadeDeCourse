@@ -1,17 +1,21 @@
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_binding.dart';
 import 'package:otrip/pages/add_user_page/index.dart';
 import 'package:otrip/pages/assistance_page/controllers/assistance_binding.dart';
 import 'package:otrip/pages/assistance_page/index.dart';
+import 'package:otrip/pages/connexion_page/index.dart';
 import 'package:otrip/pages/course_page/controllers/course_binding.dart';
 import 'package:otrip/pages/course_page/index.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver_menu.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/widgets/machand_menu.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/index.dart';
+import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/engin_selecte.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/passager_menu.dart';
+import 'package:otrip/pages/engin_page/index.dart';
 import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_drivers_binding.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
 import 'package:otrip/pages/map_page/index.dart';
 import 'package:otrip/pages/newMap_page/controllers/newMap_binding.dart';
@@ -21,7 +25,6 @@ import 'package:otrip/pages/notifications_page/index.dart';
 import 'package:otrip/pages/onboarding_page/controllers/onboarding_binding.dart';
 import 'package:otrip/pages/onboarding_page/index.dart';
 import 'package:otrip/pages/connexion_page/controllers/connexion_binding.dart';
-import 'package:otrip/pages/connexion_page/index.dart';
 import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_binding.dart';
 import 'package:otrip/pages/parrainage_demange_page/index.dart';
 import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_bindings.dart';
@@ -294,5 +297,15 @@ class AppRouter {
       name: '/parrainage',
       page: () => MarchandListPage(),
     ),
+    GetPage(
+      name: '/specific_driver',
+      page: () => SpecificDriverPage(''),
+      binding: SpecificDriverBinding(),
+    ),
+         GetPage(
+      name: '/select_engin',
+      page: () => VehicleSelectionDialog()
+     // binding: EnginSelecteBinding(),
+    ), 
   ];
 }

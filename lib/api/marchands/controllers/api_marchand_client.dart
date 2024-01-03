@@ -84,7 +84,7 @@ class MarchandService {
   Future<Map<String, dynamic>> getUserInfoByPhone(String phoneNumber) async {
     try {
       final response =
-          await http.get(Uri.parse('$userInfoByPhoneUrl$phoneNumber'));
+          await http.get(Uri.parse('$userInfoByPhoneUrl/$phoneNumber'));
 
       if (response.statusCode == 200) {
         final dynamic responseData = json.decode(response.body);

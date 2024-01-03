@@ -16,8 +16,10 @@ class ListConducteurController extends GetxController {
     };
   }
 
+
   Future<Map<String, dynamic>> getUserInfoByPhone() async {
     try {
+      List<Driver> driversList = [];
       Map<String, dynamic> userData = getUserData();
       String phoneNumber = userData['phoneNumber'];
       print('Le numero de telephone est : $phoneNumber');

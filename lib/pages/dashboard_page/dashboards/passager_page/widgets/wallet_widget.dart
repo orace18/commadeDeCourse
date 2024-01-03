@@ -31,7 +31,7 @@ class WalletCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  "500 FCFA",
+                  "0 FCFA",
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,

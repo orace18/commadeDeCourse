@@ -8,7 +8,7 @@ import '../../../liste_page/conducteur_liste_page/controllers/parrainage_list_co
 class MarchandPage extends GetWidget<MarchandController> {
   final ListConducteurController listController =
       Get.put(ListConducteurController());
-    final MarchandService service = MarchandService();
+  //final MarchandService service = MarchandService();
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +65,14 @@ class MarchandPage extends GetWidget<MarchandController> {
                           "conductor_number".tr,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Obx(() => Text(
-                              listController.driversList.length.toInt().toString(),
-                              style: TextStyle(
-                                color: AppTheme.otripMaterial,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
+                        Text(
+                          '${listController.driversList.length.toInt().toString()}',
+                          style: TextStyle(
+                            color: AppTheme.otripMaterial,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ),

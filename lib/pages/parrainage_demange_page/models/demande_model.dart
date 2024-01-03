@@ -4,7 +4,7 @@ class Demande {
   int id;
   String dateDemande;
   String status;
-  Driver driver;
+  dynamic driver;
 
   Demande(
       {required this.id, required this.dateDemande, required this.status, required this.driver});
@@ -14,7 +14,7 @@ class Demande {
     return Demande(
       id: json['id'] ?? '',
       status: json['status'] ?? '',
-      driver: json['conducteur'] ?? '',
+      driver: json['conducteur'] ?? {},
       dateDemande: json['created_at'] ?? '',
     );
   }
