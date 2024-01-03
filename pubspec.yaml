@@ -65,7 +65,7 @@ dependencies:
   flutter_local_notifications: ^16.2.0
   google_maps_flutter_web: ^0.5.4+2
   font_awesome_flutter: ^10.6.0
-  push_notification: ^1.1.1
+  socket_io_client: ^2.0.3+1
 
 dev_dependencies:
   flutter_test:

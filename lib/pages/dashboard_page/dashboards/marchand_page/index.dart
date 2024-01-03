@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/controller/marchand_controller.dart';
 import 'package:otrip/providers/theme/theme.dart';
-
 import '../../../liste_page/conducteur_liste_page/controllers/parrainage_list_conducteur_controller.dart';
 
 class MarchandPage extends GetWidget<MarchandController> {
@@ -41,10 +40,6 @@ class MarchandPage extends GetWidget<MarchandController> {
                       children: [
                         Row(
                           children: [
-                            /*                            Icon(Icons.monetization_on),
-                            SizedBox(
-                              width: 10,
-                            ), */
                             Text("balance".tr),
                             SizedBox(
                               width: 10.0,
@@ -71,7 +66,7 @@ class MarchandPage extends GetWidget<MarchandController> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Obx(() => Text(
-                              listController.drivers.length.toString(),
+                              listController.driversList.length.toInt().toString(),
                               style: TextStyle(
                                 color: AppTheme.otripMaterial,
                                 fontSize: 14,

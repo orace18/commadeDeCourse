@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 const appName = "Otrip";
 const google_api_key = "AIzaSyBbTebj7DVC2yJu0hDJPfqP63x9uz9GQ-8";
 // const google_api_key = "AIzaSyD-8-htTPIegLQx40M2tseJ6yhf4wL1mHo";
+const double earthRadius = 6371; // Rayon moyen de la Terre en kilomètres
 
 //General Color
 const warningColor = Colors.orange;

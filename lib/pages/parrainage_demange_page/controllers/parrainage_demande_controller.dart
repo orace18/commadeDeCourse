@@ -12,6 +12,8 @@ class DemandeController extends GetxController {
   List<Demande> listDemandes = [];
   final userData = GetStorage();
   final RxString resultMessage = RxString('');
+  final RxString successMessage = RxString('');
+
 
   Map<String, dynamic> getUserData() {
     return {
@@ -19,55 +21,13 @@ class DemandeController extends GetxController {
     };
   }
 
- /*  Future<void> fetchAndDisplayDemandesParrainage() async {
-    try {
-      Map<String, dynamic> userData = await getUserInfoByPhone();
-      String marchandid = userData['id'];
-
-      final response = await http.get(
-        Uri.parse('$demandeParrainageUrl/$marchandid'),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final dynamic responseData = json.decode(response.body);
-
-        if (responseData is Map<String, dynamic> &&
-            responseData.containsKey('demandes') &&
-            responseData['demandes'] is List<dynamic>) {
-          List<dynamic> demandesData = responseData['demandes'];
-
-          listDemandes.clear(); 
-
-          for (dynamic demandeData in demandesData) {
-            final conducteurInfo = demandeData['conducteur'];
-            final demandeParrainage = DemandeParrainage(
-              status: demandeData['status'],
-              dateDemande: demandeData['created_at'],
-              conducteurNom: conducteurInfo['name'],
-              conducteurPrenom: conducteurInfo['lastname'],
-              conducteurPhone: conducteurInfo['mobile_number']
-            );
-
-            listDemandes.add(demandeParrainage);
-          }
-
-          
-          update();
-        } else {
-          throw Exception(
-              'Format invalid. Absence de clé ou clé incorrecte dans la demandes.');
-        }
-      }
-    }catch(error) {
-      print('Erreur lors de la récupération des demandes de parrainage: $error');
-    }
-  }
- */
-/* 
-Future<void> fetchAndDisplayDemandesParrainage() async {
+Future<List<Demande>> fetchAndDisplayDemandesEnAttente() async {
   try {
+    List<Demande> demandesList = [];
+
     Map<String, dynamic> userData = await getUserInfoByPhone();
-    String id = userData['id'];
+    int id = userData['id'];
+    print('L\'id du marchand est: $id');
 
     final response = await http.get(
       Uri.parse('$demandeParrainageUrl/$id'),
@@ -75,146 +35,36 @@ Future<void> fetchAndDisplayDemandesParrainage() async {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final dynamic responseData = json.decode(response.body);
-
       if (responseData is Map<String, dynamic> &&
           responseData.containsKey('demandes') &&
           responseData['demandes'] is List<dynamic>) {
         List<dynamic> demandesData = responseData['demandes'];
 
-        listDemandes.clear();
-
-        for (dynamic demandeData in demandesData) {
+        // Filtrer les demandes avec le statut "en_attente"
+        demandesData.where((demandeData) => demandeData['status'] == 'en_attente').forEach((demandeData) {
           final conducteurInfo = demandeData['conducteur'];
-          final demandeParrainage = DemandeParrainage(
-            status: demandeData['status'],
+          final conducteurNom = conducteurInfo['name'];
+          final conducteurPrenom = conducteurInfo['lastname'];
+          final idDemande = demandeData['id'];
+
+          demandesList.add(Demande(
+            id: idDemande,
             dateDemande: demandeData['created_at'],
-            conducteurNom: conducteurInfo['name'],
-            conducteurPrenom: conducteurInfo['lastname'],
-            conducteurPhone: conducteurInfo['mobile_number']
-          );
-
-          listDemandes.add(demandeParrainage);
-        }
-
-        update();
-      } else {
-        throw Exception(
-            'Format invalid. Absence de clé ou clé incorrecte dans la demandes.');
-      }
-    }
-  } catch (error) {
-    print('Erreur lors de la récupération des demandes de parrainage: $error');
-    // Gérer l'erreur selon vos besoins, par exemple, afficher un message à l'utilisateur.
-    // Vous pouvez également utiliser Get.snackbar pour afficher une notification à l'utilisateur.
-  }
-} */
-
-
-/* Future<void> fetchAndDisplayDemandesParrainage() async {
-  try {
-    Map<String, dynamic> userData = await getUserInfoByPhone();
-    int id = userData['id'];
-    print('L\ id du marchand est: $id');
-
-    final response = await http.get(
-      Uri.parse('http://192.168.1.7:5000/api/users/$id'),
-    );
-        print('La list des demande${response.body}');
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final dynamic responseData = json.decode(response.body);
-      print('Données de la réponse : $responseData');
-      if (responseData is Map<String, dynamic> &&
-          responseData.containsKey('demandes') &&
-          responseData['demandes'] is Map<String,dynamic>) {
-       // Map<String,dynamic> demandesData = responseData['demandes'];
-
-        listDemandes.clear();
-        print("=====================");
-        print("=====================");
-        print('La liste de la demande ${responseData['demandes']}');
-        /* for (dynamic demandeData in demandesData) {
-          final conducteurInfo = demandeData['conducteur'];
-          final demandeParrainage = DemandeParrainage(
             status: demandeData['status'],
-            dateDemande: demandeData['created_at'],
-            conducteurNom: conducteurInfo['name'],
-            conducteurPrenom: conducteurInfo['lastname'],
-            conducteurPhone: conducteurInfo['mobile_number']
-          );
+            driver: conducteurNom + ' ' + conducteurPrenom,
+          ));
+        });
 
-          listDemandes.add(demandeParrainage);
-        } */
-
-      print('La liste des demande  $listDemandes');
-        resultMessage.value = '.....'; // Réinitialise le message d'erreur
-        update(); // Notifie les observateurs
-      } else {
-        throw Exception(
-            'Format invalid. Absence de clé ou clé incorrecte dans la demandes.');
-      }
-    }
-  } catch (error) {
-    print('Erreur lors de la récupération des demandes de parrainage: $error');
-    resultMessage.value = 'Erreur lors de la récupération des demandes.';
-    update();
-  }
-}
- */
-
-Future<void> fetchAndDisplayDemandesParrainage() async {
-  try {
-    Map<String, dynamic> userData = await getUserInfoByPhone();
-    int id = userData['id'];
-    print('L\'id du marchand est: $id');
-
-    final response = await http.get(
-      Uri.parse('http://192.168.1.7:5000/api/users/$id'),
-    );
-
-    print('La liste des demandes ${response.body}');
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final dynamic responseData = json.decode(response.body);
-      if (responseData is Map<String, dynamic> &&
-          responseData.containsKey('demandes') &&
-          responseData['demandes'] is List<dynamic>) {
-        List<dynamic> demandesData = responseData['demandes'];
-
-        listDemandes.clear();
-
-        for (dynamic demandeData in demandesData) {
-          final conducteurInfo = demandeData['conducteur'];
-          final conducteur = Driver(
-            id: conducteurInfo['id'],
-            firstname: conducteurInfo['name'],
-            lastname: conducteurInfo['lastname'],
-            phoneNumber: conducteurInfo['mobile_number'],
-            // Ajoutez les autres champs selon vos besoins
-            localisation: {'':''}
-          );
-
-          final demandeParrainage = Demande(
-            status: demandeData['status'],
-            dateDemande: demandeData['created_at'],
-            driver: conducteur,
-          );
-
-          listDemandes.add(demandeParrainage);
-        }
-
-        print('La liste des demandes $listDemandes');
-        resultMessage.value = '.....'; // Réinitialise le message d'erreur
-        update(); // Notifie les observateurs
+        return demandesList;
       } else {
         throw Exception(
             'Format invalide. Absence de clé ou clé incorrecte dans la demandes.');
       }
     }
+    return demandesList;
   } catch (error) {
     print('Erreur lors de la récupération des demandes de parrainage: $error');
-    resultMessage.value = 'Erreur lors de la récupération des demandes.';
-    update();
+    return [];
   }
 }
 
@@ -225,7 +75,7 @@ Future<void> fetchAndDisplayDemandesParrainage() async {
       String phoneNumber = userData['phoneNumber'];
       print('Le numero de telephone est : $phoneNumber');
 
-      final response = await http.get(Uri.parse('http://192.168.1.7:5000/api/user/$phoneNumber'));
+      final response = await http.get(Uri.parse('$userInfoByPhoneUrl/$phoneNumber'));
 
       if (response.statusCode == 200) {
         final dynamic responseData = json.decode(response.body);
@@ -259,13 +109,47 @@ Future<void> fetchAndDisplayDemandesParrainage() async {
 
   
   // Méthode pour annuler une demande spécifique 
-  void annulerDemande(int index) {
-    listDemandes.removeAt(index);
-    update();
+      Future<void> annulerDemande(int id, int index) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$parrainageUrl/$id/refuser'),
+        // Vous pouvez ajouter des paramètres, des en-têtes, etc., si nécessaire
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        successMessage.value = 'Request successfully validated';
+        // Retirer la demande de la liste
+        listDemandes.removeAt(index);
+        update();
+      } else {
+        throw Exception('Failed to validate request. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error validating request: $error');
+      throw Exception('Error validating request: $error');
+    }
   }
 
   // Méthode pour valider une demande spécifique
-  void validerDemande(int index) {
-    update();
+    Future<void> validerDemande(int id, int index) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$parrainageUrl/$id/accepter'),
+        // Vous pouvez ajouter des paramètres, des en-têtes, etc., si nécessaire
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        successMessage.value = 'Request successfully validated';
+        // Retirer la demande de la liste
+        listDemandes.removeAt(index);
+        update();
+      } else {
+        throw Exception('Failed to validate request. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error validating request: $error');
+      throw Exception('Error validating request: $error');
+    }
   }
+
 }
