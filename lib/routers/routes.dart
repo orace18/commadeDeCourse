@@ -10,9 +10,10 @@ import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver
 import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/widgets/machand_menu.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/index.dart';
-import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/engin_selecte.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/passager_menu.dart';
-import 'package:otrip/pages/engin_page/index.dart';
+import 'package:otrip/pages/engin_page/widgets/moto_drivers_list.dart';
+import 'package:otrip/pages/engin_page/widgets/tricyle_drivers_list.dart';
+import 'package:otrip/pages/engin_page/widgets/voiture_drivers_list.dart';
 import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_drivers_binding.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/index.dart';
@@ -299,13 +300,23 @@ class AppRouter {
     ),
     GetPage(
       name: '/specific_driver',
-      page: () => SpecificDriverPage(''),
+      page: () => SpecificDriverPage(),
       binding: SpecificDriverBinding(),
     ),
-         GetPage(
-      name: '/select_engin',
-      page: () => VehicleSelectionDialog()
-     // binding: EnginSelecteBinding(),
-    ), 
+    GetPage(
+      name: '/moto',
+      page: () => MotoDriversPage( enginType: 'Moto'),
+     //binding: EnginSelecteBinding(),
+    ),
+    GetPage(
+      name: '/voiture',
+      page: () => VoitureDriversPage(enginType: 'Voiture'),
+     //binding: EnginSelecteBinding(),
+    ),
+    GetPage(
+      name: '/tricycle',
+      page: () => TricycleDriversPage( enginType: 'Tricycle'),
+     //binding: EnginSelecteBinding(),
+    ),
   ];
 }

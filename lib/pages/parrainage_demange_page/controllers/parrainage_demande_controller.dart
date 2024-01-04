@@ -3,10 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otrip/api/api_constants.dart';
-import 'package:otrip/api/conduteur/models/driver_list.dart';
-import 'package:otrip/pages/course_page/models/conducteur.dart';
 import 'package:otrip/pages/parrainage_demange_page/models/demande_model.dart';
-import 'package:otrip/pages/parrainage_demange_page/models/parrainage_demande.dart';
 
 class DemandeController extends GetxController {
   List<Demande> demandesList = [];
@@ -22,8 +19,6 @@ class DemandeController extends GetxController {
 
   Future<List<Demande>> fetchAndDisplayDemandesEnAttente() async {
     try {
-      //List<Demande> demandesList = [];
-
       Map<String, dynamic> userData = await getUserInfoByPhone();
       int id = userData['id'];
       print('L\'id du marchand est: $id');

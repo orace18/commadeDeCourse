@@ -7,8 +7,7 @@ import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_
 import 'package:otrip/providers/theme/theme.dart';
 
 class SpecificDriverPage extends StatelessWidget {
-  late String type;
-  SpecificDriverPage(this.type);
+
   final SpecificDriverController controller = Get.find<SpecificDriverController>();
 
   @override
@@ -80,7 +79,7 @@ class SpecificDriverPage extends StatelessWidget {
                     child: GetBuilder<SpecificDriverController>(
                       builder: (_) {
                         return FutureBuilder<List<Map<String, dynamic>>>(
-                          future: controller.fetchSpecificDriver(this.type),
+                          future: controller.fetchSpecificDriver(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
