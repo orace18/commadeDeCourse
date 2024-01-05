@@ -7,22 +7,22 @@ import 'package:otrip/constants.dart';
 class LocationPickerController extends GetxController {
   TextEditingController startLocationController = TextEditingController();
   TextEditingController endLocationController = TextEditingController();
-  late GoogleMapController googleMapController;
-  List<String> listPlace = [];
+ // late GoogleMapController googleMapController;
+  //List<String> listPlace = [];
 
-  final LatLng defaultLatLng =
+  /* final LatLng defaultLatLng =
       LatLng(6.359201, 2.418710); // Coordonnées par défaut (Cotonou)
 
   void onMapCreated(GoogleMapController controller) {
     googleMapController = controller;
-  }
+  } */
 
   void chooseLocation() {
     print('Départ : ${startLocationController.text}');
     print('Arrivée : ${endLocationController.text}');
     Get.back();
   }
-
+/* 
   Future<List<String>> getPlaces(String query) async {
     final baseUrl =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
@@ -55,5 +55,5 @@ class LocationPickerController extends GetxController {
       print('Erreur lors de la récupération des lieux : $error');
       return [];
     }
-  }
+  } */
 }

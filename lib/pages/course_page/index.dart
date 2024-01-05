@@ -12,7 +12,7 @@ class CoursePage extends GetWidget<CourseController>{
       appBar: AppBar(
         title: Text('Commande de Zem'),
       ),
-      body: MapView(),
+      
     );
   }
 }
