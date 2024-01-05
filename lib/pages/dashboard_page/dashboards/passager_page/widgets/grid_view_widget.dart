@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/pages/legalmention_page/index.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
 class DashboardGridView extends StatelessWidget {
@@ -12,7 +13,8 @@ class DashboardGridView extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       children: [
         buildGridItem("Voiture".tr, Icons.directions_car, () async {
-           Get.toNamed('/voiture');
+           //Get.toNamed('/quartier');
+           Get.dialog(LocationPickerView());
         }),
         buildGridItem("Moto".tr, Icons.directions_bike, () {
           Get.toNamed('/moto');
