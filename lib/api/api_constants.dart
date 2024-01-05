@@ -1,0 +1,19 @@
+final baseUrl = 'http://192.168.1.7:5000/api/';
+// final baseUrl = 'https://test.com';
+
+final loginUrl = baseUrl + 'login';
+final registerUrl = baseUrl + 'register';
+final refreshTokenUrl = baseUrl + 'register';
+final verifyTokenUrl = baseUrl + 'auth/jwt/verify/';
+final logoutUrl = baseUrl + 'auth/jwt/logout/';
+final sentOtpUrl = baseUrl + 'auth/otp/';
+final resetPasswordOtpUrl = baseUrl + 'auth/reset-password/';
+final marchandUrl = baseUrl + 'users_all';
+final driverUrl = baseUrl + 'users_conducteurs';
+final parrainageUrl = baseUrl + 'parrainage/demande';
+final userInfoByPhoneUrl = baseUrl + 'user';
+final parrainage = baseUrl + 'parrainage';
+final demandeParrainageUrl = baseUrl + 'parrainage/list';
+final userInfoUrl = baseUrl + 'users';
+final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
+final driverByEngin = baseUrl + 'engin';
