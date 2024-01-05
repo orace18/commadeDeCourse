@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:otrip/pages/register_page/controllers/register_controller.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../../constants.dart';
@@ -103,28 +104,49 @@ class RegisterForm extends GetWidget<RegisterController>{
             defaultSizedBox,
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
-              child: FormBuilderPhoneField(
-                name: 'phone_number',
+              child: IntlPhoneField(
+                languageCode: "fr",
                 key: controller.mobileFieldKey,
-                onChanged: (value) {
-                  controller.validateField(controller.mobileFieldKey);
-                },
-                inputFormatters: [],
-                autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   hintText: 'phone_number'.tr,
                 ),
-                priorityListByIsoCode: ['BJ'],
-                defaultSelectedCountryIsoCode: 'BJ',
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
+                  FormBuilderValidators.required(
+                      errorText: "required".tr
+                  ),
                 ]),
-              ),
+                initialCountryCode: 'BJ',
+                onChanged: (phone) {
+                  controller.validateField(controller.mobileFieldKey);
+                },
+              )
+
+              // FormBuilderPhoneField(
+              //   name: 'phone_number',
+              //   key: controller.mobileFieldKey,
+              //   onChanged: (value) {
+              //     controller.validateField(controller.mobileFieldKey);
+              //   },
+              //   inputFormatters: [],
+              //   autovalidateMode: AutovalidateMode.disabled,
+              //   decoration: InputDecoration(
+              //     contentPadding:
+              //         EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(12.0),
+              //     ),
+              //     hintText: 'phone_number'.tr,
+              //   ),
+              //   priorityListByIsoCode: ['BJ'],
+              //   defaultSelectedCountryIsoCode: 'BJ',
+              //   validator: FormBuilderValidators.compose([
+              //     FormBuilderValidators.required(),
+              //   ]),
+              // ),
             ),
             defaultSizedBox,
             Padding(
@@ -185,6 +207,7 @@ class RegisterForm extends GetWidget<RegisterController>{
                         controller.lastnameFieldKey.currentState!.value,
                         controller.mobileFieldKey.currentState!.value,
                         controller.passwordFieldKey.currentState!.value,
+                        "",
                         registerController.getPostion() as Map<String, double>,
                       );
                     }

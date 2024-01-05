@@ -1,6 +1,7 @@
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:otrip/providers/theme/theme.dart';
 import 'controllers/onboarding_controller.dart';
@@ -47,9 +48,13 @@ class OnboardingPage extends GetWidget<OnboardingController> {
                 spacing: EdgeInsets.only(left:5, right: 5, bottom:30)
               ),
               onDone: () {
+                final box = GetStorage();
+                box.write('onboarding', true);
                 Get.toNamed('/connexion');
               },
               onSkip: () {
+                final box = GetStorage();
+                box.write('onboarding', true);
                 Get.off;
               },
               showSkipButton: true,

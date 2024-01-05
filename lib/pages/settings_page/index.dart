@@ -2,6 +2,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/pages/settings_page/widgets/settings_item.dart';
 import '../../constants.dart';
 import 'controllers/settings_controller.dart';
@@ -132,7 +133,9 @@ class SettingsPage extends GetWidget<SettingsController> {
                       ),
                       confirm: ElevatedButton(
                         child: Text("confirm".tr),
-                        onPressed: (){},
+                        onPressed: (){
+                          AuthApiClient().logout();
+                        },
                       )
                     );
                   },

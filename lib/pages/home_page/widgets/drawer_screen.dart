@@ -126,25 +126,24 @@ class MenuScreen extends StatelessWidget {
                     _iconData,
                     color: Colors.black38,
                   ),
+                ),),
+                SizedBox(
+                  width: 10.0,
                 ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                _text,
-                style: TextStyle(
-                    fontFamily: "Sofia",
+                Text(
+                  _text,
+                  style: TextStyle(
+                      fontFamily: "Sofia",
 
-                    color: Colors.black,
-                    fontSize: 16.0),
-              )
-            ],
-          ),
-          Divider(height: 2, color: Colors.black,)
-        ],
+                      color: Colors.black,
+                      fontSize: 16.0),
+                )
+              ],
+            ),
+            Divider(height: 10, color: Colors.black,)
+          ],
+        ),
       ),
-    )
     );
   }
 }

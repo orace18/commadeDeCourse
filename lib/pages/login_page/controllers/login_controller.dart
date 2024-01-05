@@ -8,6 +8,7 @@ class LoginController extends GetxController {
   final mobileFieldKey = GlobalKey<FormBuilderFieldState>();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final isButtonEnabled = false.obs;
+
   void updateButtonEnabled(bool isEnabled) {
     isButtonEnabled.value = isEnabled;
   }
@@ -16,6 +17,8 @@ class LoginController extends GetxController {
     key.currentState?.validate();
     updateButtonEnabled(formKey.currentState?.isValid ?? false);
   }
+
+  var phoneNumber = ''.obs;
 
   void navigateBack() => Get.back();
 }

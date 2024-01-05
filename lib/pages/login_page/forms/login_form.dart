@@ -4,6 +4,8 @@ import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/login_page/controllers/login_controller.dart';
@@ -27,9 +29,10 @@ class LoginForm extends GetWidget<LoginController> {
               child: FormBuilderPhoneField(
                 name: 'phone_number',
                 key: controller.mobileFieldKey,
-                onChanged: (value) {
-                  controller.validateField(controller.mobileFieldKey);
+                onChanged: (number) {
+                  print('Formatted Phone Number: ${controller.phoneNumber.value}');
                 },
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
@@ -114,6 +117,6 @@ class LoginForm extends GetWidget<LoginController> {
     String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
     String? password = controller.passwordFieldKey.currentState?.value.toString();
     print(phone_number);
-    AuthApiClient().login(phone_number!, password!);
+    AuthApiClient().signIn(phone_number!, password!);
   }
 }

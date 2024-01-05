@@ -11,12 +11,31 @@ import 'package:http/http.dart' as http;
 class AuthApiClient extends GetConnect {
   @override
   void onInit() {
+
     httpClient.baseUrl = baseUrl;
     httpClient.addRequestModifier<dynamic>((request) async {
       request.headers['Content-Type'] = 'application/json';
       request.headers['Accept'] = 'application/json';
       return request;
     });
+  }
+
+  void returnError(String error){
+    Get.snackbar(
+        "error".tr,
+        error,
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+    );
+  }
+
+  void returnSuccess(String success){
+    Get.snackbar(
+        "success".tr,
+        success,
+      colorText: Colors.white,
+      backgroundColor: Colors.green,
+    );
   }
 
   Future<Map<String, dynamic>> login(String phone, String password) async {
@@ -27,8 +46,10 @@ class AuthApiClient extends GetConnect {
     print(response.statusCode);
     if (response.status.hasError) {
       if (response.status.code == 401) {
+        returnError(response.body['message']);
         throw Exception("invalid_credentials".tr);
       } else {
+        returnError(response.body['message']);
         throw Exception('connection_error'.tr);
       }
     } else if (response.body is Map) {
@@ -37,8 +58,10 @@ class AuthApiClient extends GetConnect {
       } catch (e) {
         print("error: $e");
       }
+      returnSuccess(response.body['message']);
       return response.body;
     } else {
+      returnError(response.body['message']);
       throw Exception('Response is not a Map');
     }
   }
@@ -49,7 +72,9 @@ class AuthApiClient extends GetConnect {
       String name,
       String lastname,
       String mobileNumber,
-      String phoneCode, int countryId, String password) async {
+      String phoneCode,
+      int countryId,
+      String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, dynamic> body = {
       'role_id': role,
@@ -147,10 +172,19 @@ class AuthApiClient extends GetConnect {
     String name,
     String lastname,
     String mobileNumber,
+    String phoneCode,
     String password,
     Map<String, double> positions,
 
   ) async {
+    String registerUrl = baseUrl + "register";
+    if (role == 1){
+
+    } else if (role == 2) {
+      registerUrl = baseUrl + "marchand/create";
+    } else if (role == 3) {
+      registerUrl = baseUrl + "conducteur/create";
+    }
 
     String body = jsonEncode({
       'role_id': role,
@@ -159,30 +193,38 @@ class AuthApiClient extends GetConnect {
       'lastname': lastname,
       'mobile_number': mobileNumber,
       'password': password,
-      'phone_code': '+229',
+      'phone_code': phoneCode,
       'positions': positions
     });
 
     print("Le body: ${body}");
 
     try {
-      final response = await http.post(
-        Uri.parse(registerUrl),
-        body: body,
-        headers: {'Content-Type': 'application/json'},
+      final response = await post(
+        registerUrl,
+        body,
       );
 
       print("code status: ${response.statusCode}");
 
       if (response.statusCode == 401) {
+        returnError(response.body['message']);
         throw Exception("invalid_credentials".tr);
+
       } else if (response.statusCode == 400) {
+        returnError(response.body['message']);
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
-        getUserData(mobileNumber);
+        print(response.body);
+        GetStorage('user_infos').write('access_token', response.body['data']['token']);
+        returnSuccess(response.body['message']);
+        var userData = await getUserData(mobileNumber);
+
+        navigateToHome(userData['role_id']);
         return true;
       } else {
+        returnError(response.body['message']);
         throw Exception('connection_error'.tr);
       }
     } catch (e) {
@@ -193,10 +235,10 @@ class AuthApiClient extends GetConnect {
 
    Future<Map<String, dynamic>> getUserData(String phoneNumber) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/user/$phoneNumber'));
+      final response = await get('${baseUrl}user/$phoneNumber');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> userData = json.decode(response.body);
+        Map<String, dynamic> userData = response.body['data']['user'];
         print('L\'utilisateur est : ${userData}');
         return userData;
       } else {
@@ -236,20 +278,30 @@ class AuthApiClient extends GetConnect {
 
 
 Future<void> signIn(String phoneNumber, String password) async {
-  final String apiUrl = 'http://192.168.1.10:5000/api/login';
+  final String apiUrl = baseUrl+'login';
 
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    body: {'mobile_number': phoneNumber, 'password': password},
+  final response = await post(
+    apiUrl,
+    {'mobile_number': phoneNumber, 'password': password},
   );
 
-  if (response.statusCode == 200) {
-    Map<String, dynamic> responseData = json.decode(response.body);
-
+  if (response.statusCode == 201) {
+    Map<String, dynamic> responseData = response.body;
     // Affichez le contenu de la réponse dans la console de débogage
     print("Réponse du serveur: $responseData");
 
     if (responseData['success'] == true) {
+
+      var user = response.body['data']['user'];
+      final userData = GetStorage('user_infos');
+      userData.write('firstname', user['name']);
+      userData.write('lastname', user['lastname']);
+      userData.write('username', user['username']);
+      userData.write('phone_number', user['phone_number']);
+      userData.write('user_role', user['role_id']);
+      userData.write('access_token', response.body['data']['token']);
+      returnSuccess(response.body['message']);
+      navigateToHome(user['role_id']);
       print("Connecté avec succès!");
     } else {
       print("Échec de la connexion. Veuillez vérifier vos informations d'identification.");
@@ -257,6 +309,7 @@ Future<void> signIn(String phoneNumber, String password) async {
   } else {
     print("Erreur lors de la communication avec le serveur. Code d'erreur: ${response.statusCode}");
     print("Contenu de la réponse: ${response.body}");
+    returnError(response.body['message']);
   }
 }
 
@@ -454,11 +507,45 @@ Future<void> signIn(String phoneNumber, String password) async {
 
   // For Logout
   Future<void> logout() async {
-    final box = GetStorage();
-    box.remove('access_token');
-    box.remove('refresh_token');
-    Get.snackbar('disconnection'.tr, 'disconnection_message'.tr,
-        backgroundColor: successColor, colorText: Colors.white);
-    Get.offAllNamed('/connexion');
+    String token = GetStorage('user_infos').read('access_token') ?? '';
+    final headers = {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    };
+
+    final response = await post(logoutUrl, {}, headers: headers);
+    print(response.body);
+    if (response.status.hasError) {
+      if (response.status.code == 401) {
+        returnError(response.body['message']);
+        throw Exception("invalid_credentials".tr);
+      } else {
+        returnError(response.body['message']);
+        throw Exception('connection_error'.tr);
+      }
+    } else if (response.status.code == 200) {
+      try {
+        // await cBox.clear();
+      } catch (e) {
+        print("error: $e");
+      }
+
+      final box = GetStorage('user_infos');
+      box.remove('access_token');
+      box.remove('refresh_token');
+      box.remove('firstname');
+      box.remove('lastname');
+      box.remove('username');
+      box.remove('phone_number');
+      box.remove('user_role');
+      box.remove('access_token');
+
+      returnSuccess(response.body['message']);
+      Get.offAllNamed('/connexion');
+      return response.body;
+    } else {
+      returnError(response.body['message']);
+      throw Exception('Response is not a Map');
+    }
   }
 }
