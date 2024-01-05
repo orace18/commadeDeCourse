@@ -55,6 +55,8 @@ import 'package:otrip/pages/liste_page/conducteur_liste_page/controllers/parrain
 import 'package:otrip/pages/role_page/controllers/role_binding.dart';
 import 'package:otrip/pages/role_page/index.dart';
 import 'package:otrip/pages/liste_page/conducteur_liste_page/index.dart';
+import 'package:otrip/pages/selecte_place_page/controllers/search_place_binding.dart';
+import 'package:otrip/pages/selecte_place_page/index.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
@@ -306,17 +308,19 @@ class AppRouter {
     GetPage(
       name: '/moto',
       page: () => MotoDriversPage( enginType: 'Moto'),
-     //binding: EnginSelecteBinding(),
     ),
     GetPage(
       name: '/voiture',
       page: () => VoitureDriversPage(enginType: 'Voiture'),
-     //binding: EnginSelecteBinding(),
     ),
     GetPage(
       name: '/tricycle',
-      page: () => TricycleDriversPage( enginType: 'Tricycle'),
-     //binding: EnginSelecteBinding(),
+      page: () => TricycleDriversPage( enginType: 'Tricycle'), 
+    ),
+    GetPage(
+      name: '/quartier',
+      page: () => NeighborhoodsPage(),
+     binding: NeighborhoodsBinding(),
     ),
   ];
 }

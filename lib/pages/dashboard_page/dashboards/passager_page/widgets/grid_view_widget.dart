@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/pages/legalmention_page/widgets/course_moto.dart';
+import 'package:otrip/pages/legalmention_page/widgets/course_tricycle.dart';
+import 'package:otrip/pages/legalmention_page/widgets/course_voiture.dart';
+
 import 'package:otrip/providers/theme/theme.dart';
 
 class DashboardGridView extends StatelessWidget {
@@ -12,13 +16,15 @@ class DashboardGridView extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       children: [
         buildGridItem("Voiture".tr, Icons.directions_car, () async {
-           Get.toNamed('/voiture');
+          Get.dialog(VoitureLocationPickerView());
         }),
         buildGridItem("Moto".tr, Icons.directions_bike, () {
-          Get.toNamed('/moto');
+          Get.dialog(MotoLocationPickerView());
+
         }),
         buildGridItem("Tricycle".tr, Icons.electric_bike_sharp, () {
-          Get.toNamed('/tricycle');
+          Get.dialog(TricycleLocationPickerView());
+
         }),
         buildGridItem("activities".tr, Icons.access_time, () {
           Get.toNamed('/activities');

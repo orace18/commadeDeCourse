@@ -17,3 +17,4 @@ final demandeParrainageUrl = baseUrl + 'parrainage/list';
 final userInfoUrl = baseUrl + 'users';
 final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
 final driverByEngin = baseUrl + 'engin';
+final apiGooglePlace ='https://maps.googleapis.com/maps/api/place/autocomplete/json';

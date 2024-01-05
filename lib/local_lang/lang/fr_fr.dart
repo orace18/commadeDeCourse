@@ -78,4 +78,5 @@ const fr_FR = {
   'choose_a_profile' : 'Se connecter en tant que',
   'can_change_profile_later': 'Vous pouvez changer de profil après',
   'Search':'Recherche',
+  'done': 'Terminé',
 };

@@ -4,6 +4,6 @@ import 'legalmention_controller.dart';
 class LegalmentionBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<LegalmentionController>(() => LegalmentionController());
+    Get.lazyPut<LocationPickerController>(() => LocationPickerController());
   }
 }
