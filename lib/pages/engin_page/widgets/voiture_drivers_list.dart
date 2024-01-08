@@ -74,7 +74,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
               Map<String, dynamic>? positions = user['users']['positions'];
               double? latitude = positions?['latitude'];
               double? longitude = positions?['longitude'];
-              double? distance = MathServices().calculateDistance(
+              String distance = MathServices().calculateDistance(
                 maLatitude,
                 maLongitude,
                 latitude!,

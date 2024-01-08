@@ -14,6 +14,8 @@ import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/pass
 import 'package:otrip/pages/engin_page/widgets/moto_drivers_list.dart';
 import 'package:otrip/pages/engin_page/widgets/tricyle_drivers_list.dart';
 import 'package:otrip/pages/engin_page/widgets/voiture_drivers_list.dart';
+import 'package:otrip/pages/legalmention_page/controllers/legalmention_controller.dart';
+import 'package:otrip/pages/legalmention_page/widgets/course_voiture.dart';
 import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_drivers_binding.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/index.dart';
@@ -316,6 +318,10 @@ class AppRouter {
     GetPage(
       name: '/tricycle',
       page: () => TricycleDriversPage( enginType: 'Tricycle'), 
+    ),
+    GetPage(
+      name: '/addresse_choose',
+      page: () => LocationPage(), 
     ),
     GetPage(
       name: '/quartier',

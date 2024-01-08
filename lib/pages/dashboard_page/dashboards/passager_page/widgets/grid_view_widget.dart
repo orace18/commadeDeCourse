@@ -16,15 +16,13 @@ class DashboardGridView extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       children: [
         buildGridItem("Voiture".tr, Icons.directions_car, () async {
-          Get.dialog(VoitureLocationPickerView());
+          Get.toNamed('/addresse_choose');
         }),
         buildGridItem("Moto".tr, Icons.directions_bike, () {
           Get.dialog(MotoLocationPickerView());
-
         }),
         buildGridItem("Tricycle".tr, Icons.electric_bike_sharp, () {
           Get.dialog(TricycleLocationPickerView());
-
         }),
         buildGridItem("activities".tr, Icons.access_time, () {
           Get.toNamed('/activities');
@@ -66,5 +64,4 @@ class DashboardGridView extends StatelessWidget {
       ),
     );
   }
-
 }

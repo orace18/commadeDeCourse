@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:otrip/constants.dart';
 
 class MathServices {
-  double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
+  String calculateDistance(double lat1, double lng1, double lat2, double lng2) {
     // Conversion des latitudes et longitudes de degrés à radians
     final double lat1Rad = degreesToRadians(lat1);
     final double lng1Rad = degreesToRadians(lng1);
@@ -21,8 +21,10 @@ class MathServices {
 
     // Distance en kilomètres
     final double distance = earthRadius * c;
+    String formattedDistance = distance.toStringAsFixed(2);
 
-    return distance;
+    return formattedDistance;
+
   }
 
   double degreesToRadians(double degrees) {

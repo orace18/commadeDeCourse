@@ -10,25 +10,25 @@ import 'controllers/role_choose_controller.dart';
 class RoleChoosePage extends GetWidget<RoleChooseController> {
   List<Map<String, dynamic>> roles = [
     {
-      "id": 2,
+      "id": 1,
       "title": "merchant".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "merchant_details".tr
     },
     {
-      "id": 3,
+      "id": 2,
       "title": "driver".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "driver_details".tr
     },
     {
-      "id": 4,
+      "id": 3,
       "title": "passenger".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "passenger_details".tr
     },
     {
-      "id": 1,
+      "id": 4,
       "title": "society".tr,
       "image_path": "assets/logos/moov_momo.png",
       "role_details": "society_details".tr

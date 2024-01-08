@@ -1,4 +1,4 @@
-final baseUrl = 'http://192.168.1.7:5000/api/';
+final baseUrl = 'http://192.168.1.12:5000/api/';
 // final baseUrl = 'https://test.com';
 
 final loginUrl = baseUrl + 'login';
