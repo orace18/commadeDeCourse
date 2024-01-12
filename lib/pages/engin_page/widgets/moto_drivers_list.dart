@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
 import 'package:otrip/math_services.dart';
 import 'package:otrip/pages/engin_page/controllers/moto_drivers_controller.dart';
+import 'package:otrip/pages/legalmention_page/controllers/legalmention_controller.dart';
 
 class MotoDriversPage extends GetWidget<MotoDriversController> {
-  late double maLatitude;
-  late double maLongitude;
+  late double maLatitude = 6.234;
+  late double maLongitude = 2.453;
 
   MotoDriversPage({required String enginType}) {
     Get.put(MotoDriversController(enginType: enginType));
     _getCurrentLocation();
   }
+  LocationPickerController pickerController = LocationPickerController();
 
   // Méthode pour obtenir la position actuelle
   Future<void> _getCurrentLocation() async {
@@ -43,6 +46,7 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
 
   @override
   void onInit() {
+    _getCurrentLocation();
     controller.fetchUsers();
   }
 
@@ -51,7 +55,7 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Liste des Conducteur de ${controller.enginType}'),
-          leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Naviguer en arrière lorsque l'icône est cliquée
@@ -90,28 +94,112 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
                     return Text('Erreur: ${snapshot.error}');
                   } else {
                     String? lieu = snapshot.data;
+                    return GestureDetector(
+                      onTap: () {
+                        int id_conducteur = user['users']['id'];
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('valid'.tr),
+                              content: Text('make_course_to'.tr +
+                                  ' ' +
+                                  '${user['users']['name']} ${user['users']['lastname']}'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Fermer la boîte de dialogue
+                                  },
+                                  child: Text('close'.tr),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    String engin = GetStorage().read('engin');
+                                    print('L\'engin est: $engin');
+                                    int id_passager = GetStorage().read('id');
+                                    print("L'id du passager: $id_passager");
+                                    String depart =
+                                        GetStorage().read('deparLieu');
+                                    print("L'addresse de départ: $depart");
+                                    String arrivee =
+                                        GetStorage().read('arriveeLieu');
+                                    print("L'addresse d'arrivée: $arrivee");
+                                    bool sucess =
+                                        await pickerController.makeCourse(
+                                            engin,
+                                            depart,
+                                            arrivee,
+                                            id_passager.toString(),
+                                            id_conducteur.toString());
 
-                    return Card(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Nom: ${user['users'] != null ? user['users']['name'] ?? 'N/A' : 'N/A'} ${user['users']['lastname'] ?? ''}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Numéro de téléphone: ${user['users']['mobile_number']}',
-                            ),
-                            SizedBox(height: 8.0),
-                            if (positions != null)
+                                    if (sucess) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Course effectuée'),
+                                          duration: Duration(
+                                              seconds:
+                                                  2), // Facultatif: spécifie la durée d'affichage
+                                          backgroundColor: Colors.green,
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Course Non fait'),
+                                          duration: Duration(
+                                              seconds:
+                                                  2), // Facultatif: spécifie la durée d'affichage
+                                          backgroundColor: Colors.red,
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    Get.back();
+                                  },
+                                  child: Text('valid'.tr),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                               Text(
-                                'Lieu: ${lieu.toString()} - A $distance km de vous',
+                                'Nom: ${user['users'] != null ? user['users']['name'] ?? 'N/A' : 'N/A'} ${user['users']['lastname'] ?? ''}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                          ],
+                              SizedBox(height: 8.0),
+                              Text(
+                                'Numéro de téléphone: ${user['users']['mobile_number']}',
+                              ),
+                              SizedBox(height: 8.0),
+                              if (positions != null)
+                                Text(
+                                  'Lieu: ${lieu.toString() ?? 'N/A'} - à $distance km de vous',
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     );

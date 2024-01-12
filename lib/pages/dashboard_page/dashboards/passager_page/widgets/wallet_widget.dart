@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
@@ -31,7 +32,7 @@ class WalletCard extends StatelessWidget {
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  "0 FCFA",
+                  "${GetStorage().read('balance')} FCFA",
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,

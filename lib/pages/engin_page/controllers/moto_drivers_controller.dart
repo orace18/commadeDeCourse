@@ -88,12 +88,11 @@ class MotoDriversController extends GetxController {
     try {
       final response = await http.get(Uri.parse('$driverByEngin/$engin'));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final dynamic responseData = json.decode(response.body);
 
         if (responseData is List<dynamic> && responseData.isNotEmpty) {
-          List<Map<String, dynamic>> driverList =
-              List<Map<String, dynamic>>.from(responseData);
+          List<Map<String, dynamic>> driverList = List<Map<String, dynamic>>.from(responseData);
           return driverList;
         } else {
           throw Exception('Invalid response format for users by engin type.');

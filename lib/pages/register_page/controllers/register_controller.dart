@@ -27,9 +27,9 @@ class RegisterController extends GetxController {
   }
   void navigateBack() => Get.back();
 
-  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String phoneCode, String password, Map<String, double> location) async {
+  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password, Map<String, double> location) async {
   try {
-    bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, phoneCode, password, location);
+    bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password, location);
     if (valid) {
       navigateToHome(roleId);
     }
