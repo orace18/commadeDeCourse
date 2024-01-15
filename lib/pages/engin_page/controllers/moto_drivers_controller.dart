@@ -22,8 +22,6 @@ class MotoDriversController extends GetxController {
   void onInit() async {
     fetchUsers();
     super.onInit();
-  
-
   }
 
   Future<Map<String, dynamic>> getUserInfoByPhone() async {
@@ -92,7 +90,9 @@ class MotoDriversController extends GetxController {
         final dynamic responseData = json.decode(response.body);
 
         if (responseData is List<dynamic> && responseData.isNotEmpty) {
-          List<Map<String, dynamic>> driverList = List<Map<String, dynamic>>.from(responseData);
+          List<Map<String, dynamic>> driverList =
+              List<Map<String, dynamic>>.from(responseData);
+          print('Les driver: $driverList');
           return driverList;
         } else {
           throw Exception('Invalid response format for users by engin type.');
@@ -105,7 +105,7 @@ class MotoDriversController extends GetxController {
     }
   }
 
-   Future<String?> getPlaceName(double? latitude, double? longitude) async {
+  Future<String?> getPlaceName(double? latitude, double? longitude) async {
     final response = await http.get(
       Uri.parse('$apiUrl?latlng=$latitude,$longitude&key=$google_api_key'),
     );
@@ -126,6 +126,4 @@ class MotoDriversController extends GetxController {
 
     return null;
   }
-
-
 }

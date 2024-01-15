@@ -76,8 +76,8 @@ class LocationPickerController extends GetxController {
         'engin': engin,
         'depart': addressStart,
         'arrivee': addressEnd,
-        'id_passager': id_passager,
-        'id_conducteur': id_conducteur,
+        'idPassager': id_passager,
+        'users_id': id_conducteur,
       });
 
     try {

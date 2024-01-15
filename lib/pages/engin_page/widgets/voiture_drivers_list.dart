@@ -67,7 +67,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else if (controller.driverList.isEmpty) {
-          return Center(child: Text('Aucun utilisateur trouvé.'));
+          return Center(child: Text('Aucun conducteur trouvé.'));
         } else {
           return ListView.builder(
             itemCount: controller.driverList.length,
@@ -140,7 +140,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content: Text('Course effectuée'),
+                                          content: Text('course_done'.tr),
                                           duration: Duration(
                                               seconds:
                                                   2), // Facultatif: spécifie la durée d'affichage
@@ -156,7 +156,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content: Text('Course Non fait'),
+                                          content: Text('course_failed'.tr),
                                           duration: Duration(
                                               seconds:
                                                   2), // Facultatif: spécifie la durée d'affichage
@@ -194,10 +194,10 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
                                 'Numéro de téléphone: ${user['users']['mobile_number']}',
                               ),
                               SizedBox(height: 8.0),
-                              if (positions != null)
+                                if (positions != null)
                                 Text(
                                   'Lieu: ${lieu.toString() ?? 'N/A'} - à $distance km de vous',
-                                ),
+                                ), 
                             ],
                           ),
                         ),

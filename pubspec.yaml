@@ -68,7 +68,8 @@ dependencies:
   flutter_map: ^6.1.0
   google_maps_flutter_web: ^0.5.4+3
   geocoding: ^2.1.1
-  flutter_google_places: ^0.3.0
+  flutter_svg: ^2.0.9
+
   
 
 dev_dependencies:

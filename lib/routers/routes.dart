@@ -64,6 +64,8 @@ import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
 import 'package:otrip/pages/support_page/index.dart';
+import 'package:otrip/pages/track_user_map_page/controllers/user_track_binding.dart';
+import 'package:otrip/pages/track_user_map_page/index.dart';
 import 'package:otrip/pages/wallet_page/controllers/wallet_binding.dart';
 import 'package:otrip/pages/wallet_page/index.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_binding.dart';
@@ -332,6 +334,11 @@ class AppRouter {
         GetPage(
       name: '/course_map',
       page: () => CourseMapPage(),
+    ),
+    GetPage(
+      name: '/track_user',
+      page: () => TrackMapPage(),
+     binding: TrackMapBinding(),
     ),
   ];
 }

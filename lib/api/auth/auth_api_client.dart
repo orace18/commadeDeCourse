@@ -19,6 +19,8 @@ class AuthApiClient extends GetConnect {
     });
   }
 
+  final userInfos = GetStorage();
+
   Future<Map<String, dynamic>> login(String phone, String password) async {
     // final cBox = await Hive.openBox<Contact>(contactBox);
     Map<String, String> body = {'mobile_number': phone, 'password': password};
@@ -86,7 +88,7 @@ class AuthApiClient extends GetConnect {
       throw Exception('Response is not a Map');
     }
   }
-  
+
   Future<bool> signUp(
     int role,
     String username,
@@ -124,7 +126,12 @@ class AuthApiClient extends GetConnect {
         throw Exception("400");
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         print("Enregistré avec succès!");
-        getUserData(mobileNumber);
+        Map<String, dynamic> userData = await getUserData(mobileNumber);
+
+        final role_id = userData['role_id'];
+        userInfos.write('balance', userData['solde']);
+        userInfos.write('phone_number', userData['mobile_number']);
+        userInfos.write('id', userData['id']);
         return true;
       } else {
         throw Exception("'connection_error'.tr : ${response.statusCode}");
@@ -137,12 +144,25 @@ class AuthApiClient extends GetConnect {
 
   Future<Map<String, dynamic>> getUserData(String phoneNumber) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/user/$phoneNumber'));
+      final response =
+          await http.get(Uri.parse('$userInfoByPhoneUrl/$phoneNumber'));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Map<String, dynamic> userData = json.decode(response.body);
-        print('L\'utilisateur est : ${userData}');
-        return userData;
+        Map<String, dynamic> responseData = json.decode(response.body);
+
+        // Vérifiez si la requête a réussi
+        if (responseData['success'] == true) {
+          // Récupérez les données de l'utilisateur
+          Map<String, dynamic> userData = responseData['data']['user'];
+
+          // Affichez les informations de l'utilisateur
+          print('L\'utilisateur est : ${userData}');
+
+          return userData;
+        } else {
+          throw Exception(
+              'Erreur lors de la récupération des données utilisateur: ${responseData['message']}');
+        }
       } else {
         throw Exception(
             'Erreur lors de la récupération des données utilisateur');
@@ -151,7 +171,6 @@ class AuthApiClient extends GetConnect {
       throw Exception('Erreur réseau: $e');
     }
   }
-
 
   Future<bool> signIn(String phoneNumber, String password) async {
     final response = await http.post(
