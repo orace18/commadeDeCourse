@@ -82,7 +82,7 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
-                name: 'location',
+                name: 'address',
                 initialValue: "",
                 enabled: true,
                 decoration: InputDecoration(
@@ -104,7 +104,7 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderRadioGroup(
-                name: 'sex',
+                name: 'gender',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                     contentPadding:
@@ -287,8 +287,24 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                             form.fields['fullname']?.value.split(' ')[1],
                         'phone_number': form.fields['phone_number']?.value,
                       };
-                      controller.updateProfile(updatedData);
+                      // mise à jour sexe, l'anniversaire et l'adresse du formulaire
+                      String updatedGender = form.value['gender'] ?? '';
+                      DateTime updatedBirthday =
+                          form.value['birthday'] ?? DateTime.now();
+                      String updatedAddress = form.value['address'] ?? '';
+                      controller.updateProfileInfo(
+                        updatedGender,
+                        updatedBirthday,
+                        updatedAddress,
+                      );
+                      controller.updateProfile(
+                        updatedData,
+                        updatedGender,
+                        updatedBirthday,
+                        updatedAddress,
+                      );
                       Get.toNamed('/profile');
+                      print('Données bien recupérées');
                     }
                   }),
             )

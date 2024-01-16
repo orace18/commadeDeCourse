@@ -3,7 +3,22 @@ import 'package:get_storage/get_storage.dart';
 
 class ProfileController extends GetxController {
   final imagePath = ''.obs;
+  late RxString gender;
+  late Rx<DateTime> birthday;
+  late RxString address;
   final userData = GetStorage();
+  late String userRole;
+  late final GetStorage storage;
+
+  @override
+  void onInit() {
+    super.onInit();
+    storage = GetStorage();
+    userRole = getRole();
+    gender = RxString('');
+    birthday = DateTime.now().obs;
+    address = RxString('');
+  }
 
   // Fonction pour récupérer les données de l'utilisateur
   Map<String, dynamic> getUserData() {
@@ -11,8 +26,10 @@ class ProfileController extends GetxController {
       'firstname': userData.read('firstname') ?? '',
       'lastname': userData.read('lastname') ?? '',
       'username': userData.read('username') ?? '',
-      'phoneNumber': userData.read('phone_number') ?? '',
-     // 'password': userData.read('password') ?? '',
+      'phone_number': userData.read('phone_number') ?? '',
+      'gender': userData.read('gender') ?? '',
+      'birthday': userData.read('birthday') ?? DateTime.now(),
+      'address': userData.read('address') ?? '',
     };
   }
 
@@ -25,16 +42,44 @@ class ProfileController extends GetxController {
     update();
   }
 
-  late String userRole;
+  //recuperer le reste des infos
+  void updateProfileInfo(
+      String updatedGender, DateTime updatedBirthday, String updatedAddress) {
+    gender.value = updatedGender;
+    birthday.value = updatedBirthday;
+    address.value = updatedAddress;
+    
 
-  @override
-  void onInit() {
-    super.onInit();
-    userRole = GetStorage().read('user_role') ?? '';
+    userData.write('gender', updatedGender);
+    userData.write('birthday', updatedBirthday.toString());
+    userData.write('address', updatedAddress);
   }
 
   String getUserRole() {
-    return userRole;
+    String roleIdString = userData.read('user_role') ?? '0';
+    int roleId = int.tryParse(roleIdString) ?? 0;
+    return getRoleFromId(roleId);
+  }
+
+  String getRoleFromId(int roleId) {
+    // Logique pour trouver le rôle correspondant à l'ID
+    switch (roleId) {
+      case 1:
+        return 'Merchant';
+      case 3:
+        return 'Driver';
+      case 4:
+        return 'Passenger';
+      case 5:
+        return 'Society';
+      default:
+        return 'Unknown'; // Ou une valeur par défaut si nécessaire
+    }
+  }
+
+  String getRole() {
+    int roleId = storage.read('user_role') ?? 0;
+    return getRoleFromId(roleId);
   }
 
   void navigateBack() => Get.back();

@@ -5,26 +5,25 @@ class Driver {
   late String phoneNumber;
   late Map<String, dynamic> localisation;
 
-  Driver(
-      {
-      required this.id,
-      required this.lastname,
-      required this.firstname,
-      required this.phoneNumber,
-      required this.localisation});
+  Driver({
+    required this.id,
+    required this.lastname,
+    required this.firstname,
+    required this.phoneNumber,
+    required this.localisation,
+  });
 
-  @override
-  String toString() {
-    return 'Driver{id: $id, firstname: $firstname, lastname: $lastname, phoneNumber: $phoneNumber, localisation: $localisation}';
-  }
-
-    factory Driver.fromJson(Map<String, dynamic> json) {
+  factory Driver.fromJson(Map<String, dynamic> json) {
     return Driver(
-      id: json['name'],
-      lastname: json['lastname'],
-      firstname: json['name'],
-      localisation: json['positions'],
-      phoneNumber: json['mobile_number'],
+      id: json['id'] ?? 0, // Valeur par défaut si 'id' est null
+      lastname:
+          json['lastname'] ?? '', // Valeur par défaut si 'lastname' est null
+      firstname:
+          json['name'] ?? '', // Valeur par défaut si 'firstname' est null
+      localisation:
+          json['positions'] ?? {}, // Valeur par défaut si 'positions' est null
+      phoneNumber: json['mobile_number'] ??
+          '', // Valeur par défaut si 'mobile_number' est null
     );
   }
 }

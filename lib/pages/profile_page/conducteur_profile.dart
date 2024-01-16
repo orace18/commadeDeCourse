@@ -3,19 +3,65 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otrip/constants.dart';
+import 'package:otrip/pages/profile_page/controllers/conducteur_profile_controller.dart';
 import 'package:otrip/pages/profile_page/widgets/clipper.dart';
 import '../../providers/theme/theme.dart';
-import 'controllers/profile_controller.dart';
+
 import 'package:file_picker/file_picker.dart';
 
-class DriverProfilePage extends GetWidget<ProfileController> {
+class DriverProfilePage extends GetWidget<ConducteurProfileController> {
   const DriverProfilePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String role = controller.getUserRole();
+    // Récupérez les données du contrôleur du profil
+    String gender = controller.gender.value;
+    String birthdayString = controller.userData.read('birthday') ?? '';
+    DateTime birthday;
+    if (birthdayString.isNotEmpty) {
+      try {
+        birthday = DateTime.parse(birthdayString);
+      } catch (e) {
+        // Gérer l'erreur de conversion de la date ici
+        print('Erreur de parsing de la date : $e');
+        // Affectez une valeur par défaut ou faites quelque chose d'autre en cas d'erreur de parsing
+        birthday = DateTime
+            .now(); // Par exemple, utiliser la date actuelle comme valeur par défaut
+      }
+    } else {
+      // Chaîne de date vide : gérer ce cas selon vos besoins
+      birthday = DateTime
+          .now(); // Utilisation de la date actuelle comme valeur par défaut
+    } // Convertissez la chaîne en DateTime
+    String address = controller.address.value;
+    String numeroImmatricule = controller.numeroImmatricule.value;
+    //recuperer role
+    int? roleId = int.tryParse(controller.getUserRole()) ?? 0;
+    String roleName = controller.getRoleFromId(roleId);
     Map<String, dynamic> userData = controller.getUserData();
     return Scaffold(
-        body: GetBuilder<ProfileController>(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Ink(
+              decoration: ShapeDecoration(
+                color: AppTheme.otripMaterial[200], // Couleur du bouton
+                shape: CircleBorder(), // Forme ronde
+              ),
+              child: IconButton(
+                enableFeedback: true,
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  Get.toNamed('/driver');
+                },
+              ),
+            ),
+          ),
+        ),
+        body: GetBuilder<ConducteurProfileController>(
             builder: (_) => Column(
                   children: [
                     Expanded(
@@ -118,7 +164,7 @@ class DriverProfilePage extends GetWidget<ProfileController> {
                               ),
                               defaultSizedBox,
                               Text(
-                                role,
+                                roleName,
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelLarge
@@ -143,25 +189,63 @@ class DriverProfilePage extends GetWidget<ProfileController> {
                                 padding: const EdgeInsets.only(
                                     left: defaultPadding,
                                     right: defaultPadding),
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                      title: Text(
-                                        '${userData['firstname']} ${userData['lastname']}',
-                                      ),
-                                      subtitle: Text("profile_name_edit".tr),
-                                      onTap: () {
-                                        Get.toNamed("/profile_edit_conducteur");
-                                      },
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () {
-                                          Get.toNamed("/profile_edit_conducteur");
-                                        },
-                                      ),
+                                child: Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
                                     ),
-                                  ],
-                                ),
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text("Nom et Prénoms"),
+                                          subtitle: Text(
+                                            '${userData['firstname']} ${userData['lastname']}',
+                                          ),
+                                          onTap: () {
+                                            Get.toNamed(
+                                                "/profile_edit_conducteur");
+                                          },
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.edit),
+                                            onPressed: () {
+                                              Get.toNamed(
+                                                  "/profile_edit_conducteur");
+                                            },
+                                          ),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          leading: Icon(Icons.phone),
+                                          title: Text("Téléphone"),
+                                          subtitle: Text(
+                                              userData['phone_number'] ?? ''),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          leading: Icon(Icons.male),
+                                          title: Text("Sexe"),
+                                          subtitle: Text(gender),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          leading: Icon(Icons.calendar_today),
+                                          title: Text("Date de naissance"),
+                                          subtitle: Text('$birthday'),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          leading: Icon(Icons.location_on),
+                                          title: Text("Adresse"),
+                                          subtitle: Text(address),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          leading: Icon(Icons.car_crash),
+                                          title: Text("Immatriculation"),
+                                          subtitle: Text(numeroImmatricule),
+                                        ),
+                                      ],
+                                    )),
                               ),
                             )
                           ],

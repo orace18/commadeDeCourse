@@ -1,5 +1,4 @@
 import 'package:feda/feda.dart';
-import 'package:feda/models/transaction.dart';
 
 class FedaApi {
 

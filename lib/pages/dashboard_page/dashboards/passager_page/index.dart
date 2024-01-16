@@ -13,7 +13,7 @@ class PassagerPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
-
+            Get.toNamed('/passager_menu');
           },
         ),
       ),

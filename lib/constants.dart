@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 const appName = "Otrip";
 const google_api_key = "AIzaSyBbTebj7DVC2yJu0hDJPfqP63x9uz9GQ-8";
 // const google_api_key = "AIzaSyD-8-htTPIegLQx40M2tseJ6yhf4wL1mHo";
+const double earthRadius = 6371; // Rayon moyen de la Terre en kilomètres
 
 //General Color
 const warningColor = Colors.orange;
@@ -27,16 +28,16 @@ const default2xSizedBox = SizedBox(height: 20, width: 20,);
 void navigateToHome(int roleId){
   switch (roleId) {
     case 1:
-      Get.toNamed("/");
-      break;
-    case 2:
       Get.toNamed("/marchand");
       break;
-    case 3:
+    case 2:
       Get.toNamed("/driver");
       break;
-    case 4:
+    case 3:
       Get.toNamed("/passager");
+      break;
+    case 4:
+      Get.toNamed("/");
       break;
     default:
       break;

@@ -82,7 +82,7 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderRadioGroup(
-                name: 'sex',
+                name: 'gender',
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                     contentPadding:
@@ -90,7 +90,7 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    hintText: 'sex'.tr,
+                    hintText: 'sexe'.tr,
                     icon: Icon(Icons.male)),
                 options: [
                   FormBuilderFieldOption(
@@ -130,7 +130,7 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
             Padding(
               padding: EdgeInsets.only(right: defaultPadding),
               child: FormBuilderTextField(
-                name: 'location',
+                name: 'address',
                 initialValue: "",
                 enabled: true,
                 decoration: InputDecoration(
@@ -308,8 +308,27 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                             form.fields['fullname']?.value.split(' ')[1],
                         'phone_number': form.fields['phone_number']?.value,
                       };
-                      controller.updateProfile(updatedData);
-                      Get.toNamed('/profile');
+                      // mise à jour sexe, l'anniversaire et l'adresse du formulaire
+                      String updatedGender = form.value['gender'] ?? '';
+                      DateTime updatedBirthday =
+                          form.value['birthday'] ?? DateTime.now();
+                      String updatedAddress = form.value['address'] ?? '';
+                      String updatedNumeroImmatricule =
+                          form.value['numeroImmatricule'] ?? '';
+                      controller.updateProfileInfo(
+                        updatedGender,
+                        updatedBirthday,
+                        updatedAddress,
+                        updatedNumeroImmatricule,
+                      );
+                      controller.updateProfile(
+                          updatedData,
+                          updatedGender,
+                          updatedBirthday,
+                          updatedAddress,
+                          updatedNumeroImmatricule);
+                      Get.toNamed('/profile_conducteur');
+                      print('Données bien recupérées');
                     }
                   }),
             )

@@ -8,28 +8,19 @@ class ProfileEditInfoController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
   final userData = GetStorage();
   final imagePath = ''.obs;
-  
+
   Map<String, dynamic> getUserData() {
     return {
       'firstname': userData.read('firstname') ?? '',
       'lastname': userData.read('lastname') ?? '',
       'username': userData.read('username') ?? '',
       'phoneNumber': userData.read('phone_number') ?? '',
-     // 'password': userData.read('password') ?? '',
+      // 'password': userData.read('password') ?? '',
     };
   }
 
-//   void updateProfile(Map<String, dynamic> updatedData) {
-//     final profileController = Get.find<ProfileController>();
-
-//     userData.write('firstname', updatedData['firstname']);
-//     userData.write('lastname', updatedData['lastname']);
-//     userData.write('phone_number', updatedData['phone_number']);
-
-//     profileController.updateProfile(updatedData);
-
-// }
-  void updateProfile(Map<String, dynamic> updatedData) {
+  void updateProfile(Map<String, dynamic> updatedData, String updatedGender,
+      DateTime updatedBirthday, String updatedAddress) {
     final profileController = Get.find<ProfileController>();
 
     userData.write('firstname', updatedData['firstname']);
@@ -44,10 +35,18 @@ class ProfileEditInfoController extends GetxController {
 
     // Appel à la méthode updateProfile du profileController avec les données mises à jour
     profileController.updateProfile(userDataMap);
+    profileController.updateProfileInfo(
+      updatedGender,
+      DateTime.now(), // Mise à jour de l'anniversaire ici si nécessaire
+      updatedAddress,
+    );
 
     // Naviguer vers la page de profil après la mise à jour
     Get.toNamed('/profile');
   }
 
   void navigateBack() => Get.back();
+
+  void updateProfileInfo(
+      String updatedGender, DateTime updatedBirthday, String updatedAddress) {}
 }

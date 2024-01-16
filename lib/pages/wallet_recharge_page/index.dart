@@ -29,7 +29,7 @@ class WalletRechargePage extends GetWidget<WalletRechargeController> {
                       child: Icon(Icons.add),
                       onPressed: (){
                         Get.defaultDialog(
-                          title: "new_recharge_id",
+                          title: "new_recharge_id".tr,
                           content: RechargeIdForm(),
                         );
                       },

@@ -18,19 +18,19 @@ class RolePage extends GetWidget<RoleController> {
               RoleCard(
                 roleName: "Passager",
                 onPressed: () {
-                  // Ajoutez ici le code pour gérer le choix du rôle passager
+                  Get.toNamed('/passager');
                 },
               ),
               RoleCard(
                 roleName: "Marchand",
                 onPressed: () {
-                  // Ajoutez ici le code pour gérer le choix du rôle marchand
+                  Get.toNamed('/marchand');
                 },
               ),
               RoleCard(
                 roleName: "Conducteur",
                 onPressed: () {
-                  // Ajoutez ici le code pour gérer le choix du rôle conducteur
+                  Get.toNamed('/driver');
                 },
               ),
               RoleCard(
@@ -46,4 +46,3 @@ class RolePage extends GetWidget<RoleController> {
     );
   }
 }
-

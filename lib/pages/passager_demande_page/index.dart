@@ -1,43 +1,46 @@
-import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_controller.dart';
 import 'package:otrip/pages/passager_demande_page/models/passager_demande.dart';
 import '../../../../constants.dart';
 import '../../../../providers/theme/theme.dart';
 
-
 class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Ink(
-                decoration: ShapeDecoration(
-                  color: AppTheme.otripMaterial[600],
-                  shape: CircleBorder(),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-              ),
-            )),
-        body: GetBuilder<PassagerDemandeController>(
-          builder: (_) => SafeArea(
-            top: false,
-            child: Stack(
-              children: [
-                Column(children: [
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Ink(
+            decoration: ShapeDecoration(
+              color: AppTheme.otripMaterial[600],
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
+        ),
+      ),
+      body: GetBuilder<PassagerDemandeController>(
+        builder: (_) => SafeArea(
+          top: false,
+          child: Stack(
+            children: [
+              Column(
+                children: [
                   Expanded(
                     flex: 3,
                     child: ClipPath(
@@ -58,9 +61,10 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                                   Text(
                                     "Demande",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -76,7 +80,8 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                       builder: (_) => ListView.builder(
                         itemCount: controller.listDemandes.length,
                         itemBuilder: (context, index) {
-                          PassagerDemande demande = controller.listDemandes[index];
+                          PassagerDemande demande =
+                              controller.listDemandes[index];
                           return Card(
                             margin: EdgeInsets.all(8.0),
                             child: Padding(
@@ -89,10 +94,7 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('Titre: ${demande.title}'),
-                                        SizedBox(height: 10),
-                                        Text('Message: ${demande.message}'),
-                                        SizedBox(height: 10),
+
                                         Text(
                                             'Date: ${demande.dateDemande.toString()}'),
                                         SizedBox(height: 10),
@@ -103,22 +105,32 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 10),
-                                    child: Column(
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {
+                                            // Action pour annuler la demande
                                             controller.annulerDemande(index);
                                           },
-                                          child: Text('Annuler'),
+                                          child: Icon(
+                                            FontAwesomeIcons.xmark,
+                                            size: 20,
+                                            color: Colors.red,
+                                          ),
                                         ),
-                                        SizedBox(height: 15),
+                                        SizedBox(width: 10),
                                         ElevatedButton(
                                           onPressed: () {
+                                            // Action pour valider la demande
                                             controller.validerDemande(index);
                                           },
-                                          child: Text('Valider'),
+                                          child: Icon(
+                                            FontAwesomeIcons.check,
+                                            size: 20,
+                                            color: Colors.green,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -131,10 +143,12 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                       ),
                     ),
                   ),
-                ]),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

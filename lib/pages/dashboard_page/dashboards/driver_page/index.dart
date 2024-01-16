@@ -85,10 +85,10 @@ class DriverPage extends GetWidget<DriverController> {
               GestureDetector(
                 onTap: () {
                   Get.toNamed('/parrainage'); 
-                  parrainage.getAllMarchand();
+                 // parrainage.getAllMarchand();
                 },
                 child: Card(
-                  color: Colors.white,
+                  color: const Color.fromRGBO(255, 255, 255, 1),
                   child: Container(
                     height: Get.height*0.22,
                     child: Center(
