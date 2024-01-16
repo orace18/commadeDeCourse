@@ -2,22 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:location/location.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/api/auth/auth_api_controller.dart';
 
+import '../../../constants.dart';
+
 class AddUserController extends GetxController {
-  
+
   final formKey = GlobalKey<FormBuilderState>();
   final firstnameFieldKey = GlobalKey<FormBuilderFieldState>();
   final lastnameFieldKey = GlobalKey<FormBuilderFieldState>();
   final usernameFieldKey = GlobalKey<FormBuilderFieldState>();
   final mobileFieldKey = GlobalKey<FormBuilderFieldState>();
+  final mobileFieldController = TextEditingController();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final roleId = Get.arguments["role_id"];
   final isButtonEnabled = false.obs;
   final Location _location = Location();
   Map<String, double> location = {};
+  RxString phoneNumber = ''.obs;
   void navigateBack() => Get.back();
 
   void updateButtonEnabled(bool isEnabled) {
@@ -45,46 +50,27 @@ class AddUserController extends GetxController {
     }
   }
 
-  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password, Map<String, double> location) async {
+  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String phoneCode, String password, Map<String, double> location) async {
     try {
-      bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password, location);
+      bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, phoneCode, password, location);
       if (valid) {
         navigateToHome(roleId);
-       /*  Map<String, dynamic> userData = await AuthApiClient().getUserData(phoneNumber);
+        /*  Map<String, dynamic> userData = await AuthApiClient().getUserData(phoneNumber);
 
       // Stockez les informations de l'utilisateur dans le contrôleur d'authentification
       Get.find<AuthController>().setAuthenticated(true);
       Get.find<AuthController>().setUserData(userData);  */
 
-          final userData = GetStorage();
-          userData.write('firstname', firstname);
-          userData.write('lastname', lastname);
-          userData.write('username', username);
-          userData.write('phone_number', phoneNumber);
-          userData.write('password', password);
-          userData.write('user_role', roleId.toString());
+        final userData = GetStorage('user_infos');
+        userData.write('firstname', firstname);
+        userData.write('lastname', lastname);
+        userData.write('username', username);
+        userData.write('phone_number', phoneNumber);
+        userData.write('password', password);
+        userData.write('user_role', roleId);
       }
     } catch (e) {
       print("Error during registration: $e");
-    }
-}
-
-  void navigateToHome(int roleId){
-    switch (roleId) {
-      case 1:
-        Get.toNamed("/marchand");
-        break;
-      case 2:
-        Get.toNamed("/driver");
-        break;
-      case 3:
-        Get.toNamed("/passager");
-        break;
-      case 4:
-        Get.toNamed("/");
-        break;
-      default:
-        break;
     }
   }
 
