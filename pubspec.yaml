@@ -69,6 +69,9 @@ dependencies:
   google_maps_flutter_web: ^0.5.4+3
   geocoding: ^2.1.1
   flutter_svg: ^2.0.9
+  web_socket_channel: ^2.4.0
+  workmanager: ^0.5.2
+  background_fetch: ^1.2.2
 
   
 

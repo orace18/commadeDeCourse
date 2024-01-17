@@ -81,6 +81,7 @@ const fr_FR = {
   'feeder':'Fournisseur',
   'driver':'Conducteur',
   'society':'Entreprise',
+  'track_order': 'Position en temps réel',
   'merchant_details':'Entrez les données du Marchand pour créer votre compte',
   'passenger_details':'Entrez les données du Client pour créer votre compte',
   'feeder_details':'Entrez les données du Fournisseur pour créer votre compte',
