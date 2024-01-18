@@ -30,15 +30,12 @@ class LoginForm extends GetWidget<LoginController> {
                 name: 'phone_number',
                 key: controller.mobileFieldKey,
                 onChanged: (number) {
-                  print(
-                      'Formatted Phone Number: ${controller.phoneNumber.value}');
+                  print('Formatted Phone Number: ${controller.phoneNumber.value}');
                 },
-                keyboardType: TextInputType.numberWithOptions(
-                    signed: true, decimal: true),
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -60,23 +57,28 @@ class LoginForm extends GetWidget<LoginController> {
                 key: controller.passwordFieldKey,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
-                onChanged: (value) {
+                onChanged: (value){
                   controller.validateField(controller.passwordFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(width: 0.5)),
+                      borderSide: BorderSide(
+                          width: 0.5
+                      )
+                  ),
                   hintText: 'password'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'field_required'.tr),
-                  FormBuilderValidators.minLength(8,
-                      errorText: 'string_too_short'.tr),
+                      errorText: 'field_required'.tr
+                  ),
+                  FormBuilderValidators.minLength(
+                      8,
+                      errorText: 'string_too_short'.tr
+                  ),
                 ]),
               ),
             ),
@@ -84,39 +86,37 @@ class LoginForm extends GetWidget<LoginController> {
               height: 40,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding * 2),
-              child: Obx(() => ElevatedButton(
-                  onPressed: () {
-                    if (controller.isButtonEnabled.value) {
-                      controller.loginRequest(
-                        controller.mobileFieldKey.currentState!.value.toString(),
-                        controller.passwordFieldKey.currentState!.value.toString()
-                      );
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
+              child: Obx(()=> ElevatedButton(
+                  onPressed: (){
+                    if (controller.isButtonEnabled.value){
+                      loginRequest();
+                    } else {
+                      Get.toNamed('/');
                     }
                   },
-                  child: Text(
-                    'continue'.tr,
-                    style: TextStyle(
-                        color: controller.isButtonEnabled.value
-                            ? Colors.white
-                            : Colors.black26,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: Text('continue'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     elevation: 0,
-                    backgroundColor: controller.isButtonEnabled.value
-                        ? AppTheme.otripMaterial
-                        : Colors.grey[300],
+                    backgroundColor: controller.isButtonEnabled.value ? AppTheme.otripMaterial : Colors.grey[300],
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ))),
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                  )
+              )),
             )
           ],
         ),
       ),
     );
+  }
+
+  // Fonction pour login
+  void loginRequest(){
+    String? phone_number = controller.mobileFieldKey.currentState?.value.toString();
+    String? password = controller.passwordFieldKey.currentState?.value.toString();
+    print(phone_number);
+    AuthApiClient().signIn(phone_number!, password!);
   }
 }

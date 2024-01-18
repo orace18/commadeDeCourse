@@ -8,7 +8,7 @@ class WalletRechargeController extends GetxController {
   void navigateBack() => Get.back();
   final isButtonEnabled = false.obs;
   RxList recharge_phone_numbers = [].obs;
-  final box = GetStorage('Otrip');
+  final box = GetStorage();
 
   // formulaire de recharge
   final formKey = GlobalKey<FormBuilderState>();
@@ -20,6 +20,13 @@ class WalletRechargeController extends GetxController {
   final idFormKey = GlobalKey<FormBuilderState>();
   final phone_number = GlobalKey<FormBuilderFieldState>();
   final recharge_way_add = GlobalKey<FormBuilderFieldState>();
+
+  @override
+  void onInit() {
+    List<dynamic> temp  = box.read<List<dynamic>>('mtn_phone_numbers') ?? [];
+    recharge_phone_numbers.value = temp.obs;
+    super.onInit();
+  }
 
   void updateButtonEnabled(bool isEnabled) {
     isButtonEnabled.value = isEnabled;
@@ -47,7 +54,7 @@ class WalletRechargeController extends GetxController {
     String? network = recharge_way.currentState?.value.toString();
     String? phoneNumber = recharge_phone_number.currentState?.value.toString();
     double amount = double.parse(recharge_amount.currentState!.value.toString());
-    FedaApi().createRedirectTransaction(email, country, network!, phoneNumber!, amount);
+    // FedaApi().createRedirectTransaction(email, country, network!, phoneNumber!, amount);
   }
 
 }
