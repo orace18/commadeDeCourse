@@ -55,8 +55,8 @@ class MerchantController extends GetxController {
   }
 
   String getUserRole() {
-    String roleIdString = userData.read('user_role') ?? '0';
-    int roleId = int.tryParse(roleIdString) ?? 0;
+    final roleId = userData.read('user_role') ?? '0';
+    //int roleId = int.tryParse(roleIdString) ?? 0;
     return getRoleFromId(roleId);
   }
 

@@ -8,8 +8,8 @@ import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_deman
 import 'package:otrip/providers/theme/theme.dart';
 
 class DriverPage extends GetWidget<DriverController> {
-  
- MarchandService parrainage = MarchandService();
+  MarchandService parrainage = MarchandService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,10 +60,10 @@ class DriverPage extends GetWidget<DriverController> {
                       flex: 5,
                       child: OutlinedButton.icon(
                         onPressed: () {
-                          Get.toNamed('/activities');
+                          Get.toNamed('/passager_list');
                         },
                         icon: Icon(Icons.ac_unit_rounded),
-                        label: Text("activities".tr, style: TextStyle(color: Colors.black, fontSize: 14),),
+                        label: Text("driver_list".tr, style: TextStyle(color: Colors.black, fontSize: 14),),
                       ),
                     ),
                     SizedBox(
@@ -82,17 +82,76 @@ class DriverPage extends GetWidget<DriverController> {
                   ],
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Action pour la première carte horizontale
+                        Get.toNamed('/parrainage'); // Exemple : navigation vers une page dédiée
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        child: Container(
+                          height: Get.height * 0.22,
+                          child: Center(
+                            child: Text("parrainage".tr,
+                             style: TextStyle(fontSize: 16.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    flex: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/do_course'); 
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        child: Container(
+                          height: Get.height * 0.22,
+                          child: Center(
+                            child: Text("start_course".tr, style: TextStyle(fontSize: 16.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                   SizedBox(width: 10),
+                  Expanded(
+                    flex: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/activities'); 
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        child: Container(
+                          height: Get.height * 0.22,
+                          child: Center(
+                            child: Text("activities".tr, style: TextStyle(fontSize: 16.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed('/parrainage'); 
-                 // parrainage.getAllMarchand();
+                  Get.toNamed('/statistic'); 
                 },
                 child: Card(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   child: Container(
                     height: Get.height*0.22,
                     child: Center(
-                      child: Text("parrainage".tr),
+                      child: Text("statistics".tr),
                     ),
                   ),
                 ),

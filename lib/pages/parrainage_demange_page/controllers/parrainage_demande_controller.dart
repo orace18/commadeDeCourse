@@ -19,8 +19,10 @@ class DemandeController extends GetxController {
 
   Future<List<Demande>> fetchAndDisplayDemandesEnAttente() async {
     try {
-      Map<String, dynamic> userData = await getUserInfoByPhone();
-      int id = userData['id'];
+      //Map<String, dynamic> userData = await getUserInfoByPhone();
+      //int id = userData['id'];
+      int id = GetStorage().read('id');
+
       print('L\'id du marchand est: $id');
 
       final response = await http.get(
@@ -80,10 +82,10 @@ class DemandeController extends GetxController {
         if (responseData is Map<String, dynamic> &&
             responseData.containsKey('data') &&
             responseData['data'] is Map<String, dynamic> &&
-            responseData['data'].containsKey('users') &&
-            responseData['data']['users'] is List<dynamic> &&
-            responseData['data']['users'].isNotEmpty) {
-          Map<String, dynamic> user = responseData['data']['users'][0];
+            responseData['data'].containsKey('user') &&
+            responseData['data']['user'] is List<dynamic> &&
+            responseData['data']['user'].isNotEmpty) {
+          Map<String, dynamic> user = responseData['data']['user'];
 
           // Extraction des valeurs nécessaires
           int userId = user['id'];

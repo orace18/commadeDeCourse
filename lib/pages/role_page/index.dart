@@ -17,26 +17,37 @@ class RolePage extends GetWidget<RoleController> {
             children: [
               RoleCard(
                 roleName: "Passager",
-                onPressed: () {
+                onPressed: () async{
+                      bool isValid = await controller
+                      .updateRole(controller.passagerRole.toString());
+                  if (isValid == true)
                   Get.toNamed('/passager');
                 },
               ),
               RoleCard(
                 roleName: "Marchand",
-                onPressed: () {
-                  Get.toNamed('/marchand');
+                onPressed: () async {
+                  bool isValid = await controller
+                      .updateRole(controller.marchandRole.toString());
+                  if (isValid == true) {
+                    Get.toNamed('/marchand');
+                  }
                 },
               ),
               RoleCard(
                 roleName: "Conducteur",
-                onPressed: () {
-                  Get.toNamed('/driver');
+                onPressed: () async {
+                  bool isValid = await controller
+                      .updateRole(controller.driverRole.toString());
+                  if (isValid == true) Get.toNamed('/driver');
                 },
               ),
               RoleCard(
                 roleName: "Société",
-                onPressed: () {
-                  // Ajoutez ici le code pour gérer le choix du rôle société
+                onPressed: () async {
+                  bool isValid = await controller
+                      .updateRole(controller.societeRole.toString());
+                  if (isValid == true) Get.toNamed('/');
                 },
               ),
             ],

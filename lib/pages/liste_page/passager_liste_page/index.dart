@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:otrip/api/conduteur/models/driver_list.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
-import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_drivers_controller.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_controller.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
-class SpecificDriverPage extends StatelessWidget {
+class PassagerListPage extends GetWidget<PassagerListController> {
 
-  final SpecificDriverController controller = Get.find<SpecificDriverController>();
+ // final SpecificDriverController controller = Get.find<SpecificDriverController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class SpecificDriverPage extends StatelessWidget {
           ),
         ),
       ),
-      body: GetBuilder<SpecificDriverController>(
+      body: GetBuilder<PassagerListController>(
         builder: (_) => SafeArea(
           top: false,
           child: Stack(
@@ -76,10 +76,10 @@ class SpecificDriverPage extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: GetBuilder<SpecificDriverController>(
+                    child: GetBuilder<PassagerListController>(
                       builder: (_) {
                         return FutureBuilder<List<Map<String, dynamic>>>(
-                          future: controller.fetchSpecificDriver(),
+                          future: controller.fetchDriverPassagerDemande(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());

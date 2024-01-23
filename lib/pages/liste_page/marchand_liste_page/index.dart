@@ -24,7 +24,7 @@ class _MarchandListPageState extends State<MarchandListPage> {
     fetchDriverData();
   }
 
- Future<void> fetchDriverData() async {
+  Future<void> fetchDriverData() async {
     try {
       Map<String, dynamic> userData = await marchandService.getUserData();
       setState(() {
@@ -58,27 +58,23 @@ class _MarchandListPageState extends State<MarchandListPage> {
     });
   }
 
-  Future<void> fetchUserData() async {
+/*   Future<void> fetchUserData() async {
     try {
-      userData = await marchandService.getUserData();
-      if (userData.containsKey('phoneNumber')) {
-        Map<String, dynamic>? userInfo = await marchandService.getUserInfoByPhone(userData['phoneNumber']);
-        print('User Info: $userInfo'); 
+      final userPhone = GetStorage().read('phone_number');
+      print("Le num du driver est $userPhone");
+      if (userPhone != null) {
+        Map<String, dynamic> userInfo =
+            await marchandService.getUserInfoByPhone(userPhone);
+        print('User Info: $userInfo');
         if (userInfo != null) {
-          setState(() {
-            driverData = userInfo;
-          });
+          driverData = userInfo;
         }
       }
     } catch (error) {
       print('Error fetching user data: $error');
-      // Gérer les erreurs ici
     }
   }
-
-
-
-
+ */
   void showMarchandDialog(Marchand marchand) {
     showDialog(
       context: context,
@@ -96,15 +92,15 @@ class _MarchandListPageState extends State<MarchandListPage> {
           actions: [
             TextButton(
               onPressed: () async {
-              await fetchUserData();
                 try {
-
+                  driverData['id'] = GetStorage().read('id');
+                  print("L'id du driver ${driverData['id']}");
                   if (driverData['id'] != null) {
                     await marchandService.makeParrainage(
                       marchand.id.toString(),
                       driverData['id'].toString(),
                     );
-                  // await marchandService.fetchAndDisplayDemandesParrainage(marchand.id.toString());
+                    // await marchandService.fetchAndDisplayDemandesParrainage(marchand.id.toString());
                     Navigator.of(context).pop();
                   } else {
                     print('Driver ID is null');
@@ -169,7 +165,8 @@ class _MarchandListPageState extends State<MarchandListPage> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: ListTile(
-                          title: Text('${marchand.firstname} ${marchand.lastname}'),
+                          title: Text(
+                              '${marchand.firstname} ${marchand.lastname}'),
                           subtitle: Text('${marchand.phoneNumber}'),
                           onTap: () {
                             showMarchandDialog(marchand);

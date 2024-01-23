@@ -71,7 +71,9 @@ dependencies:
   flutter_svg: ^2.0.9
   web_socket_channel: ^2.4.0
   workmanager: ^0.5.2
-  background_fetch: ^1.2.2
+  pin_code_fields: ^8.0.1
+#  flutter_background_geolocation: ^4.13.5
+
 
   
 

@@ -33,16 +33,16 @@ class MotoDriversController extends GetxController {
       final response =
           await http.get(Uri.parse('$userInfoByPhoneUrl/$phoneNumber'));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final dynamic responseData = json.decode(response.body);
 
         if (responseData is Map<String, dynamic> &&
             responseData.containsKey('data') &&
             responseData['data'] is Map<String, dynamic> &&
-            responseData['data'].containsKey('users') &&
-            responseData['data']['users'] is List<dynamic> &&
-            responseData['data']['users'].isNotEmpty) {
-          Map<String, dynamic> user = responseData['data']['users'][0];
+            responseData['data'].containsKey('user') &&
+            responseData['data']['user'] is List<dynamic> &&
+            responseData['data']['user'].isNotEmpty) {
+          Map<String, dynamic> user = responseData['data']['user'];
 
           // Extraction des valeurs nécessaires
           int userId = user['id'];
@@ -123,7 +123,6 @@ class MotoDriversController extends GetxController {
         return formattedAddress;
       }
     }
-
     return null;
   }
 }

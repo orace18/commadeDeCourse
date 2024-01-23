@@ -7,6 +7,9 @@ class ActivitiesPage extends GetWidget<ActivitiesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("activities".tr),
+      ),
         body: GetBuilder<ActivitiesController>(
           builder: (_) => Center(
             child: Text("activities".tr),

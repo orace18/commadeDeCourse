@@ -1,4 +1,4 @@
-import 'package:background_fetch/background_fetch.dart';
+//import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:get/get.dart';
@@ -26,8 +26,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   await GetStorage.init();
-  await GetStorage.init('user_infos');
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  //BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 
    /* Workmanager().initialize(
     callbackDispatcher,
@@ -35,10 +34,10 @@ void main() async {
   ); */
   runApp(const MyApp());
 }
-void backgroundFetchHeadlessTask(String taskId) async {
+/* void backgroundFetchHeadlessTask(String taskId) async {
   WebSocketController().sendUserPosition();
   BackgroundFetch.finish(taskId);
-}
+} */
 
 /* void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {

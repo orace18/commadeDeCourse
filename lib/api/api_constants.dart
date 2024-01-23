@@ -1,4 +1,4 @@
-final baseUrl = 'http://192.168.1.104:8000/api/';
+final baseUrl = 'http://192.168.1.12:5000/api/';
 // final baseUrl = 'https://test.com';
 
 final loginUrl = baseUrl + 'login';
@@ -21,3 +21,7 @@ final apiGooglePlace =
     'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 final makeCourseUrl = baseUrl + 'course';
 final socketUrl = baseUrl + 'socket';
+final passagerDemande = baseUrl + '';
+final courseListUrl = baseUrl + 'allCourse';
+final startCourse = baseUrl + '';
+final finishCourse = baseUrl + '';

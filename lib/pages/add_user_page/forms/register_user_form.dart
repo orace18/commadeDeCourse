@@ -213,14 +213,13 @@ class AddUserForm extends GetWidget<AddUserController> {
 
                     if (controller.isButtonEnabled.value){
                       controller.getPostion();
-                      marchandService.getAllMarchand();
+                      //marchandService.getAllMarchand();
                       controller.registerRequest(
                           controller.roleId,
                           controller.usernameFieldKey.currentState!.value,
                           controller.firstnameFieldKey.currentState!.value,
                           controller.lastnameFieldKey.currentState!.value,
-                          phoneNumber,
-                          phoneCode,
+                          controller.mobileFieldKey.currentState!.value,
                           controller.passwordFieldKey.currentState!.value,
                           positions);
                     }

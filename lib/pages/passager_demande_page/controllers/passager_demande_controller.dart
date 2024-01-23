@@ -8,10 +8,10 @@ import 'package:http/http.dart' as http;
 class PassagerDemandeController extends GetxController {
   List<PassagerDemande> listDemandes = [];
   final userData = GetStorage();
-  Future<void> fetchAndDisplayDemandesParrainage(String marchandId) async {
+  Future<void> fetchAndDisplayCourseDemande(String marchandId) async {
     try {
       final response = await http.get(
-        Uri.parse('$demandeParrainageUrl/$marchandId'),
+        Uri.parse('$passagerDemande/$marchandId'),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -34,7 +34,6 @@ class PassagerDemandeController extends GetxController {
             listDemandes.add(passagerDemande);
           }
 
-          // Mettez à jour l'état pour déclencher le rebuild du widget associé
           update();
         } else {
           throw Exception(
@@ -56,14 +55,11 @@ class PassagerDemandeController extends GetxController {
   }
 
   void annulerDemande(int index) {
-    // Implémentez la logique pour annuler une demande ici
-    // Utilisez listDemandes[index] pour accéder à la demande spécifique
+
   }
 
   void validerDemande(int index) {
-    // Implémentez la logique pour valider une demande ici
-    // Utilisez listDemandes[index] pour accéder à la demande spécifique
+   
   }
 
-  // Ajoutez d'autres méthodes et logique en fonction des besoins
 }

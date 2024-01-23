@@ -19,6 +19,7 @@ class LocationPickerController extends GetxController {
     loadSavedLocations();
   }
  */
+
   Future<List<String>> getPlaces(String query) async {
     try {
       final baseUrl =

@@ -44,3 +44,20 @@ void navigateToHome(int roleId){
   }
 }
 
+  void returnError(String error) {
+    Get.snackbar(
+      "error".tr,
+      error,
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+    );
+  }
+
+  void returnSuccess(String success) {
+    Get.snackbar(
+      "success".tr,
+      success,
+      colorText: Colors.white,
+      backgroundColor: Colors.green,
+    );
+  }

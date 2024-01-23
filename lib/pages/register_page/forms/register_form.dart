@@ -207,7 +207,6 @@ class RegisterForm extends GetWidget<RegisterController>{
                         controller.lastnameFieldKey.currentState!.value,
                         controller.mobileFieldKey.currentState!.value,
                         controller.passwordFieldKey.currentState!.value,
-                        "",
                         registerController.getPostion() as Map<String, double>,
                       );
                     }

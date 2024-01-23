@@ -6,6 +6,8 @@ import 'package:otrip/pages/assistance_page/index.dart';
 import 'package:otrip/pages/connexion_page/index.dart';
 import 'package:otrip/pages/course_page/controllers/course_binding.dart';
 import 'package:otrip/pages/course_page/index.dart';
+import 'package:otrip/pages/courses_page/controllers/do_course_binding.dart';
+import 'package:otrip/pages/courses_page/index.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver_menu.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/marchand_page/widgets/machand_menu.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/passager_page/controllers/passager_binding.dart';
@@ -18,7 +20,7 @@ import 'package:otrip/pages/legalmention_page/controllers/legalmention_controlle
 import 'package:otrip/pages/legalmention_page/widgets/course.dart';
 import 'package:otrip/pages/legalmention_page/widgets/course_map.dart';
 import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
-import 'package:otrip/pages/liste_page/passager_liste_page/controllers/specific_drivers_binding.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_binding.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/index.dart';
 import 'package:otrip/pages/map_page/controllers/map_binding.dart';
 import 'package:otrip/pages/map_page/index.dart';
@@ -95,7 +97,7 @@ class AppRouter {
   static var routes = [
     GetPage(
       name: '/',
-      page: () => HomePage(),
+      page: () => const HomePage(),
       bindings: [
         HomeBinding(),
         DashboardBinding(),
@@ -156,7 +158,7 @@ class AppRouter {
     ),
     GetPage(
       name: '/profile',
-      page: () => ProfilePage(),
+      page: () => const ProfilePage(),
       binding: ProfileBinding(),
     ),
     GetPage(
@@ -279,16 +281,16 @@ class AppRouter {
     ),
     GetPage(
       name: '/passager_menu',
-      page: () => PassagerMenu(),
+      page: () => const PassagerMenu(),
     ),
     GetPage(
       name: '/profile_marchand',
-      page: () => MarchandProfilePage(),
+      page: () => const MarchandProfilePage(),
       binding: MerchantProfileBinding(),
     ),
     GetPage(
       name: '/profile_conducteur',
-      page: () => DriverProfilePage(),
+      page: () => const DriverProfilePage(),
       binding: DriverProfileBinding(),
     ),
     GetPage(
@@ -306,13 +308,8 @@ class AppRouter {
       page: () => MarchandListPage(),
     ),
     GetPage(
-      name: '/specific_driver',
-      page: () => SpecificDriverPage(),
-      binding: SpecificDriverBinding(),
-    ),
-    GetPage(
       name: '/moto',
-      page: () => MotoDriversPage( enginType: 'Moto'),
+      page: () => MotoDriversPage(enginType: 'Moto'),
     ),
     GetPage(
       name: '/voiture',
@@ -320,25 +317,35 @@ class AppRouter {
     ),
     GetPage(
       name: '/tricycle',
-      page: () => TricycleDriversPage( enginType: 'Tricycle'), 
+      page: () => TricycleDriversPage(enginType: 'Tricycle'),
     ),
     GetPage(
       name: '/addresse_choose',
-      page: () => LocationPage(), 
+      page: () => LocationPage(),
     ),
     GetPage(
       name: '/quartier',
       page: () => NeighborhoodsPage(),
-     binding: NeighborhoodsBinding(),
+      binding: NeighborhoodsBinding(),
     ),
-        GetPage(
+    GetPage(
       name: '/course_map',
       page: () => CourseMapPage(),
     ),
     GetPage(
       name: '/track_user',
       page: () => TrackMapPage(),
-     binding: TrackMapBinding(),
+      binding: TrackMapBinding(),
+    ),
+    GetPage(
+      name: '/passager_list',
+      page: () => PassagerListPage(),
+      binding: PassagerListBinding(),
+    ),
+    GetPage(
+      name: '/do_course',
+      page: () => DoCoursePage(),
+      binding: DoCourseBinding(),
     ),
   ];
 }

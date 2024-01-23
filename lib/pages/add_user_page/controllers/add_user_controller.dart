@@ -50,9 +50,9 @@ class AddUserController extends GetxController {
     }
   }
 
-  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String phoneCode, String password, Map<String, double> location) async {
+  Future<void> registerRequest(int role, String username, String firstname, String lastname, String phoneNumber, String password, Map<String, double> location) async {
     try {
-      bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, phoneCode, password, location);
+      bool valid = await AuthApiClient().signUp(role, username, firstname, lastname, phoneNumber, password, location);
       if (valid) {
         navigateToHome(roleId);
         /*  Map<String, dynamic> userData = await AuthApiClient().getUserData(phoneNumber);
@@ -61,7 +61,7 @@ class AddUserController extends GetxController {
       Get.find<AuthController>().setAuthenticated(true);
       Get.find<AuthController>().setUserData(userData);  */
 
-        final userData = GetStorage('user_infos');
+        final userData = GetStorage();
         userData.write('firstname', firstname);
         userData.write('lastname', lastname);
         userData.write('username', username);

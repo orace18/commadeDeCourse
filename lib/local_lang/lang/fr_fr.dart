@@ -93,4 +93,7 @@ const fr_FR = {
   'can_change_profile_later': 'Vous pouvez changer de profil après',
   'Search':'Recherche',
   'done': 'Terminé',
+  'start_place':'Lieu de départ',
+  'end_place':'Lieu d\' arrivé',
+
 };

@@ -60,8 +60,8 @@ class ConducteurProfileController extends GetxController {
   }
 
   String getUserRole() {
-    String roleIdString = userData.read('user_role') ?? '0';
-    int roleId = int.tryParse(roleIdString) ?? 0;
+    final roleId = userData.read('user_role') ?? '0';
+   // int roleId = int.tryParse(roleIdString) ?? 0;
     return getRoleFromId(roleId);
   }
 
@@ -70,11 +70,11 @@ class ConducteurProfileController extends GetxController {
     switch (roleId) {
       case 1:
         return 'Merchant';
-      case 3:
+      case 2:
         return 'Driver';
-      case 4:
+      case 3:
         return 'Passenger';
-      case 5:
+      case 4:
         return 'Society';
       default:
         return 'Unknown'; // Ou une valeur par défaut si nécessaire

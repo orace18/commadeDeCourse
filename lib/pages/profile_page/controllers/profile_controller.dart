@@ -44,7 +44,7 @@ class ProfileController extends GetxController {
 
   //recuperer le reste des infos
   void updateProfileInfo(
-      String updatedGender, DateTime updatedBirthday, String updatedAddress) {
+    String updatedGender, DateTime updatedBirthday, String updatedAddress) {
     gender.value = updatedGender;
     birthday.value = updatedBirthday;
     address.value = updatedAddress;
@@ -56,8 +56,8 @@ class ProfileController extends GetxController {
   }
 
   String getUserRole() {
-    String roleIdString = userData.read('user_role') ?? '0';
-    int roleId = int.tryParse(roleIdString) ?? 0;
+    final roleId = userData.read('user_role') ?? '0';
+    /* int roleId = int.tryParse(roleIdString) ?? 0; */
     return getRoleFromId(roleId);
   }
 
@@ -66,11 +66,11 @@ class ProfileController extends GetxController {
     switch (roleId) {
       case 1:
         return 'Merchant';
-      case 3:
+      case 2:
         return 'Driver';
-      case 4:
+      case 3:
         return 'Passenger';
-      case 5:
+      case 4:
         return 'Society';
       default:
         return 'Unknown'; // Ou une valeur par défaut si nécessaire

@@ -1,4 +1,4 @@
-/* import 'package:get/get.dart';
+/* /* import 'package:get/get.dart';
 import 'package:otrip/api/api_constants.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:async';
@@ -210,3 +210,4 @@ class WebSocketController extends GetxController {
     super.onClose();
   }
 }
+ */
