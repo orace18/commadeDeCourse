@@ -1,13 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:otrip/api/api_constants.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/profile_page/controllers/conducteur_profile_controller.dart';
 
 class ProfileEditDriverController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
   final userData = GetStorage();
   final imagePath = ''.obs;
+  late String engin;
+  late String immatriculation;
+  late String etat;
 
   Map<String, dynamic> getUserData() {
     return {
@@ -53,4 +61,29 @@ class ProfileEditDriverController extends GetxController {
   void navigateBack() => Get.back();
   void updateProfileInfo(String updatedGender, DateTime updatedBirthday,
       String updatedAddress, String updatedNumeroImmatricule) {}
+
+  Future<bool> saveUserInfos(
+      String engin, String immatriculation, String userId, String etat) async {
+    final body = jsonEncode({
+      'type': engin,
+      'immatriculation': immatriculation,
+      'users_id': userId,
+      'etat': etat
+    });
+    try {
+      final response = await http.post(Uri.parse(driverUpdateUrl),
+          headers: {'Content-Type': 'application/json'}, body: body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final res = jsonDecode(response.body);
+        returnSuccess(res['message']);
+        return true;
+      } else {
+        final res = jsonDecode(response.body);
+        returnError(res['message']);
+        return false;
+      }
+    } catch (error) {
+      throw Exception('Error to update profile');
+    }
+  }
 }

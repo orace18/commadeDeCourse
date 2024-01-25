@@ -74,7 +74,7 @@ class LocationPickerController extends GetxController {
       String id_passager, String id_conducteur) async {
 
         String body = jsonEncode({
-        'engin': engin,
+        'type_engin': engin,
         'depart': addressStart,
         'arrivee': addressEnd,
         'idPassager': id_passager,

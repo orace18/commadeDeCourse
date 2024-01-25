@@ -6,6 +6,7 @@ const fr_FR = {
   'home': 'Accueil',
   'activities': 'Activités',
   'customers': 'Clients',
+  'client_list':'Mes Clients',
   'profil': 'Profil',
   'wallet': 'Portefeuille',
   'course_done':'Course effectuée !',
@@ -52,7 +53,7 @@ const fr_FR = {
   'sex':'Sexe',
   'birthday':'Date de naissance',
   'edit_profile_add_doc':'Ajouter vos pièces pour que nous puiisons valider votre compte',
-  'national_id':'Carte Nationale d\'Identit‰',
+  'national_id':'Carte Nationale d\'Identité',
   'document_number':'Numero de document',
   'document_type':'Type de document',
   'select_file':'Selectionner un fichier',
@@ -94,6 +95,7 @@ const fr_FR = {
   'Search':'Recherche',
   'done': 'Terminé',
   'start_place':'Lieu de départ',
-  'end_place':'Lieu d\' arrivé',
-
+  'end_place':'Lieu d\'arrivé',
+  'parrainage': 'Parrainage',
+  'start_course': 'Démarrer une course',
 };

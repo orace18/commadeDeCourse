@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/pages/profile_edit_info_page/controllers/profile_edit_conducteur_controller.dart';
-
 import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
@@ -57,16 +56,17 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
               child: FormBuilderPhoneField(
                 enabled: true,
                 name: 'phone_number',
-                initialValue: "${userData['phone_number']}",
+                initialValue: "${userData['phoneNumber']}",
                 inputFormatters: [],
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    hintText: 'phone_number'.tr,
-                    icon: Icon(Icons.phone)),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'phone_number'.tr,
+                  icon: Icon(Icons.phone),
+                ),
                 priorityListByIsoCode: ['BJ'],
                 defaultSelectedCountryIsoCode: 'BJ',
                 validator: FormBuilderValidators.compose([
@@ -170,6 +170,102 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                 ]),
               ),
             ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderDropdown(
+                name: 'engin',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: defaultPadding,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'engin'.tr,
+                  icon: Icon(Icons.directions_car),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: "Car",
+                    child: Text("Car"),
+                  ),
+                  DropdownMenuItem(
+                    value: "Motorcycle",
+                    child: Text("Motorcycle"),
+                  ),
+                  DropdownMenuItem(
+                    value: "Tricycle",
+                    child: Text("Tricycle"),
+                  ),
+                ],
+                onChanged: (value) {
+                  controller.engin = value.toString();
+                },
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderDropdown(
+                name: 'etat',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: defaultPadding,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  hintText: 'etat'.tr,
+                  icon: Icon(Icons.settings),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: "Good",
+                    child: Text("Good"),
+                  ),
+                  DropdownMenuItem(
+                    value: "Faulty",
+                    child: Text("Faulty"),
+                  ),
+                ],
+                onChanged: (value) {
+                  controller.etat = value.toString();
+                },
+              ),
+            ),
+            defaultSizedBox,
+            Padding(
+              padding: EdgeInsets.only(right: defaultPadding),
+              child: FormBuilderTextField(
+                name: 'limatriculation',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: defaultPadding,
+                    horizontal: defaultPadding * 2,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(width: 0.5),
+                  ),
+                  hintText: 'Immatriculation',
+                  icon: Icon(Icons.car_crash),
+                ),
+                onChanged: (value) {
+                  controller.immatriculation = value.toString();
+                },
+              ),
+            ),
+            defaultSizedBox,
+            Divider(
+              thickness: 1,
+            ),
+            defaultSizedBox,
             Text(
               "edit_profile_add_doc".tr,
               style: TextStyle(color: Colors.grey),
@@ -298,7 +394,7 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     final form = controller.formKey.currentState;
                     if (form != null && form.saveAndValidate()) {
                       Map<String, dynamic> updatedData = {
@@ -327,8 +423,16 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                           updatedBirthday,
                           updatedAddress,
                           updatedNumeroImmatricule);
-                      Get.toNamed('/profile_conducteur');
-                      print('Données bien recupérées');
+                      final userId = GetStorage().read('id');
+                      bool isValid = await controller.saveUserInfos(
+                          controller.engin,
+                          updatedNumeroImmatricule,
+                          userId,
+                          controller.etat);
+                      if (isValid == true) {
+                        Get.toNamed('/profile_conducteur');
+                        print('Données bien recupérées');
+                      }
                     }
                   }),
             )

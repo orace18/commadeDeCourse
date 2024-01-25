@@ -332,11 +332,11 @@ class AppRouter {
       name: '/course_map',
       page: () => CourseMapPage(),
     ),
-    GetPage(
+/*     GetPage(
       name: '/track_user',
       page: () => TrackMapPage(),
       binding: TrackMapBinding(),
-    ),
+    ), */
     GetPage(
       name: '/passager_list',
       page: () => PassagerListPage(),

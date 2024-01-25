@@ -21,7 +21,10 @@ final apiGooglePlace =
     'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 final makeCourseUrl = baseUrl + 'course';
 final socketUrl = baseUrl + 'socket';
-final passagerDemande = baseUrl + '';
 final courseListUrl = baseUrl + 'allCourse';
+final driverCourse = baseUrl + 'course/list';
+final driverUpdateUrl = baseUrl + 'engin';
 final startCourse = baseUrl + '';
 final finishCourse = baseUrl + '';
+final confirmeCourse = baseUrl + '';
+final rejeteCourse = baseUrl + '';

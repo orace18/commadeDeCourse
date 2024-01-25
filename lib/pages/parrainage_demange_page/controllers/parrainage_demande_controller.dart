@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otrip/api/api_constants.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/parrainage_demange_page/models/demande_model.dart';
 
 class DemandeController extends GetxController {
@@ -111,15 +112,16 @@ class DemandeController extends GetxController {
     try {
       final response = await http.post(
         Uri.parse('$parrainage/$id/refuser'),
-        // Vous pouvez ajouter des paramètres, des en-têtes, etc., si nécessaire
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        successMessage.value = 'Request successfully validated';
-        // Retirer la demande de la liste
+          final res = jsonDecode(response.body);
+        returnSuccess(res['message']);
         demandesList.removeAt(index);
         update();
       } else {
+        final res = jsonDecode(response.body);
+        returnError(res['message']);
         throw Exception(
             'Failed to validate request. Status code: ${response.statusCode}');
       }
@@ -138,11 +140,13 @@ class DemandeController extends GetxController {
       );
       print('Le code statut de la demande accepté: ${response.statusCode}');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        successMessage.value = 'Request successfully validated';
-        // Retirer la demande de la liste
+        final res = jsonDecode(response.body);
+        returnSuccess(res['message']);
         demandesList.removeAt(index);
         update();
       } else {
+        final res = jsonDecode(response.body);
+        returnError(res['message']);
         throw Exception(
             'Failed to validate request. Status code: ${response.statusCode}');
       }

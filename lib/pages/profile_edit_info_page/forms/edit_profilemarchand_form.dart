@@ -57,7 +57,7 @@ class EditMarchandForm extends GetWidget<ProfileEditMarchandController> {
               child: FormBuilderPhoneField(
                 enabled: true,
                 name: 'phone_number',
-                initialValue: "${userData['phone_number']}",
+                initialValue: "${userData['phoneNumber']}",
                 inputFormatters: [],
                 decoration: InputDecoration(
                     contentPadding:

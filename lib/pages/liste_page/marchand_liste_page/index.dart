@@ -100,7 +100,6 @@ class _MarchandListPageState extends State<MarchandListPage> {
                       marchand.id.toString(),
                       driverData['id'].toString(),
                     );
-                    // await marchandService.fetchAndDisplayDemandesParrainage(marchand.id.toString());
                     Navigator.of(context).pop();
                   } else {
                     print('Driver ID is null');

@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/models/passager_demande_model.dart';
 import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_controller.dart';
-import 'package:otrip/pages/passager_demande_page/models/passager_demande.dart';
-import '../../../../constants.dart';
 import '../../../../providers/theme/theme.dart';
 
 class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
@@ -59,7 +57,7 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "Demande",
+                                    "Liste des demandes en attente",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -76,71 +74,75 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                   ),
                   Expanded(
                     flex: 5,
-                    child: GetBuilder<PassagerDemandeController>(
-                      builder: (_) => ListView.builder(
-                        itemCount: controller.listDemandes.length,
-                        itemBuilder: (context, index) {
-                          PassagerDemande demande =
-                              controller.listDemandes[index];
-                          return Card(
-                            margin: EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-
-                                        Text(
-                                            'Date: ${demande.dateDemande.toString()}'),
-                                        SizedBox(height: 10),
-                                        Text(
-                                            'Nom et prénom: ${demande.nom} ${demande.prenom}'),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            // Action pour annuler la demande
-                                            controller.annulerDemande(index);
-                                          },
-                                          child: Icon(
-                                            FontAwesomeIcons.xmark,
-                                            size: 20,
-                                            color: Colors.red,
-                                          ),
+                    child: FutureBuilder<List<DemandeInfo>>(
+                      future: controller.fetchDemandesEnAttente(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Erreur: ${snapshot.error}'));
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Center(child: Text('Aucune demande en attente trouvée.'));
+                        } else {
+                          List<DemandeInfo> demandeList = snapshot.data!;
+                          return ListView.builder(
+                            itemCount: demandeList.length,
+                            itemBuilder: (context, index) {
+                              DemandeInfo demande = demandeList[index];
+                              return Card(
+                                margin: EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('${demande.heure.toString()}'),
+                                            SizedBox(height: 10),
+                                            Text('${demande.nom} ${demande.prenom}'),
+                                          ],
                                         ),
-                                        SizedBox(width: 10),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            // Action pour valider la demande
-                                            controller.validerDemande(index);
-                                          },
-                                          child: Icon(
-                                            FontAwesomeIcons.check,
-                                            size: 20,
-                                            color: Colors.green,
-                                          ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                controller.annulerDemande(demande.id, index);
+                                              },
+                                              child: Icon(
+                                                FontAwesomeIcons.xmark,
+                                                size: 20,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                controller.validerDemande(demande.id, index);
+                                              },
+                                              child: Icon(
+                                                FontAwesomeIcons.check,
+                                                size: 20,
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           );
-                        },
-                      ),
+                        }
+                      },
                     ),
                   ),
                 ],

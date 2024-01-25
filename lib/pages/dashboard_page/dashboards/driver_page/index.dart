@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/driver_page/controllers/driver_controller.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver_menu.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_controller.dart';
 import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_controller.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
 class DriverPage extends GetWidget<DriverController> {
-  MarchandService parrainage = MarchandService();
-
+  PassagerListController passagerListController = PassagerListController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +41,14 @@ class DriverPage extends GetWidget<DriverController> {
                         Row(
                           children: [
                             Icon(Icons.monetization_on),
-                            SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text("wallet".tr)
                           ],
                         ),
-                        Icon(Icons.remove_red_eye, color: AppTheme.otripMaterial),
+                        Icon(Icons.remove_red_eye,
+                            color: AppTheme.otripMaterial),
                       ],
                     ),
                   ),
@@ -59,11 +62,14 @@ class DriverPage extends GetWidget<DriverController> {
                     Expanded(
                       flex: 5,
                       child: OutlinedButton.icon(
-                        onPressed: () {
+                        onPressed: () async {
                           Get.toNamed('/passager_list');
                         },
-                        icon: Icon(Icons.ac_unit_rounded),
-                        label: Text("driver_list".tr, style: TextStyle(color: Colors.black, fontSize: 14),),
+                        icon: Icon(Icons.list_rounded),
+                        label: Text(
+                          "client_list".tr,
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -75,8 +81,13 @@ class DriverPage extends GetWidget<DriverController> {
                         onPressed: () {
                           Get.toNamed('/demande_passager');
                         },
-                        icon: Icon(Icons.person_2_rounded,),
-                        label: Text("tasks".tr, style: TextStyle(color: Colors.black, fontSize: 14),),
+                        icon: Icon(
+                          Icons.person_add_alt_1_sharp,
+                        ),
+                        label: Text(
+                          "tasks".tr,
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
                       ),
                     ),
                   ],
@@ -89,8 +100,7 @@ class DriverPage extends GetWidget<DriverController> {
                     flex: 5,
                     child: GestureDetector(
                       onTap: () {
-                        // Action pour la première carte horizontale
-                        Get.toNamed('/parrainage'); // Exemple : navigation vers une page dédiée
+                        Get.toNamed('/parrainage');
                       },
                       child: Card(
                         color: Colors.white,
@@ -98,7 +108,7 @@ class DriverPage extends GetWidget<DriverController> {
                           height: Get.height * 0.22,
                           child: Center(
                             child: Text("parrainage".tr,
-                             style: TextStyle(fontSize: 16.0)),
+                                style: TextStyle(fontSize: 16.0)),
                           ),
                         ),
                       ),
@@ -109,32 +119,34 @@ class DriverPage extends GetWidget<DriverController> {
                     flex: 5,
                     child: GestureDetector(
                       onTap: () {
-                        Get.toNamed('/do_course'); 
+                        Get.toNamed('/do_course');
                       },
                       child: Card(
                         color: Colors.white,
                         child: Container(
                           height: Get.height * 0.22,
                           child: Center(
-                            child: Text("start_course".tr, style: TextStyle(fontSize: 16.0)),
+                            child: Text("start_course".tr,
+                                style: TextStyle(fontSize: 16.0)),
                           ),
                         ),
                       ),
                     ),
                   ),
-                   SizedBox(width: 10),
+                  SizedBox(width: 10),
                   Expanded(
                     flex: 5,
                     child: GestureDetector(
                       onTap: () {
-                        Get.toNamed('/activities'); 
+                        Get.toNamed('/activities');
                       },
                       child: Card(
                         color: Colors.white,
                         child: Container(
                           height: Get.height * 0.22,
                           child: Center(
-                            child: Text("activities".tr, style: TextStyle(fontSize: 16.0)),
+                            child: Text("activities".tr,
+                                style: TextStyle(fontSize: 16.0)),
                           ),
                         ),
                       ),
@@ -144,12 +156,12 @@ class DriverPage extends GetWidget<DriverController> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed('/statistic'); 
+                  Get.toNamed('/statistic');
                 },
                 child: Card(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   child: Container(
-                    height: Get.height*0.22,
+                    height: Get.height * 0.22,
                     child: Center(
                       child: Text("statistics".tr),
                     ),

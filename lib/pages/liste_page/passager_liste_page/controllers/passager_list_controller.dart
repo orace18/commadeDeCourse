@@ -1,56 +1,41 @@
 import 'dart:convert';
-
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:otrip/api/api_constants.dart';
-import 'package:otrip/api/conduteur/models/driver_list.dart';
 import 'package:http/http.dart' as http;
+import 'package:get_storage/get_storage.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/models/passager_demande_model.dart';
 
 class PassagerListController extends GetxController {
-  List<Map<String, dynamic>> passagerList = [];
+  Future<List<DemandeInfo>> fetchDemandes() async {
+    final id = GetStorage().read('id');
+    final response = await http.get(
+      Uri.parse('$driverCourse/$id'),
+    );
 
-  Future<List<Map<String, dynamic>>> fetchDriverPassagerDemande() async {
-    try {
-      final response = await http.get(Uri.parse(courseListUrl));
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final dynamic responseData = json.decode(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final Map<String, dynamic> data = json.decode(response.body);
 
-        if (responseData is List<dynamic> && responseData.isNotEmpty) {
-          List<Map<String, dynamic>> passagerList =
-              List<Map<String, dynamic>>.from(responseData);
-          return passagerList;
-        } else {
-          throw Exception('Error ${response.statusCode}');
+      List<dynamic> demandesData = data['demandes'];
+      List<DemandeInfo> demandes = [];
+
+      for (var demandeData in demandesData) {
+        if (demandeData['status'] == 'accepte') {
+          DemandeInfo demande = DemandeInfo(
+            id: demandeData['id'],
+            nom: demandeData['passager']['name'],
+            prenom: demandeData['passager']['lastname'],
+            telephone: demandeData['passager']['mobile_number'],
+            depart: demandeData['depart'],
+            arrivee: demandeData['arrivee'],
+            heure: demandeData['created_at'],
+          );
+
+          demandes.add(demande);
         }
-      } else {
-        return [];
       }
-    } catch (error) {
-      throw Exception('Error to load passager List');
+      return demandes;
+    } else {
+      throw Exception('Erreur lors de la récupération des demandes');
     }
   }
-
-  /* List<Map<String, dynamic>> driverList = [];
-  String engin = '';
-  Future<List<Map<String, dynamic>>> fetchSpecificDriver() async {
-    try {
-      final response = await http.get(Uri.parse('$driverByEngin/$engin'));
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final dynamic responseData = json.decode(response.body);
-
-        if (responseData is List<dynamic> && responseData.isNotEmpty) {
-          List<Map<String, dynamic>> driverList =
-              List<Map<String, dynamic>>.from(responseData);
-          return driverList;
-        } else {
-          throw Exception('Invalid response format for users by engin type.');
-        }
-      } else {
-        throw Exception(
-            'Erreur lors du chargement de la liste : ${response.statusCode}');
-      }
-    } catch (error) {
-      throw Exception('Une Erreur s\'est produite: $error');
-    }
-    return [];
-  } */
 }

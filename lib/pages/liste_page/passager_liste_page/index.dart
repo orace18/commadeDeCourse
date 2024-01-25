@@ -1,14 +1,14 @@
+// Importations nécessaires
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otrip/api/conduteur/models/driver_list.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_controller.dart';
+import 'package:otrip/pages/liste_page/passager_liste_page/models/passager_demande_model.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
 class PassagerListPage extends GetWidget<PassagerListController> {
-
- // final SpecificDriverController controller = Get.find<SpecificDriverController>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,8 @@ class PassagerListPage extends GetWidget<PassagerListController> {
                     flex: 5,
                     child: GetBuilder<PassagerListController>(
                       builder: (_) {
-                        return FutureBuilder<List<Map<String, dynamic>>>(
-                          future: controller.fetchDriverPassagerDemande(),
+                        return FutureBuilder<List<DemandeInfo>>(
+                          future: controller.fetchDemandes(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
@@ -88,13 +88,13 @@ class PassagerListPage extends GetWidget<PassagerListController> {
                             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                               return Center(child: Text('Aucune demande trouvée.'));
                             } else {
-                              List<Map<String, dynamic>> driverList = snapshot.data!;
+                              List<DemandeInfo> demandeList = snapshot.data!;
                               return ListView.builder(
-                                itemCount: driverList.length,
+                                itemCount: demandeList.length,
                                 itemBuilder: (context, index) {
-                                  Map<String, dynamic> driver = driverList[index];
-                                  String name = '${driver['user']['name']} ${driver['user']['lastname']}';
-                                  String phoneNumber = driver['user']['mobile_number'];
+                                  DemandeInfo demande = demandeList[index];
+                                  String name = '${demande.nom} ${demande.prenom}';
+                                  String phoneNumber = demande.telephone;
                                   return Card(
                                     margin: EdgeInsets.all(8.0),
                                     child: Padding(
