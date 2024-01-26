@@ -4,8 +4,8 @@ import 'package:otrip/pages/add_user_page/index.dart';
 import 'package:otrip/pages/assistance_page/controllers/assistance_binding.dart';
 import 'package:otrip/pages/assistance_page/index.dart';
 import 'package:otrip/pages/connexion_page/index.dart';
-import 'package:otrip/pages/course_page/controllers/course_binding.dart';
-import 'package:otrip/pages/course_page/index.dart';
+//import 'package:otrip/pages/course_page/controllers/course_binding.dart';
+
 import 'package:otrip/pages/courses_page/controllers/do_course_binding.dart';
 import 'package:otrip/pages/courses_page/index.dart';
 import 'package:otrip/pages/dashboard_page/dashboards/driver_page/widgets/driver_menu.dart';
@@ -16,9 +16,9 @@ import 'package:otrip/pages/dashboard_page/dashboards/passager_page/widgets/pass
 import 'package:otrip/pages/engin_page/widgets/moto_drivers_list.dart';
 import 'package:otrip/pages/engin_page/widgets/tricyle_drivers_list.dart';
 import 'package:otrip/pages/engin_page/widgets/voiture_drivers_list.dart';
-import 'package:otrip/pages/legalmention_page/controllers/legalmention_controller.dart';
-import 'package:otrip/pages/legalmention_page/widgets/course.dart';
-import 'package:otrip/pages/legalmention_page/widgets/course_map.dart';
+import 'package:otrip/pages/make_course_page/controllers/course_controller.dart';
+import 'package:otrip/pages/make_course_page/widgets/course.dart';
+import 'package:otrip/pages/make_course_page/widgets/course_map.dart';
 import 'package:otrip/pages/liste_page/marchand_liste_page/index.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_binding.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/index.dart';
@@ -64,6 +64,8 @@ import 'package:otrip/pages/selecte_place_page/controllers/search_place_binding.
 import 'package:otrip/pages/selecte_place_page/index.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
+import 'package:otrip/pages/statistic_page/controllers/statistic_binding.dart';
+import 'package:otrip/pages/statistic_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
 import 'package:otrip/pages/support_page/index.dart';
 import 'package:otrip/pages/track_user_map_page/controllers/user_track_binding.dart';
@@ -266,11 +268,11 @@ class AppRouter {
       page: () => PassagerDemandePage(),
       binding: PassagerDemandeBinding(),
     ),
-    GetPage(
+   /*  GetPage(
       name: '/course',
       page: () => CoursePage(),
       binding: CourseBinding(),
-    ),
+    ), */
     GetPage(
       name: '/driver_menu',
       page: () => DriverMenu(),
@@ -332,11 +334,11 @@ class AppRouter {
       name: '/course_map',
       page: () => CourseMapPage(),
     ),
-/*     GetPage(
-      name: '/track_user',
-      page: () => TrackMapPage(),
-      binding: TrackMapBinding(),
-    ), */
+    GetPage(
+      name: '/statistic',
+      page: () => StatisticPage(),
+      binding: StatisticBinding(),
+    ), 
     GetPage(
       name: '/passager_list',
       page: () => PassagerListPage(),

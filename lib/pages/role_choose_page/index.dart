@@ -1,6 +1,7 @@
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/pages/role_choose_page/widgets/grid_item.dart';
 import '../../constants.dart';
 import '../../providers/theme/theme.dart';
@@ -150,12 +151,12 @@ class RoleChoosePage extends GetWidget<RoleChooseController> {
                           borderRadius: BorderRadius.circular(10.0)),
                     ),
                     onPressed: () {
+                      GetStorage().write('role', true);
                       controller.setSelectedRole(role["id"]);
                       print(controller.selectedRoleId.value);
                       Get.toNamed("/add_user",
                           arguments: {"role_id": role["id"]});
                       print("Le role id est: ${role['id']}");
-                      //Get.toNamed("/register",arguments: {"role_id" : role["id"]});
                     },
                     child: Text(
                       'continue'.tr,

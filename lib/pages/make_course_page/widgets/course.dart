@@ -142,7 +142,7 @@ class LocationPage extends StatelessWidget {
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otrip/pages/legalmention_page/controllers/legalmention_controller.dart';
+import 'package:otrip/pages/make_course_page/controllers/course_controller.dart';
 
 class LocationTextField extends StatelessWidget {
   final String title;
@@ -197,8 +197,17 @@ class LocationTextField extends StatelessWidget {
                 controller: (title == 'Départ')
                     ? controller.startLocationController
                     : controller.endLocationController,
-                onChanged: (query) async {
-                  List<String> suggestions = await controller.getPlaces(query);
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'choose_your_address'.tr,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  suffixIcon: GestureDetector(
+                    onTap: () async{
+                         String query = (title == 'Départ')
+                          ? controller.startLocationController.text
+                          : controller.endLocationController.text;
+                       List<String> suggestions = await controller.getPlaces(query);
                   if (_focusNode.hasFocus && suggestions.isNotEmpty) {
                     showLocationSuggestions(
                         suggestions,
@@ -206,16 +215,8 @@ class LocationTextField extends StatelessWidget {
                         (title == 'Départ')
                             ? controller.startLocationController
                             : controller.endLocationController);
-                  }
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'choose_your_address'.tr,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
                       _focusNode.requestFocus();
+                    }
                     },
                     child: Icon(Icons.search),
                   ),

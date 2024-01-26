@@ -1,19 +1,41 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:otrip/api/api_constants.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/pages/courses_page/models/course_model.dart';
+import 'package:http/http.dart' as http;
 
 class DoCourseController extends GetxController {
   // Liste des courses
-  RxList<Course> courses = <Course>[].obs;
+  List<Course> courses = <Course>[].obs;
 
   @override
   void onInit() {
     // Vous pouvez initialiser la liste des cours ici
-    courses.addAll([
-      Course(id: 1, etat: 'En attente'),
-      Course(id: 2, etat: 'Démarré'),
-      Course(id: 3, etat: 'En attente'),
-    ]);
+    getAllCourse();
     super.onInit();
+  }
+
+  Future<List<Course>> getAllCourse() async {
+    try {
+      final response = await http.get(Uri.parse(''));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final res = jsonDecode(response.body);
+        List<dynamic> courseData = res['courses'];
+        for(var course in courseData){
+          
+        }
+        returnSuccess(res['message']);
+        return courses;
+      } else {
+        final res = jsonDecode(response.body);
+        returnError(res['message']);
+        return [];
+      }
+    } catch (error) {
+      throw Exception('Error durring load Course');
+    }
   }
 
   // Méthode pour démarrer la course
@@ -52,4 +74,3 @@ class DoCourseController extends GetxController {
     update();
   }
 }
-

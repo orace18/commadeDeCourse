@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
 import 'package:otrip/math_services.dart';
 import 'package:otrip/pages/engin_page/controllers/moto_drivers_controller.dart';
-import 'package:otrip/pages/legalmention_page/controllers/legalmention_controller.dart';
+import 'package:otrip/pages/make_course_page/controllers/course_controller.dart';
 
 class VoitureDriversPage extends GetWidget<MotoDriversController> {
   late double maLatitude = 6.234;

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'legalmention_controller.dart';
+import 'course_controller.dart';
 
 class LegalmentionBinding implements Bindings {
   @override

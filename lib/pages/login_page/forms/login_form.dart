@@ -89,10 +89,12 @@ class LoginForm extends GetWidget<LoginController> {
               child: Obx(() => ElevatedButton(
                   onPressed: () {
                     if (controller.isButtonEnabled.value) {
+                      GetStorage().write('login', 1);
                       controller.loginRequest(
-                        controller.mobileFieldKey.currentState!.value.toString(),
-                        controller.passwordFieldKey.currentState!.value.toString()
-                      );
+                          controller.mobileFieldKey.currentState!.value
+                              .toString(),
+                          controller.passwordFieldKey.currentState!.value
+                              .toString());
                     }
                   },
                   child: Text(

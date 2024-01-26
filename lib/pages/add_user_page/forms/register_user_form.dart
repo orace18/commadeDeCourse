@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:otrip/api/marchands/controllers/api_marchand_client.dart';
 import 'package:otrip/pages/add_user_page/controllers/add_user_controller.dart';
@@ -32,18 +33,16 @@ class AddUserForm extends GetWidget<AddUserController> {
               child: FormBuilderTextField(
                 name: 'lastname',
                 key: controller.lastnameFieldKey,
-                onChanged: (value){
+                onChanged: (value) {
                   controller.validateField(controller.lastnameFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                          width: 0.5
-                      )
-                  ),
+                      borderSide: BorderSide(width: 0.5)),
                   hintText: 'lastname'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
@@ -57,32 +56,25 @@ class AddUserForm extends GetWidget<AddUserController> {
               child: FormBuilderTextField(
                 name: 'firstname',
                 key: controller.firstnameFieldKey,
-                onChanged: (value){
+                onChanged: (value) {
                   controller.validateField(controller.firstnameFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                          width: 0.5
-                      )
-                  ),
+                      borderSide: BorderSide(width: 0.5)),
                   hintText: 'firstname'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'field_required'.tr
-                  ),
-                  FormBuilderValidators.minLength(
-                      4,
-                      errorText: 'string_too_short'.tr
-                  ),
-                  FormBuilderValidators.maxLength(
-                      50,
-                      errorText: 'string_too_long'.tr
-                  ),
+                      errorText: 'field_required'.tr),
+                  FormBuilderValidators.minLength(4,
+                      errorText: 'string_too_short'.tr),
+                  FormBuilderValidators.maxLength(50,
+                      errorText: 'string_too_long'.tr),
                 ]),
               ),
             ),
@@ -92,32 +84,25 @@ class AddUserForm extends GetWidget<AddUserController> {
               child: FormBuilderTextField(
                 name: 'username',
                 key: controller.usernameFieldKey,
-                onChanged: (value){
+                onChanged: (value) {
                   controller.validateField(controller.usernameFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                          width: 0.5
-                      )
-                  ),
+                      borderSide: BorderSide(width: 0.5)),
                   hintText: 'username'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'field_required'.tr
-                  ),
-                  FormBuilderValidators.minLength(
-                      4,
-                      errorText: 'string_too_short'.tr
-                  ),
-                  FormBuilderValidators.maxLength(
-                      50,
-                      errorText: 'string_too_long'.tr
-                  ),
+                      errorText: 'field_required'.tr),
+                  FormBuilderValidators.minLength(4,
+                      errorText: 'string_too_short'.tr),
+                  FormBuilderValidators.maxLength(50,
+                      errorText: 'string_too_long'.tr),
                 ]),
               ),
             ),
@@ -127,14 +112,14 @@ class AddUserForm extends GetWidget<AddUserController> {
               child: FormBuilderField(
                 name: "phone_number",
                 key: controller.mobileFieldKey,
-                builder: (FormFieldState<dynamic> field){
+                builder: (FormFieldState<dynamic> field) {
                   return IntlPhoneField(
-
                     autofocus: true,
-                    controller:  controller.mobileFieldController,
+                    controller: controller.mobileFieldController,
                     languageCode: "fr",
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -143,13 +128,14 @@ class AddUserForm extends GetWidget<AddUserController> {
                     invalidNumberMessage: "invalid_phone_number".tr,
                     disableLengthCheck: false,
                     initialCountryCode: 'BJ',
-                    onCountryChanged: (country){
+                    onCountryChanged: (country) {
                       maxNumLength = country.maxLength;
                     },
                     onChanged: (phone) {
                       phoneCode = phone.countryCode;
                       phoneNumber = phone.number.replaceAll(' ', '');
-                      controller.mobileFieldKey.currentState?.setValue(phoneNumber);
+                      controller.mobileFieldKey.currentState
+                          ?.setValue(phoneNumber);
                       field.didChange(phoneNumber);
 
                       print(field.value);
@@ -158,15 +144,12 @@ class AddUserForm extends GetWidget<AddUserController> {
                 },
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'number_required'.tr
-                  ),
-                  FormBuilderValidators.equalLength(
-                      maxNumLength,
-                      errorText: 'invalid_number'.tr
-                  ),
+                      errorText: 'number_required'.tr),
+                  FormBuilderValidators.equalLength(maxNumLength,
+                      errorText: 'invalid_number'.tr),
                 ]),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                onChanged: (value){
+                onChanged: (value) {
                   controller.validateField(controller.mobileFieldKey);
                 },
               ),
@@ -178,25 +161,21 @@ class AddUserForm extends GetWidget<AddUserController> {
                 name: 'password',
                 key: controller.passwordFieldKey,
                 keyboardType: TextInputType.visiblePassword,
-                onChanged: (value){
+                onChanged: (value) {
                   controller.validateField(controller.passwordFieldKey);
                 },
                 autovalidateMode: AutovalidateMode.disabled,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: defaultPadding, horizontal: defaultPadding * 2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                          width: 0.5
-                      )
-                  ),
+                      borderSide: BorderSide(width: 0.5)),
                   hintText: 'password'.tr,
                 ),
                 validator: FormBuilderValidators.compose([
-
                   FormBuilderValidators.required(
-                      errorText: 'field_required'.tr
-                  ),
+                      errorText: 'field_required'.tr),
                 ]),
               ),
             ),
@@ -204,16 +183,19 @@ class AddUserForm extends GetWidget<AddUserController> {
               height: 15,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding*2),
-              child: Obx(() =>ElevatedButton(
-                  onPressed: ()async{
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultPadding * 2),
+              child: Obx(() => ElevatedButton(
+                  onPressed: () async {
+                    Map<String, double?> positionsNullable =
+                        await controller.getPostion();
+                    Map<String, double> positions = positionsNullable
+                        .map((key, value) => MapEntry(key, value!));
 
-                    Map<String, double?> positionsNullable = await controller.getPostion();
-                    Map<String, double> positions = positionsNullable.map((key, value) => MapEntry(key, value!));
-
-                    if (controller.isButtonEnabled.value){
+                    if (controller.isButtonEnabled.value) {
                       controller.getPostion();
                       //marchandService.getAllMarchand();
+                      GetStorage().write('register', 1);
                       controller.registerRequest(
                           controller.roleId,
                           controller.usernameFieldKey.currentState!.value,
@@ -224,16 +206,24 @@ class AddUserForm extends GetWidget<AddUserController> {
                           positions);
                     }
                   },
-                  child: Text('Register'.tr, style: TextStyle(color: controller.isButtonEnabled.value ? Colors.white : Colors.black26, fontSize: 16, fontWeight: FontWeight.bold),),
+                  child: Text(
+                    'Register'.tr,
+                    style: TextStyle(
+                        color: controller.isButtonEnabled.value
+                            ? Colors.white
+                            : Colors.black26,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     elevation: 0,
-                    backgroundColor: controller.isButtonEnabled.value ? AppTheme.otripMaterial : Colors.grey[300],
+                    backgroundColor: controller.isButtonEnabled.value
+                        ? AppTheme.otripMaterial
+                        : Colors.grey[300],
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                  )
-              )),
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ))),
             )
           ],
         ),

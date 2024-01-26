@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
 
-class TestController extends GetxController {
+class StatisticController extends GetxController {
   void navigateBack() => Get.back();
 }
