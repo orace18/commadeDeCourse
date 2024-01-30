@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/models/passager_demande_model.dart';
 
 class PassagerListController extends GetxController {
+  
   Future<List<DemandeInfo>> fetchDemandes() async {
     final id = GetStorage().read('id');
     final response = await http.get(

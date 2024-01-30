@@ -11,7 +11,9 @@ import '../../../constants.dart';
 import '../../../providers/theme/theme.dart';
 
 class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
-  const EditConducteurForm({Key? key}) : super(key: key);
+  // EditConducteurForm({Key? key}) : super(key: key);
+  late String etat = '';
+  late String engin = '';
 
   @override
   Widget build(BuildContext context) {
@@ -189,20 +191,20 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                 ),
                 items: [
                   DropdownMenuItem(
-                    value: "Car",
-                    child: Text("Car"),
+                    value: "Voiture",
+                    child: Text("voiture".tr),
                   ),
                   DropdownMenuItem(
-                    value: "Motorcycle",
-                    child: Text("Motorcycle"),
+                    value: "Moto",
+                    child: Text("Moto".tr),
                   ),
                   DropdownMenuItem(
                     value: "Tricycle",
-                    child: Text("Tricycle"),
+                    child: Text("Tricycle".tr),
                   ),
                 ],
                 onChanged: (value) {
-                  controller.engin = value.toString();
+                  engin = value.toString();
                 },
               ),
             ),
@@ -225,39 +227,16 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                 ),
                 items: [
                   DropdownMenuItem(
-                    value: "Good",
+                    value: "Bon",
                     child: Text("Good"),
                   ),
                   DropdownMenuItem(
-                    value: "Faulty",
+                    value: "Mauvais",
                     child: Text("Faulty"),
                   ),
                 ],
                 onChanged: (value) {
-                  controller.etat = value.toString();
-                },
-              ),
-            ),
-            defaultSizedBox,
-            Padding(
-              padding: EdgeInsets.only(right: defaultPadding),
-              child: FormBuilderTextField(
-                name: 'limatriculation',
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: defaultPadding,
-                    horizontal: defaultPadding * 2,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(width: 0.5),
-                  ),
-                  hintText: 'Immatriculation',
-                  icon: Icon(Icons.car_crash),
-                ),
-                onChanged: (value) {
-                  controller.immatriculation = value.toString();
+                  etat = value.toString();
                 },
               ),
             ),
@@ -411,7 +390,10 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                       String updatedAddress = form.value['address'] ?? '';
                       String updatedNumeroImmatricule =
                           form.value['numeroImmatricule'] ?? '';
-                      controller.updateProfileInfo(
+                      String engin =
+                          form.value['engin'] ?? ''; // Valeur du dropdown engin
+                      String etat = form.value['etat'] ?? '';
+                      /* controller.updateProfileInfo(
                         updatedGender,
                         updatedBirthday,
                         updatedAddress,
@@ -422,15 +404,12 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                           updatedGender,
                           updatedBirthday,
                           updatedAddress,
-                          updatedNumeroImmatricule);
+                          updatedNumeroImmatricule); */
                       final userId = GetStorage().read('id');
                       bool isValid = await controller.saveUserInfos(
-                          controller.engin,
-                          updatedNumeroImmatricule,
-                          userId,
-                          controller.etat);
+                          engin, updatedNumeroImmatricule, userId, etat);
                       if (isValid == true) {
-                        Get.toNamed('/profile_conducteur');
+                        //Get.toNamed('/profile_conducteur');
                         print('Données bien recupérées');
                       }
                     }

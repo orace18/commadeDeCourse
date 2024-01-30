@@ -33,6 +33,8 @@ import 'package:otrip/pages/onboarding_page/index.dart';
 import 'package:otrip/pages/connexion_page/controllers/connexion_binding.dart';
 import 'package:otrip/pages/parrainage_demange_page/controllers/parrainage_demande_binding.dart';
 import 'package:otrip/pages/parrainage_demange_page/index.dart';
+import 'package:otrip/pages/passager_course_page/controllers/passager_binding.dart';
+import 'package:otrip/pages/passager_course_page/index.dart';
 import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_bindings.dart';
 import 'package:otrip/pages/passager_demande_page/index.dart';
 import 'package:otrip/pages/profile_edit_company_page/controllers/profile_edit_company_binding.dart';
@@ -348,6 +350,11 @@ class AppRouter {
       name: '/do_course',
       page: () => DoCoursePage(),
       binding: DoCourseBinding(),
+    ),
+    GetPage(
+      name: '/my_course',
+      page: () => MyCoursePage(),
+      binding: MyCourseBinding(),
     ),
   ];
 }

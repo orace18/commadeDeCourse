@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otrip/api/api_constants.dart';
 import 'package:otrip/constants.dart';
 import 'package:otrip/pages/courses_page/models/course_model.dart';
@@ -8,26 +9,40 @@ import 'package:http/http.dart' as http;
 
 class DoCourseController extends GetxController {
   // Liste des courses
-  List<Course> courses = <Course>[].obs;
+  List<Course> coursesList = <Course>[].obs;
 
   @override
   void onInit() {
     // Vous pouvez initialiser la liste des cours ici
-    getAllCourse();
+    fetchCourses();
     super.onInit();
   }
 
-  Future<List<Course>> getAllCourse() async {
+  Future<List<Course>> fetchCourses() async {
+    final id = GetStorage().read('id');
     try {
-      final response = await http.get(Uri.parse(''));
+      final response = await http.get(Uri.parse('$driverCourse/$id'));
       if (response.statusCode == 200 || response.statusCode == 201) {
         final res = jsonDecode(response.body);
-        List<dynamic> courseData = res['courses'];
-        for(var course in courseData){
-          
+        List<dynamic> courseData = res['damandes'];
+
+        for (var courses in courseData) {
+          if (courses['statuts'] == 'accepte') {
+            Course course = Course(
+                id: courses['id'],
+                etat: courses['etat'],
+                placeArrivee: '',
+                heureDepart: "heureDepart",
+                placeDepart: "placeDepart",
+                heureFin: "heureFin",
+                auteurFName: courses['passager']['name'],
+                auteurLName: courses['passager']['lastname']);
+            coursesList.clear();
+            coursesList.add(course);
+          }
         }
         returnSuccess(res['message']);
-        return courses;
+        return coursesList;
       } else {
         final res = jsonDecode(response.body);
         returnError(res['message']);
@@ -38,6 +53,7 @@ class DoCourseController extends GetxController {
     }
   }
 
+  
   // Méthode pour démarrer la course
   void startCourse(Course course) {
     // Implémentez la logique pour démarrer la course
@@ -70,7 +86,7 @@ class DoCourseController extends GetxController {
     // Implémentez la logique pour annuler la course
     print('Annuler la course ${course.id}');
     // Retirez la course de la liste
-    courses.remove(course);
+    coursesList.remove(course);
     update();
   }
 }

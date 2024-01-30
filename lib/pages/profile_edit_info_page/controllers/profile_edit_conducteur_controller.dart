@@ -13,9 +13,6 @@ class ProfileEditDriverController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
   final userData = GetStorage();
   final imagePath = ''.obs;
-  late String engin;
-  late String immatriculation;
-  late String etat;
 
   Map<String, dynamic> getUserData() {
     return {
@@ -55,7 +52,7 @@ class ProfileEditDriverController extends GetxController {
     );
 
     // Naviguer vers la page de profil après la mise à jour
-    Get.toNamed('/profile_conducteur');
+    // Get.toNamed('/profile_conducteur');
   }
 
   void navigateBack() => Get.back();
@@ -63,7 +60,7 @@ class ProfileEditDriverController extends GetxController {
       String updatedAddress, String updatedNumeroImmatricule) {}
 
   Future<bool> saveUserInfos(
-      String engin, String immatriculation, String userId, String etat) async {
+      String engin, String immatriculation, int userId, String etat) async {
     final body = jsonEncode({
       'type': engin,
       'immatriculation': immatriculation,
@@ -71,18 +68,25 @@ class ProfileEditDriverController extends GetxController {
       'etat': etat
     });
     try {
+      print('Request body: $body');
       final response = await http.post(Uri.parse(driverUpdateUrl),
           headers: {'Content-Type': 'application/json'}, body: body);
+
+      print('Response status code: ${response.statusCode}');
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         final res = jsonDecode(response.body);
+        print('Success message: ${res['message']}');
         returnSuccess(res['message']);
         return true;
       } else {
         final res = jsonDecode(response.body);
+        print('Error message: ${res['message']}');
         returnError(res['message']);
         return false;
       }
     } catch (error) {
+      print('Error: $error');
       throw Exception('Error to update profile');
     }
   }

@@ -30,7 +30,7 @@ class DashboardGridView extends StatelessWidget {
           Get.toNamed('/activities');
         }),
         buildGridItem("ride".tr, Icons.rice_bowl_rounded, () {
-          Get.toNamed('/course');
+          Get.toNamed('/my_course');
         }),
       ],
     );

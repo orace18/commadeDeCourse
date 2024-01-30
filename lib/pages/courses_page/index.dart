@@ -1,80 +1,160 @@
+// Importations nécessaires
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otrip/constants.dart';
+import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/courses_page/controllers/do_course_controller.dart';
 import 'package:otrip/pages/courses_page/models/course_model.dart';
+import 'package:otrip/providers/theme/theme.dart';
 
-class DoCoursePage extends StatelessWidget {
-  final DoCourseController doCourseController = Get.put(DoCourseController());
-
+class DoCoursePage extends GetWidget<DoCourseController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
-        title: Text('Liste des Courses'),
-      ),
-      body: GetBuilder<DoCourseController>(
-        builder: (_) => ListView.builder(
-          itemCount: _.courses.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text('Course ${index + 1}'),
-              subtitle: Text('État: ${_.courses[index].etat}'),
-              onTap: () {
-                showCourseDialog(context, _.courses[index]);
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Ink(
+            decoration: ShapeDecoration(
+              color: AppTheme.otripMaterial[600],
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back,
+                  color: const Color.fromARGB(255, 187, 106, 106)),
+              onPressed: () {
+                Get.back();
               },
-            );
-          },
+            ),
+          ),
         ),
       ),
-    );
-  }
-
-  void showCourseDialog(BuildContext context, Course course) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Course ${course.id}'),
-          content: Text('État: ${course.etat}'),
-          actions: [
-            if (course.etat == 'En attente')
-              ElevatedButton(
-                onPressed: () {
-                  // Démarrer la course
-                  doCourseController.startCourse(course);
-                  Navigator.of(context).pop();
-                },
-                child: Text('Démarrer'),
+      body: GetBuilder<DoCourseController>(
+        builder: (_) => SafeArea(
+          top: false,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: ClipPath(
+                      clipper: DrawClip(),
+                      child: Container(
+                        color: AppTheme.otripMaterial,
+                        width: Get.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 60.0),
+                            child: Container(
+                              margin: EdgeInsets.only(left: 30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "Liste des demandes reçues",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: GetBuilder<DoCourseController>(
+                      builder: (_) {
+                        return FutureBuilder<List<Course>>(
+                          future: controller.fetchCourses(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Erreur: ${snapshot.error}'));
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return Center(
+                                  child: Text('Aucune course trouvée.'));
+                            } else {
+                              List<Course> demandeList = snapshot.data!;
+                              return ListView.builder(
+                                itemCount: demandeList.length,
+                                itemBuilder: (context, index) {
+                                  Course course = demandeList[index];
+                                  String name =
+                                      '${course.auteurFName} ${course.auteurLName}';
+                                  String etat = course.etat;
+                                  String depart = course.placeDepart;
+                                  String arrivee = course.placeArrivee;
+                                  return Card(
+                                    margin: EdgeInsets.all(8.0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  name,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  etat,
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  "Lieu de départ: $depart - Lieu d'arrivée: $arrivee",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            if (course.etat == 'Démarré')
-              ElevatedButton(
-                onPressed: () {
-                  // Mettre en pause la course
-                  doCourseController.pauseOrResumeCourse(course);
-                  Navigator.of(context).pop();
-                },
-                child: Text('Mettre en pause'),
-              ),
-            if (course.etat == 'Démarré')
-              ElevatedButton(
-                onPressed: () {
-                  // Finir la course
-                  doCourseController.finishCourse(course);
-                  Navigator.of(context).pop();
-                },
-                child: Text('Finir'),
-              ),
-            ElevatedButton(
-              onPressed: () {
-                // Annuler la course
-                doCourseController.cancelCourse(course);
-                Navigator.of(context).pop();
-              },
-              child: Text('Annuler'),
-            ),
-          ],
-        );
-      },
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

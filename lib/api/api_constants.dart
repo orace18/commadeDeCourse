@@ -1,4 +1,4 @@
-final baseUrl = 'http://192.168.1.12:5000/api/';
+final baseUrl = 'http://192.168.1.5:5000/api/';
 // final baseUrl = 'https://test.com';
 
 final loginUrl = baseUrl + 'login';
@@ -24,6 +24,6 @@ final socketUrl = baseUrl + 'socket';
 final courseListUrl = baseUrl + 'allCourse';
 final driverCourse = baseUrl + 'course/list';
 final driverUpdateUrl = baseUrl + 'engin';
-final startCourse = baseUrl + '';
+final startCourse = baseUrl + 'etat/id/demarre';
 final finishCourse = baseUrl + 'etat/id/fini';
 final pauseCourse = baseUrl + 'etat/id/pause';
