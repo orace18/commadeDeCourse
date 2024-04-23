@@ -6,6 +6,7 @@ class DemandeInfo {
   final String depart;
   final String arrivee;
   final String heure;
+  final int passagerId;
 
   DemandeInfo({
     required this.id,
@@ -15,5 +16,6 @@ class DemandeInfo {
     required this.depart,
     required this.arrivee,
     required this.heure,
+    required this.passagerId,
   });
 }

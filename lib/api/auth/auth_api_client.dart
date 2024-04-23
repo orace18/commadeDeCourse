@@ -136,16 +136,17 @@ class AuthApiClient extends GetConnect {
         final res = jsonDecode(response.body);
         returnSuccess(res['message']);
         print("Enregistré avec succès!");
+        print(res);
 
-        Map<String, dynamic> userData = await getUserData(mobileNumber);
-
-        final role_id = userData['role_id'];
+        final role_id = res["data"]["user"]['role_id'];
         userInfos.write('user_role', role_id);
-        userInfos.write('balance', userData['solde']);
-        userInfos.write('phone_number', userData['mobile_number']);
-        userInfos.write('id', userData['id']);
-        userInfos.write('lastname', userData['lastname']);
-        userInfos.write('firstname', userData['name']);
+        userInfos.write('balance', res["data"]["user"]['solde']);
+        userInfos.write('phone_number', res["data"]["user"]['mobile_number']);
+        userInfos.write('id', res["data"]["user"]['id']);
+        userInfos.write('lastname', res["data"]["user"]['lastname']);
+        userInfos.write('firstname', res["data"]["user"]['name']);
+        userInfos.write('username', res["data"]["user"]['username']);
+        userInfos.write('access_token', "1");
 
         return true;
       } else {
@@ -153,7 +154,7 @@ class AuthApiClient extends GetConnect {
       }
     } catch (e) {
       print("error: $e");
-      throw Exception('Une erreur inattendue s\'est produite');
+      throw Exception('Une erreur inattendue s\'est produite: $e');
     }
   }
 
@@ -188,10 +189,8 @@ class AuthApiClient extends GetConnect {
   }
 
   Future<bool> signIn(String phoneNumber, String password) async {
-    final response = await http.post(
-      Uri.parse(loginUrl),
-      body: {'mobile_number': phoneNumber, 'password': password},
-    );
+    final response = await http.post(Uri.parse(loginUrl),
+        body: jsonEncode({'mobile_number': phoneNumber, 'password': password}));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> responseData = json.decode(response.body);
@@ -209,16 +208,16 @@ class AuthApiClient extends GetConnect {
         userInfos.write('id', userData['id']);
         userInfos.write('lastname', userData['lastname']);
         userInfos.write('firstname', userData['name']);
+        userInfos.write('access_token', "1");
         return true;
-    
       } else {
         returnError(responseData['message']);
-        print(
-            "Échec de la connexion. Veuillez vérifier vos informations d'identification.");
         return false;
       }
     } else {
-      returnError("Vérifiez votre connexion");
+      Map<String, dynamic> responseData = json.decode(response.body);
+
+      returnError(responseData["data"]);
       print(
           "Erreur lors de la communication avec le serveur. Code d'erreur: ${response.statusCode}");
       print("Contenu de la réponse: ${response.body}");

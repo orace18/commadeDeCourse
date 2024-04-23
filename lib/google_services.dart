@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 import 'package:otrip/api/api_constants.dart';
 import 'package:otrip/constants.dart';
 
 class GoogleServiceOtrip {
+
+ final Location _location = Location();
+
   Future<String?> getPlaceName(double? latitude, double? longitude) async {
     final response = await http.get(
       Uri.parse('$apiUrl?latlng=$latitude,$longitude&key=$google_api_key'),
@@ -24,5 +28,22 @@ class GoogleServiceOtrip {
     }
 
     return null;
+  }
+
+
+    Future<Map<String, double?>> getPostion() async {
+    try {
+      var currentLocation = await _location.getLocation();
+      print(
+          "Latitude: ${currentLocation.latitude}, Longitude: ${currentLocation.longitude}");
+      return {
+        'longitude': currentLocation.longitude,
+        'latitude': currentLocation.latitude,
+      };
+    } catch (e) {
+      print("Erreur: $e");
+
+      return {'longitude': 0.0, 'latitude': 0.0};
+    }
   }
 }

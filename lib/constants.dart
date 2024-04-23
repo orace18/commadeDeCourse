@@ -28,16 +28,16 @@ const default2xSizedBox = SizedBox(height: 20, width: 20,);
 void navigateToHome(int roleId){
   switch (roleId) {
     case 1:
-      Get.toNamed("/marchand");
+      Get.offAllNamed("/marchand");
       break;
     case 2:
-      Get.toNamed("/driver");
+      Get.offAllNamed("/driver");
       break;
     case 3:
-      Get.toNamed("/passager");
+      Get.offAllNamed("/passager");
       break;
     case 4:
-      Get.toNamed("/");
+      Get.offAllNamed("/");
       break;
     default:
       break;

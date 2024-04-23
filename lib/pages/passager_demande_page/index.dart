@@ -8,6 +8,7 @@ import 'package:otrip/pages/passager_demande_page/controllers/passager_demande_c
 import '../../../../providers/theme/theme.dart';
 
 class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,9 +101,14 @@ class PassagerDemandePage extends GetWidget<PassagerDemandeController> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            Text('${demande.nom} ${demande.prenom}', style: TextStyle(fontWeight: FontWeight.bold)),
+                                            SizedBox(height: 10),
+                                            Text('${demande.depart}', style: TextStyle(color: Colors.green)),
+                                            SizedBox(height: 10),
+                                            Text('${demande.arrivee}', style: TextStyle(color: Colors.red),),
                                             Text('${demande.heure.toString()}'),
                                             SizedBox(height: 10),
-                                            Text('${demande.nom} ${demande.prenom}'),
+
                                           ],
                                         ),
                                       ),

@@ -21,7 +21,7 @@ class RolePage extends GetWidget<RoleController> {
                       bool isValid = await controller
                       .updateRole(controller.passagerRole.toString());
                   if (isValid == true)
-                  Get.toNamed('/passager');
+                  Get.offAndToNamed('/passager');
                 },
               ),
               RoleCard(
@@ -30,7 +30,7 @@ class RolePage extends GetWidget<RoleController> {
                   bool isValid = await controller
                       .updateRole(controller.marchandRole.toString());
                   if (isValid == true) {
-                    Get.toNamed('/marchand');
+                    Get.offAndToNamed('/marchand');
                   }
                 },
               ),
@@ -39,7 +39,7 @@ class RolePage extends GetWidget<RoleController> {
                 onPressed: () async {
                   bool isValid = await controller
                       .updateRole(controller.driverRole.toString());
-                  if (isValid == true) Get.toNamed('/driver');
+                  if (isValid == true) Get.offAndToNamed('/driver');
                 },
               ),
               RoleCard(
@@ -47,7 +47,7 @@ class RolePage extends GetWidget<RoleController> {
                 onPressed: () async {
                   bool isValid = await controller
                       .updateRole(controller.societeRole.toString());
-                  if (isValid == true) Get.toNamed('/');
+                  if (isValid == true) Get.offAndToNamed('/');
                 },
               ),
             ],

@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   feda
   flash_api
+  flutter_tts
   geolocator_windows
 )
 

@@ -3,28 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:otrip/constants.dart';
 import 'package:otrip/providers/theme/theme.dart';
 import 'controllers/onboarding_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class OnboardingPage extends GetWidget<OnboardingController> {
+  
   List pageInfos = [
     {
-      "title": "Lorem Ipsum",
+      "title": "$appName",
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/74/e9/3kp0NqBN_o.png",
       "img_local" : "assets/onboarding/onboarding_1.png",
     },
     {
-      "title": "Lorem Ipsum",
+      "title": "$appName",
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/90/f4/hGo1mjcP_o.png",
       "img_local" : "assets/onboarding/onboarding_2.png",
     },
     {
-      "title": "Lorem Ipsum",
+      "title": "$appName",
       "body":
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
       "img": "https://images2.imgbox.com/ba/b8/mlYgzX2S_o.png",

@@ -29,6 +29,7 @@ class PassagerListController extends GetxController {
             depart: demandeData['depart'],
             arrivee: demandeData['arrivee'],
             heure: demandeData['created_at'],
+            passagerId: demandeData['idPassager'],
           );
 
           demandes.add(demande);

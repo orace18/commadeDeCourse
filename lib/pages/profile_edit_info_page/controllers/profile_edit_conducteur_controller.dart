@@ -20,7 +20,9 @@ class ProfileEditDriverController extends GetxController {
       'lastname': userData.read('lastname') ?? '',
       'username': userData.read('username') ?? '',
       'phoneNumber': userData.read('phone_number') ?? '',
-      // 'password': userData.read('password') ?? '',
+       'address': userData.read('address') ?? '',
+      'immatriculation': userData.read('immatriculation') ?? '',
+      'birthday': userData.read('birthday') ?? '',
     };
   }
 
@@ -35,6 +37,9 @@ class ProfileEditDriverController extends GetxController {
     userData.write('firstname', updatedData['firstname']);
     userData.write('lastname', updatedData['lastname']);
     userData.write('phone_number', updatedData['phone_number']);
+    userData.write('birthday', updatedBirthday);
+    userData.write('immatriculation', updatedNumeroImmatricule);
+    userData.write('address', updatedAddress);
 
     Map<String, dynamic> userDataMap = {
       'firstname': updatedData['firstname'],
@@ -57,10 +62,12 @@ class ProfileEditDriverController extends GetxController {
 
   void navigateBack() => Get.back();
   void updateProfileInfo(String updatedGender, DateTime updatedBirthday,
-      String updatedAddress, String updatedNumeroImmatricule) {}
+      String updatedAddress, String updatedNumeroImmatricule) {
+
+  }
 
   Future<bool> saveUserInfos(
-      String engin, String immatriculation, int userId, String etat) async {
+      String engin, String immatriculation, String userId, String etat) async {
     final body = jsonEncode({
       'type': engin,
       'immatriculation': immatriculation,

@@ -66,6 +66,8 @@ import 'package:otrip/pages/selecte_place_page/controllers/search_place_binding.
 import 'package:otrip/pages/selecte_place_page/index.dart';
 import 'package:otrip/pages/settings_page/controllers/settings_binding.dart';
 import 'package:otrip/pages/settings_page/index.dart';
+import 'package:otrip/pages/start_course_process_page/move_to_startplace_page/controller/move_to_place_binding.dart';
+import 'package:otrip/pages/start_course_process_page/move_to_startplace_page/index.dart';
 import 'package:otrip/pages/statistic_page/controllers/statistic_binding.dart';
 import 'package:otrip/pages/statistic_page/index.dart';
 import 'package:otrip/pages/support_page/controllers/support_binding.dart';
@@ -76,7 +78,6 @@ import 'package:otrip/pages/wallet_page/controllers/wallet_binding.dart';
 import 'package:otrip/pages/wallet_page/index.dart';
 import 'package:otrip/pages/wallet_recharge_page/controllers/wallet_recharge_binding.dart';
 import 'package:otrip/pages/wallet_recharge_page/index.dart';
-
 import '../pages/login_page/controllers/login_binding.dart';
 import '../pages/login_page/index.dart';
 import '../pages/otp_page/index.dart';

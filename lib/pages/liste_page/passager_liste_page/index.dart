@@ -6,6 +6,7 @@ import 'package:otrip/constants.dart';
 import 'package:otrip/pages/add_user_page/widgets/clipper.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/controllers/passager_list_controller.dart';
 import 'package:otrip/pages/liste_page/passager_liste_page/models/passager_demande_model.dart';
+import 'package:otrip/pages/start_course_process_page/move_to_startplace_page/index.dart';
 import 'package:otrip/providers/theme/theme.dart';
 
 class PassagerListPage extends GetWidget<PassagerListController> {
@@ -26,7 +27,7 @@ class PassagerListPage extends GetWidget<PassagerListController> {
               shape: CircleBorder(),
             ),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 187, 106, 106)),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Get.back();
               },
@@ -95,35 +96,57 @@ class PassagerListPage extends GetWidget<PassagerListController> {
                                   DemandeInfo demande = demandeList[index];
                                   String name = '${demande.nom} ${demande.prenom}';
                                   String phoneNumber = demande.telephone;
-                                  return Card(
-                                    margin: EdgeInsets.all(8.0),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  name,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
+                                  String depart = demande.depart;
+                                  String arrivee = demande.arrivee;
+                                  String passerId = demande.passagerId.toString();
+                                  return InkWell(
+                                    onTap: (){
+                                      Get.to(MoveToStartPlacePage(departPlace: depart, destinationPlace: arrivee,passagerId: passerId));
+                                    },
+                                    child: Card(
+                                      margin: EdgeInsets.all(8.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    name,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10),
-                                                Text(
-                                                  phoneNumber,
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
+                                                  SizedBox(height: 10),
+                                                  Text(
+                                                    phoneNumber,
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10),
-                                              ],
+                                                  SizedBox(height: 10),
+
+                                                  Text(
+                                                    depart,
+                                                    style: TextStyle(
+                                                      color: Colors.green,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  Text(
+                                                    arrivee,
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );

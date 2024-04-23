@@ -6,7 +6,6 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:location/location.dart';
 import 'package:otrip/api/auth/auth_api_client.dart';
 import 'package:otrip/api/auth/auth_api_controller.dart';
-
 import '../../../constants.dart';
 
 class AddUserController extends GetxController {

@@ -7,4 +7,6 @@ class MapController extends GetxController {
   void onMapTap(LatLng location) {
     selectedLocation.value = location;
   }
+
+
 }

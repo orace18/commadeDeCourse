@@ -89,10 +89,14 @@ class LocationPickerController extends GetxController {
       print('Le body est: $body');
       
       if (response.statusCode == 200 || response.statusCode == 201) {
+        final res = jsonDecode(response.body);
+        returnSuccess(res['message']);
         print('Course fait');
         return true;
       } else {
-        print('Course non fait');
+        final res = jsonDecode(response.body);
+        returnError(res['message']);
+        print('Course non fait code status:${response.statusCode}');
         return false;
       }
     } catch (e) {

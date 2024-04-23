@@ -4,6 +4,7 @@ import 'package:otrip/providers/theme/theme.dart';
 import 'package:get_storage/get_storage.dart';
 
 
+
 class DashboardGridView extends StatelessWidget {
   final userData = GetStorage();
   @override
@@ -29,9 +30,12 @@ class DashboardGridView extends StatelessWidget {
         buildGridItem("activities".tr, Icons.access_time, () {
           Get.toNamed('/activities');
         }),
-        buildGridItem("ride".tr, Icons.rice_bowl_rounded, () {
+       /* buildGridItem("ride".tr, Icons.pending_actions, () {
           Get.toNamed('/my_course');
-        }),
+        }),*/
+        /* buildGridItem("message".tr, Icons.message, () {
+          Get.to(FindDriverOnMap());
+        }),*/
       ],
     );
   }

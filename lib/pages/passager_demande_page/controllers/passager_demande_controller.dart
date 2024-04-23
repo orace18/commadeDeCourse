@@ -14,34 +14,40 @@ class PassagerDemandeController extends GetxController {
   final userData = GetStorage();
 
   Future<List<DemandeInfo>> fetchDemandesEnAttente() async {
-    final id = GetStorage().read('id');
-    final response = await http.get(
-      Uri.parse('$driverCourse/$id'),
-    );
+    try {
+      final id = GetStorage().read('id');
+      final response = await http.get(
+        Uri.parse('$driverCourse/$id'),
+      );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final Map<String, dynamic> data = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic> data = json.decode(response.body);
 
-      List<dynamic> demandesData = data['demandes'];
+        List<dynamic> demandesData = data['demandes'];
 
-      for (var demandeData in demandesData) {
-        if (demandeData['status'] == 'en_attente') {
-          DemandeInfo demande = DemandeInfo(
-            id: demandeData['id'],
-            nom: demandeData['passager']['name'],
-            prenom: demandeData['passager']['lastname'],
-            telephone: demandeData['passager']['mobile_number'],
-            depart: demandeData['depart'],
-            arrivee: demandeData['arrivee'],
-            heure: demandeData['created_at'],
-          );
-          demandes.clear();
-          demandes.add(demande);
+        for (var demandeData in demandesData) {
+          if (demandeData['status'] == 'en_attente') {
+            DemandeInfo demande = DemandeInfo(
+              id: demandeData['id'],
+              nom: demandeData['passager']['name'],
+              prenom: demandeData['passager']['lastname'],
+              telephone: demandeData['passager']['mobile_number'],
+              depart: demandeData['depart'],
+              arrivee: demandeData['arrivee'],
+              heure: demandeData['created_at'],
+              passagerId: demandeData['idPassager'],
+            );
+            demandes.clear();
+            demandes.add(demande);
+          }
         }
+        return demandes;
+      } else {
+        throw Exception('Erreur lors de la récupération des demandes: ${response.statusCode}');
       }
-      return demandes;
-    } else {
-      throw Exception('Erreur lors de la récupération des demandes');
+    }catch(e){
+      throw Exception('Erreur lors de la récupération des demandes $e');
+
     }
   }
 
@@ -54,11 +60,12 @@ class PassagerDemandeController extends GetxController {
   Future<void> annulerDemande(int id, int index) async {
     try {
       final response = await http.post(
-        Uri.parse('$makeCourseUrl/$id/refuser'),
+        Uri.parse('$confirmcourseUrl/$id/refuser'),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final res = jsonDecode(response.body);
+        returnSuccess(res['message']);
         demandes.removeAt(index);
         update();
       } else {
@@ -77,7 +84,7 @@ class PassagerDemandeController extends GetxController {
   Future<void> validerDemande(int id, int index) async {
     try {
       final response = await http.post(
-        Uri.parse('$makeCourseUrl/$id/accepter'),
+        Uri.parse('$confirmcourseUrl/$id/accepter'),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final res = jsonDecode(response.body);

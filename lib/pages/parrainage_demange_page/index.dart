@@ -28,7 +28,7 @@ class DemandePage extends StatelessWidget {
               shape: CircleBorder(),
             ),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 187, 106, 106)),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Get.back();
               },

@@ -56,7 +56,7 @@ class ConducteurProfileController extends GetxController {
     userData.write('gender', updatedGender);
     userData.write('birthday', updatedBirthday.toString());
     userData.write('address', updatedAddress);
-    userData.write(' numeroImmatricule', updatedNumeroImmatricule);
+    userData.write('numeroImmatricule', updatedNumeroImmatricule);
   }
 
   String getUserRole() {

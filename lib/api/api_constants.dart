@@ -1,5 +1,5 @@
-final baseUrl = 'http://192.168.1.5:5000/api/';
-// final baseUrl = 'https://test.com';
+final baseUrl = 'http://51.91.110.63:8082/api/';
+// final baseUrl = 'https://test.com';  51.91.110.63:8082 ;  192.168.0.104:5000
 
 final loginUrl = baseUrl + 'login';
 final registerUrl = baseUrl + 'register';
@@ -17,13 +17,15 @@ final demandeParrainageUrl = baseUrl + 'parrainage/list';
 final userInfoUrl = baseUrl + 'users';
 final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
 final driverByEngin = baseUrl + 'engin';
-final apiGooglePlace =
-    'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-final makeCourseUrl = baseUrl + 'course';
+final apiGooglePlace = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+final makeCourseUrl = baseUrl + 'demandecourse/demande';
 final socketUrl = baseUrl + 'socket';
+final confirmcourseUrl = baseUrl + 'demandecourse';
 final courseListUrl = baseUrl + 'allCourse';
-final driverCourse = baseUrl + 'course/list';
+final driverCourse = baseUrl + 'demandecourse/list';
 final driverUpdateUrl = baseUrl + 'engin';
-final startCourse = baseUrl + 'etat/id/demarre';
-final finishCourse = baseUrl + 'etat/id/fini';
-final pauseCourse = baseUrl + 'etat/id/pause';
+final startCourse = baseUrl + 'demandecourse/id/demarre';
+final finishCourse = baseUrl + 'demandecourse/id/fini';
+final pauseCourse = baseUrl + 'demandecourse/id/pause';
+final baseUrlSocket = "51.91.110.63:7878";
+final chatSocketUrl = "192.168.0.107:6060";

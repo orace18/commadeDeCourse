@@ -361,7 +361,7 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                     'continue'.tr,
                     style: TextStyle(
                         color: /*controller.isButtonEnabled.value ? Colors.white :*/
-                            Colors.black26,
+                            Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
@@ -399,13 +399,14 @@ class EditConducteurForm extends GetWidget<ProfileEditDriverController> {
                         updatedAddress,
                         updatedNumeroImmatricule,
                       );
+                      */
                       controller.updateProfile(
                           updatedData,
                           updatedGender,
                           updatedBirthday,
                           updatedAddress,
-                          updatedNumeroImmatricule); */
-                      final userId = GetStorage().read('id');
+                          updatedNumeroImmatricule);
+                      final userId = GetStorage().read('id').toString();
                       bool isValid = await controller.saveUserInfos(
                           engin, updatedNumeroImmatricule, userId, etat);
                       if (isValid == true) {

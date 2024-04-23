@@ -45,7 +45,7 @@ class WalletCard extends StatelessWidget {
               onPressed: () {
                Get.toNamed('/wallet_recharge');
               },
-              child: Text("recharge".tr),
+              child: Text("recharge".tr,style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
               style: ElevatedButton.styleFrom(
                 primary: AppTheme.otripMaterial[500],
                 shape: RoundedRectangleBorder(

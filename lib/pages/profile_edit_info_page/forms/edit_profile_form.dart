@@ -265,7 +265,7 @@ class EditInfoForm extends GetWidget<ProfileEditInfoController> {
                     'continue'.tr,
                     style: TextStyle(
                         color: /*controller.isButtonEnabled.value ? Colors.white :*/
-                            Colors.black26,
+                            Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
