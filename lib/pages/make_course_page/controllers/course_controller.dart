@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:otrip/api/api_constants.dart';
@@ -11,6 +14,8 @@ class LocationPickerController extends GetxController {
   TextEditingController startLocationController = TextEditingController();
   TextEditingController endLocationController = TextEditingController();
   final storage = GetStorage();
+  double distanceInKm = 0.0;
+  double prix = 0.0;
 
 /*@override
   void onInit() {
@@ -19,6 +24,47 @@ class LocationPickerController extends GetxController {
     loadSavedLocations();
   }
  */
+
+  Future<Location?> getLocationFromAddress(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        return locations.first;
+      }
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+    return null;
+  }
+
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    return Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+  }
+
+
+
+  Future<void> adrLocations() async {
+    Location? startLocation = await getLocationFromAddress(startLocationController.text);
+    Location? endLocation = await getLocationFromAddress(endLocationController.text);
+    if (startLocation != null && endLocation != null) {
+      LatLng departure = LatLng(startLocation.latitude, startLocation.longitude);
+      LatLng destination = LatLng(endLocation.latitude, endLocation.longitude);
+      print("Départ: ${departure.latitude}, ${departure.longitude}");
+      print("Arrivée: ${destination.latitude}, ${destination.longitude}");
+      _showDistance(departure, destination);
+    }
+  }
+
+  void _showDistance(LatLng departure, LatLng destination) {
+    double distance = Geolocator.distanceBetween(departure!.latitude!, departure!.longitude!, destination!.latitude!, destination!.longitude!);
+    distanceInKm = distance / 1000;
+    prix = CalculateCourseCost(distanceInKm, prixDuKm);
+    GetStorage().write('prix', prix);
+    GetStorage().write('distance', distanceInKm);
+    print("Montant : $prix");
+    print("Distance: ${distanceInKm.toStringAsFixed(2)} km");
+  }
+
 
   Future<List<String>> getPlaces(String query) async {
     try {
@@ -70,13 +116,25 @@ class LocationPickerController extends GetxController {
     storage.write('endLocation', endLocationController.text);
   }
 
+  bool checkLocation(){
+    if(startLocationController.text == null && endLocationController.text == null){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   Future<bool> makeCourse(String engin, String addressStart, String addressEnd,
       String id_passager, String id_conducteur) async {
-
+        final montant = GetStorage().read('prix');
+        final distance = GetStorage().read('distance');
+        print("la distance est $distance et le prix est : $montant");
         String body = jsonEncode({
         'type_engin': engin,
         'depart': addressStart,
         'arrivee': addressEnd,
+        'montant': montant,
+        'distance': distance,
         'idPassager': id_passager,
         'users_id': id_conducteur,
       });

@@ -70,7 +70,7 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
           children: [
             Obx(() {
               if (controller.isLoading.value) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(color: Colors.deepOrange));
               } else if (controller.driverList.isEmpty) {
                 return Center(child: Text('Aucun conducteur trouvé.'));
               } else {
@@ -95,7 +95,7 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
                       future: controller.getPlaceName(latitude, longitude),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return CircularProgressIndicator(color:Colors.deepOrange);
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Erreur: ${snapshot.error}'));
                         } else {
@@ -107,6 +107,7 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
+                                    backgroundColor: Colors.white,
                                     title: Text('valid'.tr),
                                     content: Text('make_course_to'.tr +
                                         ' ' +
@@ -116,7 +117,15 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
                                         onPressed: () {
                                           Navigator.of(context).pop(); // Fermer la boîte de dialogue
                                         },
-                                        child: Text('close'.tr),
+                                        style: ElevatedButton.styleFrom(
+                                            surfaceTintColor: Colors.white,
+                                            textStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                            elevation: 0,
+                                            backgroundColor: AppTheme.otripMaterial,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0))
+                                        ),
+                                        child: Text('close'.tr, style: TextStyle(color: Colors.white)),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -148,7 +157,15 @@ class MotoDriversPage extends GetWidget<MotoDriversController> {
                                           Get.back();
                                           Navigator.of(context).pop();
                                         },
-                                        child: Text('valid'.tr),
+                                        style: ElevatedButton.styleFrom(
+                                            surfaceTintColor: Colors.white,
+                                            textStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                            elevation: 0,
+                                            backgroundColor: AppTheme.otripMaterial,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0))
+                                        ),
+                                        child: Text('valid'.tr, style: TextStyle(color: Colors.white)),
                                       ),
                                     ],
                                   );

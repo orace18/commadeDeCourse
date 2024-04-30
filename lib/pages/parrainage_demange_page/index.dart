@@ -105,7 +105,7 @@ class DemandePage extends StatelessWidget {
                           future: controller.fetchAndDisplayDemandesEnAttente(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return Center(child: CircularProgressIndicator());
+                              return Center(child: CircularProgressIndicator(color: Colors.deepOrange,));
                             } else if (snapshot.hasError) {
                               return Center(child: Text('Erreur: ${snapshot.error}'));
                             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

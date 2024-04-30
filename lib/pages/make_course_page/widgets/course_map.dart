@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -7,7 +8,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart' as location;
 import 'package:geocoding/geocoding.dart' as geocoding;
 import '../../../constants.dart';
+import '../../../google_services.dart';
 import '../../../providers/theme/theme.dart';
+import 'package:google_maps_utils/google_maps_utils.dart';
+
 
 class CourseMapPage extends StatefulWidget {
   @override
@@ -23,20 +27,41 @@ class _MapPageState extends State<CourseMapPage> {
   final polylinePoints = PolylinePoints();
   final location.Location _location = location.Location();
   location.LocationData? currentLocation;
+  location.LocationData? currentLoc;
   String? departurePlaceName;
   String? destinationPlaceName;
   final TextEditingController _departureAddressController = TextEditingController();
   final TextEditingController _destinationAddressController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  double distanceInKm = 0.0;
+  double prix = 0.0;
 
 
   @override
   void initState() {
-    super.initState();
-    _getLocation();
+    //_getLocation();
     _scaffoldKey.currentState?.openEndDrawer();
-    _location.onLocationChanged.listen((location.LocationData currentLoc) {
+    getCurrentLocation().then((location) {
+      setState(() {
+        currentLocation = location;
+      });
+      currentLoc = currentLocation;
+      markers.removeWhere((m) => m.markerId.value == "current_location");
+      markers.add(Marker(
+        markerId: MarkerId("current_location"),
+        position: LatLng(currentLoc!.latitude!, currentLoc!.longitude!),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        infoWindow: InfoWindow(title: "Position Actuelle"),
+      ));
+      mapController.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(currentLoc!.latitude!, currentLoc!.longitude!),
+        ),
+      );
+
+    });
+
+    /*_location.onLocationChanged.listen((location.LocationData currentLoc) {
       setState(() {
         currentLocation = currentLoc;
         markers.removeWhere((m) => m.markerId.value == "current_location");
@@ -52,7 +77,8 @@ class _MapPageState extends State<CourseMapPage> {
           ),
         );
       });
-    });
+    });*/
+    super.initState();
   }
 
   Widget buildDrawer(){
@@ -65,7 +91,7 @@ class _MapPageState extends State<CourseMapPage> {
               color: Colors.deepOrangeAccent,
             ),
             child: Text(
-              'Enter Addresses',
+              'Entrer Les Adresses',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -92,7 +118,7 @@ class _MapPageState extends State<CourseMapPage> {
           ),
           ListTile(
             title: ElevatedButton(
-              child: Text('Search and Mark on Map', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              child: Text('Rechercher', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
               onPressed: () {
                 _searchAndNavigate();
                 Navigator.of(context).pop();  // Close the drawer
@@ -118,16 +144,6 @@ class _MapPageState extends State<CourseMapPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('choose_your_address'.tr),
-       /* actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-
-              _scaffoldKey.currentState?.openEndDrawer(); // Opens the end drawer
-              buildDrawer();
-            },
-          ),
-        ],*/
       ),
       endDrawer: buildDrawer(),
       body: currentLocation == null
@@ -160,20 +176,9 @@ class _MapPageState extends State<CourseMapPage> {
                         ),
                     },
                   ),
-                   /* Positioned(
-                      top: 18.0,
-                      right: 18.0,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          buildDrawer();
-                          _scaffoldKey.currentState?.openDrawer();
-                        },
-                        child: Icon(Icons.search, color: Colors.deepOrange),
-                        backgroundColor: Colors.white,
-                      ),
-                    ),*/
                   ]),
             ),
+            if (departurePlaceName != null && destinationPlaceName != null)
             ElevatedButton(
               onPressed: (){
                 if (departurePlaceName != null && destinationPlaceName != null) {
@@ -181,6 +186,7 @@ class _MapPageState extends State<CourseMapPage> {
                   print('Arrivée à: $destinationPlaceName');
                   GetStorage().write('departLieu', departurePlaceName);
                   GetStorage().write('arriveeLieu', destinationPlaceName);
+                  _showDistance();
                           final enginData = GetStorage();
                           String engin = enginData.read('engin');
                           if (engin == 'Voiture') {
@@ -287,6 +293,10 @@ class _MapPageState extends State<CourseMapPage> {
     }
   }
 
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    return Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+  }
+
 
   Future<void> _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -312,6 +322,23 @@ class _MapPageState extends State<CourseMapPage> {
       departureLocation = null;
       destinationLocation = null;
     });
+  }
+
+  void _showDistance() {
+    if (departureLocation != null && destinationLocation != null) {
+      double distance = calculateDistance(departureLocation!.latitude, departureLocation!.longitude, destinationLocation!.latitude, destinationLocation!.longitude);
+      distanceInKm = distance / 1000;
+      prix = CalculateCourseCost(distance, prixDuKm as double);
+      GetStorage().write('prix', prix);
+      GetStorage().write('distance', distanceInKm);
+      print("Montant : $prix");
+      print("Distance: ${distanceInKm.toStringAsFixed(2)} km");
+    }
+  }
+
+  Future<location.LocationData?> getCurrentLocation() async {
+    location.Location localLocation = location.Location();
+    return await localLocation.getLocation();
   }
 
   void _getLocation() async {

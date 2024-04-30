@@ -231,7 +231,7 @@ class FindDriverOnMapState extends State<FindDriverOnMap> {
         title: const Text('La map driver'),
       ),
       body: currentLocation == null
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: Colors.deepOrange))
           : GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: CameraPosition(

@@ -70,7 +70,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
           children: [
             Obx(() {
               if (controller.isLoading.value) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(color: Colors.deepOrange));
               } else if (controller.driverList.isEmpty) {
                 return Center(child: Text('Aucun conducteur trouvé.'));
               } else {
@@ -95,7 +95,7 @@ class VoitureDriversPage extends GetWidget<MotoDriversController> {
                       future: controller.getPlaceName(latitude, longitude),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return CircularProgressIndicator(color:Colors.deepOrange);
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Erreur: ${snapshot.error}'));
                         } else {
